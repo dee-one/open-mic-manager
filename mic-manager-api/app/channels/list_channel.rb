@@ -3,13 +3,15 @@ class ListChannel < ApplicationCable::Channel
     # stream_from "some_channel"
     
      #stream_for current_user
-     stream_from "List"
+    stream_from "ListChannel"
+     #stream_from "ListChannel_2"
   end
 
 
   def receive(data)
     puts data["message"]
-    ActionCable.server.broadcast("List", data)
+    p params
+    ActionCable.server.broadcast("ListChannel", data)
   end
 
   def unsubscribed

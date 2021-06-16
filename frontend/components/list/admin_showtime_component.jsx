@@ -4,7 +4,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import {fetchList} from '../../slices/list_slice';
 import { ActionCableContext } from '../root';
 import ClockComponent from '../clock/clock_component';
-
+import { Droppable,Draggable,DragDropContext } from 'react-beautiful-dnd';
 
 
 export default (props) => {
@@ -48,6 +48,25 @@ export default (props) => {
       {/* {renderedMessages} */}
       {/* <Editor sendMessage={sendMessage} /> */}
       <ClockComponent sendTime={sendTime} admin={true} />
+      {/* list of signed up users component */}
+     <DragDropContext>
+      <Droppable 
+        droppableId="droppable" 
+        mode="virtual"
+        renderClone={(provided, snapshot, rubric) => (
+         <div
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+       >
+        Item id: {items[rubric.source.index].id}
+       </div>
+    )}
+       
+   >
+       
+   </Droppable>
+  </DragDropContext>  
     </div>
   )
 

@@ -12276,6 +12276,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
 /* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../root */ "./frontend/components/root.jsx");
 /* harmony import */ var _clock_clock_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../clock/clock_component */ "./frontend/components/clock/clock_component.jsx");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -12287,6 +12290,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -12328,7 +12332,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_4__.default, {
     sendTime: sendTime,
     admin: true
-  }));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.DragDropContext, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.Droppable, {
+    droppableId: "droppable",
+    mode: "virtual",
+    renderClone: function renderClone(provided, snapshot, rubric) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({}, provided.draggableProps, provided.dragHandleProps, {
+        ref: provided.innerRef
+      }), "Item id: ", items[rubric.source.index].id);
+    }
+  })));
 });
 
 /***/ }),
@@ -12363,14 +12375,12 @@ __webpack_require__.r(__webpack_exports__);
   var cable = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_root__WEBPACK_IMPORTED_MODULE_3__.ActionCableContext);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var channel = cable.subscriptions.create({
-      channel: 'ListChannel',
-      id: 2
+      channel: 'ListChannel'
     }, {
       received: function received(data) {
         dispatch((0,_slices_time_slice__WEBPACK_IMPORTED_MODULE_4__.receiveTime)(data));
       }
     });
-    return channel.unsubscribe();
   }, [time]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Showtime!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_1__.default, {
     admin: false
