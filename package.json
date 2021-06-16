@@ -1,0 +1,32 @@
+{
+  "name": "open-mic-manager",
+  "version": "1.0.0",
+  "description": "create open mic lists with ease! Queue a live show effortlessly!",
+  "main": "openmicsignup.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack --watch --mode=development"
+  },
+  "author": "Daniel Williams",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-react": "^7.13.13",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@reduxjs/toolkit": "^1.6.0",
+    "actioncable": "^5.2.6",
+    "babel-loader": "^8.2.2",
+    "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "redux-logger": "^3.0.6"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.7.2"
+  }
+}
