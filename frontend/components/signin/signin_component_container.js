@@ -6,6 +6,7 @@ import { receiveLogin } from "../../slices/session_slice";
 
 
 
+
 const mapStateToProps = state =>  ({
    isCompleted: selectCompleted(state)
 
@@ -16,7 +17,8 @@ const mapStateToProps = state =>  ({
 const mapDispatchToProps = dispatch => ({
   
    receiveLogin: (payload) => dispatch(receiveLogin(payload)),
-   toggleCompleted: () => dispatch(toggleCompleted())
+   toggleCompleted: () => dispatch(toggleCompleted()),
+
    
   
 })

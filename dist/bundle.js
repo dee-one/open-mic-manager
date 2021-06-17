@@ -12106,10 +12106,6 @@ var App = function App() {
     exact: true,
     path: "/admin/list",
     component: _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__.default
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
-    exact: true,
-    path: "/",
-    component: _signin_signin_component_container__WEBPACK_IMPORTED_MODULE_2__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_8__.Route, {
     exact: true,
     path: "/admin_showtime",
@@ -12745,8 +12741,8 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var SignupItemComponent = function SignupItemComponent(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__.Draggable, {
-    key: props.id,
-    draggableId: props.id,
+    key: Math.random(),
+    draggableId: props.id.toString(),
     index: props.index
   }, function (provided, snapshot) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", _extends({
@@ -12822,6 +12818,14 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
+    _defineProperty(_assertThisInitialized(_this), "getListStyle", function (isDraggingOver) {
+      return {
+        background: isDraggingOver ? 'lightblue' : 'lightgrey',
+        padding: grid,
+        width: 250
+      };
+    });
+
     _defineProperty(_assertThisInitialized(_this), "onDragEnd", function (result) {
       var destination = result.destination,
           source = result.source,
@@ -12833,7 +12837,8 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
 
       if (destination.droppableId === source.droppableId && destination.index === source.index) {
         return;
-      }
+      } // dragging item from list 1 to a different index in list 1
+
 
       var payload = {
         oldIndex: source.index,
@@ -12841,9 +12846,25 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         comic: _this.props.comics.comics[draggableId]
       };
 
-      _this.props.reorderSignups(payload);
+      if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable1') {
+        _this.props.reorderSignups(payload);
+      }
+
+      ; // dragging item from list 1 to list 2
+
+      if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable2') {
+        console.log(draggableId);
+        var comic = _this.props.comics.comics[draggableId];
+
+        _this.props.receiveUser(comic);
+
+        _this.props.removeUser(draggableId);
+      }
+
+      ;
     });
 
+    console.log(props);
     return _this;
   }
 
@@ -12856,13 +12877,18 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         this.props.toggleLoading();
         this.props.fetchSignups().then(this.props.toggleLoading());
       }
+
+      if (Object.keys(this.props.list).length === 0) {
+        this.props.toggleLoading();
+        this.props.fetchList().then(this.props.toggleLoading());
+      }
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
-      if (this.props.isLoading || !this.props.comics.comics) {
+      if (this.props.isLoading || !this.props.comics.comics || !this.props.list.list) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "lds-dual-ring"
         });
@@ -12877,10 +12903,11 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       }, "Signups"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "sign-ups"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
-        droppableId: "dp1"
+        droppableId: "droppable1"
       }, function (provided) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
-          ref: provided.innerRef
+          ref: provided.innerRef,
+          className: "rough-draft"
         }), _this2.props.comics.comics.map(function (comic, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
             index: index,
@@ -12891,6 +12918,21 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
             key: Math.random(),
             firstTimer: comic.attributes.first_timer,
             headlinerOrFeature: comic.attributes.headliner_or_feature
+          });
+        }), provided.placeholder);
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
+        droppableId: "droppable2"
+      }, function (provided, snapshot) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
+          ref: provided.innerRef,
+          className: "final"
+        }), _this2.props.list.list.map(function (comic, index) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
+            index: index,
+            id: _this2.props.comics.comics.length + index,
+            firstName: comic.attributes.first_name,
+            lastName: comic.attributes.last_name,
+            key: Math.random()
           });
         }), provided.placeholder);
       })));
@@ -12919,6 +12961,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _slices_comics_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/comics_slice */ "./frontend/slices/comics_slice.js");
 /* harmony import */ var _slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../slices/loading_slice */ "./frontend/slices/loading_slice.js");
+/* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
+
+
+
 
 
 
@@ -12930,7 +12976,8 @@ var mapStateToProps = function mapStateToProps(state) {
     comics: state.comics,
     columnId: '1',
     isLoading: (0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__.selectLoading)(state),
-    token: state.session.csrfToken
+    token: state.session.csrfToken,
+    list: state.list
   };
 };
 
@@ -12944,6 +12991,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     toggleLoading: function toggleLoading() {
       return dispatch((0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__.toggleLoading)());
+    },
+    fetchList: function fetchList() {
+      return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.fetchList)());
+    },
+    receiveUser: function receiveUser(user) {
+      return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.receiveUser)(user));
+    },
+    removeUser: function removeUser(userId) {
+      return dispatch((0,_slices_comics_slice__WEBPACK_IMPORTED_MODULE_2__.removeUser)(userId));
     }
   };
 };
@@ -12963,6 +13019,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchSignups": () => (/* binding */ fetchSignups),
 /* harmony export */   "comicsSlice": () => (/* binding */ comicsSlice),
+/* harmony export */   "removeUser": () => (/* binding */ removeUser),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
@@ -12984,12 +13041,18 @@ var comicsSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)(
     },
     receiveSignups: function receiveSignups(state, action) {
       state = action.payload.comics;
+    },
+    removeUser: function removeUser(state, action) {
+      state.comics.splice(action.payload, 1);
+      console.log(action.payload);
     }
   },
   extraReducers: _defineProperty({}, fetchSignups.fulfilled, function (state, action) {
     state['comics'] = action.payload.data;
   })
 });
+var removeUser = comicsSlice.actions.removeUser;
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (comicsSlice.reducer);
 
 /***/ }),
@@ -13042,6 +13105,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchList": () => (/* binding */ fetchList),
 /* harmony export */   "listSlice": () => (/* binding */ listSlice),
+/* harmony export */   "receiveUser": () => (/* binding */ receiveUser),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
@@ -13065,12 +13129,17 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
     },
     receiveList: function receiveList(state, action) {
       state = action.payload.data;
+    },
+    receiveUser: function receiveUser(state, action) {
+      state.list.push(action.payload);
     }
   },
   extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
     state['list'] = action.payload.data;
   })
 });
+var receiveUser = listSlice.actions.receiveUser;
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (listSlice.reducer);
 
 /***/ }),

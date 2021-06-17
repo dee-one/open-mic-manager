@@ -10,13 +10,14 @@
 
 body {
   font-size: 1em;
- display: flex;
- justify-content: center;
+  display: flex;
+ justify-content: flex-end;
  /* align-items: flex-start; */
  width: 100%;
  margin: 0;
  height: 100%;
  position: relative;
+ background: red;
 
 }
 
@@ -33,31 +34,32 @@ h3 {
 
 .sign-ups {
 
-width: 700px;
+width: 100vw;
 height: 80vh;
 background:  white;
 display: flex;
-justify-content: center;
+justify-content: space-between;
 box-shadow: 0 0 10px gray;
 margin-top: 60px;
+background: chartreuse;
 
 
 
 }
 
 .comic-list-item {
-    width: 700px;
+    width: 170px;
     height: 40px;
     background: cornflowerblue;
     margin-bottom: 20px;
     display: flex;
     position: relative;
-    
-    justify-content: space-evenly;
+    padding-right: 8px;
+    justify-content:flex-end;
     color: ghostwhite;
     box-shadow: 0 0 10px gray;
     transition: all .5s;
-    border: none;
+    /* border: none; */
     align-items: center;
   
 }
@@ -65,7 +67,7 @@ margin-top: 60px;
 .comic-list-item span {
     display: flex;
     justify-content: flex-start;
-    min-width:140px;
+    /* min-width:140px; */
     
     
 }
@@ -94,6 +96,11 @@ margin-block-start: 0;
   display: flex;
   justify-content: flex-start;
 
+}
+
+.rough-draft {
+  width: 150px;
+  
 }
 
 
@@ -332,7 +339,7 @@ input[type="checkbox" i] {
 
 
 
-
+/*
 @media only screen and (max-width: 820px) {
    body {
     
@@ -353,6 +360,6 @@ input[type="checkbox" i] {
        font-size: x-large;
        font-weight: 800;
    }
-
+ */
  
 }

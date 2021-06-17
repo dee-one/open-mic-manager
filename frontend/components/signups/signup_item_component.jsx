@@ -4,10 +4,15 @@ import { Draggable } from 'react-beautiful-dnd';
 
  
 const SignupItemComponent = (props) => (
-    <Draggable key={props.id} draggableId={props.id} index={props.index}>
+    <Draggable 
+      key={Math.random()}
+      draggableId={props.id.toString()} 
+      index={props.index}>
      {(provided,snapshot) => (   
-            <li className="comic-list-item" ref={provided.innerRef} 
-            {...provided.draggableProps} {...provided.dragHandleProps} 
+            <li className="comic-list-item"
+             ref={provided.innerRef} 
+            {...provided.draggableProps} 
+            {...provided.dragHandleProps} 
          
             
             > 

@@ -25,6 +25,9 @@ export const listSlice = createSlice({
      receiveList: (state, action) => {
          state = action.payload.data
 
+     },
+     receiveUser: (state,action) => {
+         state.list.push(action.payload)
      }
 
     },
@@ -40,5 +43,5 @@ export const listSlice = createSlice({
 })
 
 
-
+export const { receiveUser } = listSlice.actions;
 export default listSlice.reducer;

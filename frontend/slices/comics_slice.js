@@ -26,6 +26,11 @@ export const comicsSlice = createSlice({
            state = action.payload.comics
 
          },
+         removeUser: (state, action) => {
+           state.comics.splice(action.payload, 1)
+             console.log(action.payload);
+         }
+
         },
         extraReducers: {
           [fetchSignups.fulfilled]: (state,action) => {
@@ -37,5 +42,5 @@ export const comicsSlice = createSlice({
     
 });
 
- 
+ export const {removeUser} = comicsSlice.actions;
 export default comicsSlice.reducer;
