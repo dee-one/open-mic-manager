@@ -9,8 +9,9 @@
  */
 
 html {
-  line-height: 1.15; /* 1 */
+  line-height: 1.5; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
+  box-sizing: border-box;
 }
 
 /* Sections
@@ -77,6 +78,7 @@ pre {
 
 a {
   background-color: transparent;
+  text-decoration: none;
 }
 
 /**
@@ -360,4 +362,9 @@ ul {
     margin-inline-start: 0;
     margin-inline-end: 0;
     padding-inline-start: 0;
+}
+
+li {
+  list-style: none;
+
 }

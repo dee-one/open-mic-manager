@@ -26,7 +26,7 @@ const SignupItemComponent = (props) => (
                   </span>
                 
                 }
-        <span>points:{props.points}</span>
+        <span>Points:{props.points}</span>
       </li>
      )}
     </Draggable>

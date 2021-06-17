@@ -92,16 +92,17 @@ render(){
 
    >
      <NavLink to='/' >
-       mic
+       
      </NavLink>
 
-     <h2 className='Header-title'>Signups</h2>
-   <div className="sign-ups">
-      
+     
+   <div className="create-list-container">
+       
      <Droppable droppableId='droppable1'>
       
      {(provided) => (
          <ul {...provided.droppableProps} ref={provided.innerRef} className="rough-draft">
+         
            {this.props.comics.comics.map((comic,index) => (
              <SignupItemComponent 
                index={index}
@@ -127,7 +128,8 @@ render(){
        
        <Droppable droppableId="droppable2">
          {(provided, snapshot) => (
-           <ul {...provided.droppableProps} ref={provided.innerRef} className="final">
+           <ul {...provided.droppableProps} ref={provided.innerRef} className="final-list">
+              <span className='list-box-text'><h2>drag comics to create list +</h2></span>
              {this.props.list.list.map((comic, index) => (
                <SignupItemComponent
                  index={index}
@@ -139,7 +141,7 @@ render(){
              
                  
                >
-
+              
                </SignupItemComponent>
 
              ))}

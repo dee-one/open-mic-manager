@@ -30,11 +30,7 @@ const App = () => {
  
   return (
     <div>
-      {currentUser &&
-        <h3>
-          logged-in : {currentUser.attributes.first_name}
-        </h3>
-      }
+    
      
       
     <Route exact path='/admin/list' component={SignUpsComponentContainer} />

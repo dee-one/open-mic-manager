@@ -12102,7 +12102,7 @@ var App = function App() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     dispatch((0,_slices_session_slice__WEBPACK_IMPORTED_MODULE_5__.fetchCurrentUser)());
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, currentUser && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "logged-in : ", currentUser.attributes.first_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_8__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_8__.Route, {
     exact: true,
     path: "/admin/list",
     component: _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__.default
@@ -12752,7 +12752,7 @@ var SignupItemComponent = function SignupItemComponent(props) {
       className: "accolades"
     }, "first timer "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "".concat(props.firstName, " ").concat(props.lastName)), props.headlinerOrFeature && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "accolades"
-    }, "headliner/feature"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "points:", props.points));
+    }, "headliner/feature"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Points:", props.points));
   });
 };
 
@@ -12898,10 +12898,8 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         onDragEnd: this.onDragEnd
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
         to: "/"
-      }, "mic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
-        className: "Header-title"
-      }, "Signups"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: "sign-ups"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "create-list-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
         droppableId: "droppable1"
       }, function (provided) {
@@ -12925,8 +12923,10 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       }, function (provided, snapshot) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
           ref: provided.innerRef,
-          className: "final"
-        }), _this2.props.list.list.map(function (comic, index) {
+          className: "final-list"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+          className: "list-box-text"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "drag comics to create list +")), _this2.props.list.list.map(function (comic, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
             index: index,
             id: _this2.props.comics.comics.length + index,
