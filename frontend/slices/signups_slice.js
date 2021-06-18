@@ -14,33 +14,38 @@ export const fetchSignups =  createAsyncThunk(
 
 
 
-export const comicsSlice = createSlice({
-    name: 'comics',
+export const signupsSlice = createSlice({
+    name: 'signups',
     initialState: {},
     reducers: {
      reorderSignups: (state,action) => {
-            state.comics.splice(action.payload.oldIndex,1)
-            state.comics.splice(action.payload.newIndex, 0, action.payload.comic)
+            state.signups.splice(action.payload.oldIndex,1)
+            state.signups.splice(action.payload.newIndex, 0, action.payload.comic)
          },
          receiveSignups: (state, action) => {
            state = action.payload.comics
 
          },
          removeUser: (state, action) => {
-           state.comics.splice(action.payload, 1)
+           state.signups.splice(action.payload, 1)
              console.log(action.payload);
+         },
+         receiveSignup: (state,action) => {
+            console.log('action', action)
+            console.log('state',state)
+           state.signups.push(action.payload.signup)
          }
 
         },
         extraReducers: {
           [fetchSignups.fulfilled]: (state,action) => {
               
-              state['comics'] = action.payload.data
+              state['signups']= action.payload.data
           }
 
         }
     
 });
 
- export const {removeUser} = comicsSlice.actions;
-export default comicsSlice.reducer;
+ export const {removeUser,receiveSignup} = signupsSlice.actions;
+export default signupsSlice.reducer;

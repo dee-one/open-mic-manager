@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {logger} from 'redux-logger';
-import comicsReducer from '../slices/comics_slice';
+import signupsReducer from '../slices/signups_slice';
 import loadingReducer from '../slices/loading_slice';
 import sessionReducer from '../slices/session_slice';
 import formReducer from '../slices/form_slice';
@@ -11,7 +11,7 @@ window.loadingReducer = loadingReducer;
 
 
 const reducer = {
-     comics: comicsReducer,
+     signups: signupsReducer,
     loading: loadingReducer,
     session: sessionReducer,
     form: formReducer,

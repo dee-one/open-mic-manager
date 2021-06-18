@@ -12733,14 +12733,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
+/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
 
+
+
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faStar, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faMinusCircle, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faAward);
+
 var SignupItemComponent = function SignupItemComponent(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_1__.Draggable, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
     key: Math.random(),
     draggableId: props.id.toString(),
     index: props.index
@@ -12748,11 +12755,34 @@ var SignupItemComponent = function SignupItemComponent(props) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", _extends({
       className: "comic-list-item",
       ref: provided.innerRef
-    }, provided.draggableProps, provided.dragHandleProps), props.firstTimer && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    }, provided.draggableProps, provided.dragHandleProps), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      className: "comic-name"
+    }, "".concat(props.firstName, " ").concat(props.lastName)), props.headlinerOrFeature && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "accolades"
-    }, "first timer "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "".concat(props.firstName, " ").concat(props.lastName)), props.headlinerOrFeature && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
+      icon: "star"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
+      icon: "star"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
+      icon: "star"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
+      icon: "star"
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
+      icon: "star"
+    })), props.firstTimer && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "accolades"
-    }, "headliner/feature"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Points:", props.points));
+    }, "first timer "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      className: "comic-points"
+    }, props.points), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      className: "comic-points"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
+      icon: "minus-circle",
+      onClick: function onClick() {
+        return props.handleOnClick({
+          index: props.index
+        });
+      }
+    })));
   });
 };
 
@@ -12843,7 +12873,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       var payload = {
         oldIndex: source.index,
         newIndex: destination.index,
-        comic: _this.props.comics.comics[draggableId]
+        comic: _this.props.signups.signups[draggableId]
       };
 
       if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable1') {
@@ -12854,7 +12884,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
 
       if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable2') {
         console.log(draggableId);
-        var comic = _this.props.comics.comics[draggableId];
+        var comic = _this.props.signups.signups[draggableId];
 
         _this.props.receiveUser(comic);
 
@@ -12862,6 +12892,17 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       }
 
       ;
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleOnClick", function (payload) {
+      console.log(_this.props);
+      console.log('clicked button');
+
+      _this.props.receiveSignup({
+        signup: _this.props.list.list[payload.index]
+      });
+
+      _this.props.removeListItem(payload);
     });
 
     console.log(props);
@@ -12873,7 +12914,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       console.log('rendering');
 
-      if (Object.keys(this.props.comics).length === 0) {
+      if (Object.keys(this.props.signups).length === 0) {
         this.props.toggleLoading();
         this.props.fetchSignups().then(this.props.toggleLoading());
       }
@@ -12888,7 +12929,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      if (this.props.isLoading || !this.props.comics.comics || !this.props.list.list) {
+      if (this.props.isLoading || !this.props.signups.signups || !this.props.list.list) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "lds-dual-ring"
         });
@@ -12906,7 +12947,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
           ref: provided.innerRef,
           className: "rough-draft"
-        }), _this2.props.comics.comics.map(function (comic, index) {
+        }), _this2.props.signups.signups.map(function (comic, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
             index: index,
             id: index.toString(),
@@ -12915,10 +12956,13 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
             points: comic.attributes.points,
             key: Math.random(),
             firstTimer: comic.attributes.first_timer,
-            headlinerOrFeature: comic.attributes.headliner_or_feature
+            headlinerOrFeature: comic.attributes.headliner_or_feature,
+            handleOnClick: false
           });
         }), provided.placeholder);
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "swap-lists"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", null, "Finalize List")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
         droppableId: "droppable2"
       }, function (provided, snapshot) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
@@ -12926,13 +12970,15 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
           className: "final-list"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
           className: "list-box-text"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "drag comics to create list +")), _this2.props.list.list.map(function (comic, index) {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "drag comics to create list ")), _this2.props.list.list.map(function (comic, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
             index: index,
-            id: _this2.props.comics.comics.length + index,
+            id: _this2.props.signups.signups.length + index,
             firstName: comic.attributes.first_name,
             lastName: comic.attributes.last_name,
-            key: Math.random()
+            onList: true,
+            key: Math.random(),
+            handleOnClick: _this2.handleOnClick
           });
         }), provided.placeholder);
       })));
@@ -12959,7 +13005,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _signups_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./signups_component */ "./frontend/components/signups/signups_component.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _slices_comics_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/comics_slice */ "./frontend/slices/comics_slice.js");
+/* harmony import */ var _slices_signups_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/signups_slice */ "./frontend/slices/signups_slice.js");
 /* harmony import */ var _slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../slices/loading_slice */ "./frontend/slices/loading_slice.js");
 /* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
 
@@ -12973,21 +13019,22 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    comics: state.comics,
+    signups: state.signups,
     columnId: '1',
     isLoading: (0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__.selectLoading)(state),
     token: state.session.csrfToken,
     list: state.list
   };
-};
+}; // user(s) and comic(s) and signup(s) are being used interchangeably, based on what makes contextual sense
+
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchSignups: function fetchSignups() {
-      return dispatch((0,_slices_comics_slice__WEBPACK_IMPORTED_MODULE_2__.fetchSignups)());
+      return dispatch((0,_slices_signups_slice__WEBPACK_IMPORTED_MODULE_2__.fetchSignups)());
     },
     reorderSignups: function reorderSignups(payload) {
-      return dispatch(_slices_comics_slice__WEBPACK_IMPORTED_MODULE_2__.comicsSlice.actions.reorderSignups(payload));
+      return dispatch(_slices_signups_slice__WEBPACK_IMPORTED_MODULE_2__.signupsSlice.actions.reorderSignups(payload));
     },
     toggleLoading: function toggleLoading() {
       return dispatch((0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__.toggleLoading)());
@@ -12999,61 +13046,18 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.receiveUser)(user));
     },
     removeUser: function removeUser(userId) {
-      return dispatch((0,_slices_comics_slice__WEBPACK_IMPORTED_MODULE_2__.removeUser)(userId));
+      return dispatch((0,_slices_signups_slice__WEBPACK_IMPORTED_MODULE_2__.removeUser)(userId));
+    },
+    removeListItem: function removeListItem(listItem) {
+      return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.removeListItem)(listItem));
+    },
+    receiveSignup: function receiveSignup(signup) {
+      return dispatch((0,_slices_signups_slice__WEBPACK_IMPORTED_MODULE_2__.receiveSignup)(signup));
     }
   };
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(_signups_component__WEBPACK_IMPORTED_MODULE_0__.default));
-
-/***/ }),
-
-/***/ "./frontend/slices/comics_slice.js":
-/*!*****************************************!*\
-  !*** ./frontend/slices/comics_slice.js ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchSignups": () => (/* binding */ fetchSignups),
-/* harmony export */   "comicsSlice": () => (/* binding */ comicsSlice),
-/* harmony export */   "removeUser": () => (/* binding */ removeUser),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-var fetchSignups = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('fetchSignups', function () {
-  return fetch('http://localhost:3000/api/users').then(function (res) {
-    return res.json();
-  });
-});
-var comicsSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-  name: 'comics',
-  initialState: {},
-  reducers: {
-    reorderSignups: function reorderSignups(state, action) {
-      state.comics.splice(action.payload.oldIndex, 1);
-      state.comics.splice(action.payload.newIndex, 0, action.payload.comic);
-    },
-    receiveSignups: function receiveSignups(state, action) {
-      state = action.payload.comics;
-    },
-    removeUser: function removeUser(state, action) {
-      state.comics.splice(action.payload, 1);
-      console.log(action.payload);
-    }
-  },
-  extraReducers: _defineProperty({}, fetchSignups.fulfilled, function (state, action) {
-    state['comics'] = action.payload.data;
-  })
-});
-var removeUser = comicsSlice.actions.removeUser;
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (comicsSlice.reducer);
 
 /***/ }),
 
@@ -13106,6 +13110,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fetchList": () => (/* binding */ fetchList),
 /* harmony export */   "listSlice": () => (/* binding */ listSlice),
 /* harmony export */   "receiveUser": () => (/* binding */ receiveUser),
+/* harmony export */   "removeListItem": () => (/* binding */ removeListItem),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
@@ -13132,13 +13137,18 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
     },
     receiveUser: function receiveUser(state, action) {
       state.list.push(action.payload);
+    },
+    removeListItem: function removeListItem(state, action) {
+      state.list.splice(action.payload.index, 1);
     }
   },
   extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
     state['list'] = action.payload.data;
   })
 });
-var receiveUser = listSlice.actions.receiveUser;
+var _listSlice$actions = listSlice.actions,
+    receiveUser = _listSlice$actions.receiveUser,
+    removeListItem = _listSlice$actions.removeListItem;
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (listSlice.reducer);
 
@@ -13243,6 +13253,63 @@ var receiveLogin = sessionSlice.actions.receiveLogin;
 
 /***/ }),
 
+/***/ "./frontend/slices/signups_slice.js":
+/*!******************************************!*\
+  !*** ./frontend/slices/signups_slice.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchSignups": () => (/* binding */ fetchSignups),
+/* harmony export */   "signupsSlice": () => (/* binding */ signupsSlice),
+/* harmony export */   "removeUser": () => (/* binding */ removeUser),
+/* harmony export */   "receiveSignup": () => (/* binding */ receiveSignup),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var fetchSignups = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('fetchSignups', function () {
+  return fetch('http://localhost:3000/api/users').then(function (res) {
+    return res.json();
+  });
+});
+var signupsSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+  name: 'signups',
+  initialState: {},
+  reducers: {
+    reorderSignups: function reorderSignups(state, action) {
+      state.signups.splice(action.payload.oldIndex, 1);
+      state.signups.splice(action.payload.newIndex, 0, action.payload.comic);
+    },
+    receiveSignups: function receiveSignups(state, action) {
+      state = action.payload.comics;
+    },
+    removeUser: function removeUser(state, action) {
+      state.signups.splice(action.payload, 1);
+      console.log(action.payload);
+    },
+    receiveSignup: function receiveSignup(state, action) {
+      console.log('action', action);
+      console.log('state', state);
+      state.signups.push(action.payload.signup);
+    }
+  },
+  extraReducers: _defineProperty({}, fetchSignups.fulfilled, function (state, action) {
+    state['signups'] = action.payload.data;
+  })
+});
+var _signupsSlice$actions = signupsSlice.actions,
+    removeUser = _signupsSlice$actions.removeUser,
+    receiveSignup = _signupsSlice$actions.receiveSignup;
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (signupsSlice.reducer);
+
+/***/ }),
+
 /***/ "./frontend/slices/time_slice.js":
 /*!***************************************!*\
   !*** ./frontend/slices/time_slice.js ***!
@@ -13315,7 +13382,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _slices_comics_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../slices/comics_slice */ "./frontend/slices/comics_slice.js");
+/* harmony import */ var _slices_signups_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../slices/signups_slice */ "./frontend/slices/signups_slice.js");
 /* harmony import */ var _slices_loading_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../slices/loading_slice */ "./frontend/slices/loading_slice.js");
 /* harmony import */ var _slices_session_slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../slices/session_slice */ "./frontend/slices/session_slice.js");
 /* harmony import */ var _slices_form_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../slices/form_slice */ "./frontend/slices/form_slice.js");
@@ -13331,7 +13398,7 @@ __webpack_require__.r(__webpack_exports__);
 
 window.loadingReducer = _slices_loading_slice__WEBPACK_IMPORTED_MODULE_2__.default;
 var reducer = {
-  comics: _slices_comics_slice__WEBPACK_IMPORTED_MODULE_1__.default,
+  signups: _slices_signups_slice__WEBPACK_IMPORTED_MODULE_1__.default,
   loading: _slices_loading_slice__WEBPACK_IMPORTED_MODULE_2__.default,
   session: _slices_session_slice__WEBPACK_IMPORTED_MODULE_3__.default,
   form: _slices_form_slice__WEBPACK_IMPORTED_MODULE_4__.default,

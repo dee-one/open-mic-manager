@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPhone, faEnvelope, faUser, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faEnvelope, faPhone,faUser,faCheckSquare);
+library.add(faEnvelope, faPhone, faUser, faCheckSquare, faStar);
 
 
 

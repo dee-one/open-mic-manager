@@ -28,6 +28,10 @@ export const listSlice = createSlice({
      },
      receiveUser: (state,action) => {
          state.list.push(action.payload)
+     },
+     removeListItem: (state,action) => {
+         state.list.splice(action.payload.index,1)
+
      }
 
     },
@@ -43,5 +47,5 @@ export const listSlice = createSlice({
 })
 
 
-export const { receiveUser } = listSlice.actions;
+export const { receiveUser,removeListItem} = listSlice.actions;
 export default listSlice.reducer;
