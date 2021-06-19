@@ -5,18 +5,19 @@ import { fetchSignups} from '../../slices/signups_slice';
 import { signupsSlice } from '../../slices/signups_slice'
 import { selectLoading,toggleLoading } from "../../slices/loading_slice";
 import { fetchList } from "../../slices/list_slice";
-import { receiveUser,removeListItem } from "../../slices/list_slice";
+import { receiveUser,removeListItem,toggleFilledOut } from "../../slices/list_slice";
 import { removeUser,receiveSignup } from "../../slices/signups_slice";
 
 
 
 const mapStateToProps = state => (
  {
-  signups: state.signups,   
+  signups: state.signups.signups,   
   columnId: '1',
   isLoading: selectLoading(state),
   token: state.session.csrfToken,
-  list: state.list
+  list: state.list,
+  filledOut: state.list.filledOut
   
  }
 );
@@ -32,7 +33,8 @@ fetchList: () => dispatch(fetchList()),
 receiveUser: (user) => dispatch(receiveUser(user)),
 removeUser: (userId) => dispatch(removeUser(userId)),
 removeListItem: (listItem) => dispatch(removeListItem(listItem)),
-receiveSignup: (signup) => dispatch(receiveSignup(signup))
+receiveSignup: (signup) => dispatch(receiveSignup(signup)),
+toggleFilledOut: () => dispatch(toggleFilledOut())
  
 })
 

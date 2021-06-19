@@ -21,14 +21,14 @@ class SignUps extends React.Component {
 
 
 componentDidMount(){
-  console.log('rendering')
-  if(Object.keys(this.props.signups).length === 0){
+ 
+  if(this.props.signups === undefined){
     this.props.toggleLoading()
     this.props.fetchSignups()
     .then(this.props.toggleLoading())
    }
 
-  if (Object.keys(this.props.list).length === 0) {
+  if (this.props.list.list === undefined) {
     this.props.toggleLoading()
     this.props.fetchList()
       .then(this.props.toggleLoading())
@@ -60,14 +60,14 @@ componentDidMount(){
       return;
     }
     // dragging item from list 1 to a different index in list 1
-    const payload = {oldIndex: source.index ,newIndex: destination.index ,comic: this.props.signups.signups[draggableId] }
+    const payload = {oldIndex: source.index ,newIndex: destination.index ,comic: this.props.signups[draggableId] }
    if(source.droppableId === 'droppable1' && destination.droppableId === 'droppable1') {
      this.props.reorderSignups(payload);
     };
     // dragging item from list 1 to list 2
     if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable2') {
-      console.log(draggableId)
-      const comic = this.props.signups.signups[draggableId];
+      
+      const comic = this.props.signups[draggableId];
       this.props.receiveUser(comic);
       this.props.removeUser(draggableId);
       
@@ -76,17 +76,27 @@ componentDidMount(){
   }
 
 handleOnClick = (payload) => {
- console.log(this.props);
-  console.log('clicked button');
+ 
   this.props.receiveSignup({signup: this.props.list.list[payload.index]})
   this.props.removeListItem(payload)
   
 }
 
+signupsOrList = () => (
+  this.props.filledOut ? this.props.list.list : this.props.signups
+  
+
+)
+
+handleToggle = () => {
+  this.props.toggleFilledOut()
+}
+
+
 
 render(){
- 
- if(this.props.isLoading || !this.props.signups.signups || !this.props.list.list) {
+  console.log(this.props)
+ if(this.props.isLoading || !this.props.signups || !this.props.list.list) {
    
   return (<div className="lds-dual-ring"></div>);
  }
@@ -109,7 +119,7 @@ render(){
      {(provided) => (
          <ul {...provided.droppableProps} ref={provided.innerRef} className="rough-draft">
          
-           {this.props.signups.signups.map((comic,index) => (
+           {this.signupsOrList().map((comic,index) => (
              <SignupItemComponent 
                index={index}
                id={index.toString()}  
@@ -120,7 +130,7 @@ render(){
                firstTimer= {comic.attributes.first_timer}
                headlinerOrFeature = {comic.attributes.headliner_or_feature}
                handleOnClick={false}
-               
+               toggleFilledOut={this.toggleFilledOut}
               >
                
                </SignupItemComponent>
@@ -132,8 +142,11 @@ render(){
      )}
       
      </Droppable>
-       <div className='swap-lists'><button >Finalize List</button></div>
+
+     
+       <div className='swap-lists'><button onClick={e => this.handleToggle()}>Finalize List</button></div>
        
+      {!this.props.filledOut &&
        <Droppable droppableId="droppable2">
          {(provided, snapshot) => (
            <ul {...provided.droppableProps} ref={provided.innerRef} className="final-list">
@@ -141,12 +154,13 @@ render(){
              {this.props.list.list.map((comic, index) => (
                <SignupItemComponent
                  index={index}
-                 id={this.props.signups.signups.length + index}
+                 id={this.props.signups.length + index}
                  firstName={comic.attributes.first_name}
                  lastName={comic.attributes.last_name}
                  onList={true}
                  key={Math.random()}
                  handleOnClick={this.handleOnClick}
+                 toggleFilledOut={this.toggleFilledOut}
              
                  
                >
@@ -159,11 +173,12 @@ render(){
         
          )}
        </Droppable>
+      
+      }
 
 
 
-
-   </div>
+      </div>
    </DragDropContext>
   )
 }

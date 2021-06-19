@@ -21,6 +21,13 @@ const SignupItemComponent = (props) => (
             
             
             > 
+         {/* this causes box to break,need to fix */}
+        { props.onList &&
+
+          <small>{props.index + 1}</small>
+         }
+        {/* this causes box to break,need to fix */}
+        
           
         <span className="comic-name">{`${props.firstName} ${props.lastName}`}</span>
                 {props.headlinerOrFeature &&
@@ -34,13 +41,13 @@ const SignupItemComponent = (props) => (
              <FontAwesomeIcon
                icon="star"
               />
-             <FontAwesomeIcon
-              icon="star"
-             />
-            <FontAwesomeIcon
-              icon="star"
-            />
-               
+          <FontAwesomeIcon
+            icon="star"
+          />
+          <FontAwesomeIcon
+            icon="star"
+          />
+       
                     
                   </span>
                 

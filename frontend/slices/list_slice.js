@@ -16,14 +16,14 @@ export const fetchList = createAsyncThunk(
 
 export const listSlice = createSlice({
  name: 'list',
- initialState: {},
+ initialState: {filledOut: false},
  reducers: {
     reorderList: (state, action) => {
       state.list.splice(action.payload.oldIndex, 1)
        state.list.splice(action.payload.newIndex, 0, action.payload.list)
         },
      receiveList: (state, action) => {
-         state = action.payload.data
+         state['list']= action.payload.data
 
      },
      receiveUser: (state,action) => {
@@ -32,6 +32,9 @@ export const listSlice = createSlice({
      removeListItem: (state,action) => {
          state.list.splice(action.payload.index,1)
 
+     },
+     toggleFilledOut: (state) => {
+         state.filledOut = !state.filledOut
      }
 
     },
@@ -47,5 +50,5 @@ export const listSlice = createSlice({
 })
 
 
-export const { receiveUser,removeListItem} = listSlice.actions;
+export const { receiveUser,removeListItem,toggleFilledOut} = listSlice.actions;
 export default listSlice.reducer;

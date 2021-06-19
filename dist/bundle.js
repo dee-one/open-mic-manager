@@ -12755,7 +12755,7 @@ var SignupItemComponent = function SignupItemComponent(props) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", _extends({
       className: "comic-list-item",
       ref: provided.innerRef
-    }, provided.draggableProps, provided.dragHandleProps), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    }, provided.draggableProps, provided.dragHandleProps), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", null, props.index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "comic-name"
     }, "".concat(props.firstName, " ").concat(props.lastName)), props.headlinerOrFeature && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "accolades"
@@ -12873,7 +12873,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       var payload = {
         oldIndex: source.index,
         newIndex: destination.index,
-        comic: _this.props.signups.signups[draggableId]
+        comic: _this.props.signups[draggableId]
       };
 
       if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable1') {
@@ -12883,8 +12883,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       ; // dragging item from list 1 to list 2
 
       if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable2') {
-        console.log(draggableId);
-        var comic = _this.props.signups.signups[draggableId];
+        var comic = _this.props.signups[draggableId];
 
         _this.props.receiveUser(comic);
 
@@ -12895,14 +12894,19 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleOnClick", function (payload) {
-      console.log(_this.props);
-      console.log('clicked button');
-
       _this.props.receiveSignup({
         signup: _this.props.list.list[payload.index]
       });
 
       _this.props.removeListItem(payload);
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "signupsOrList", function () {
+      return _this.props.filledOut ? _this.props.list.list : _this.props.signups;
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleToggle", function () {
+      _this.props.toggleFilledOut();
     });
 
     console.log(props);
@@ -12912,14 +12916,12 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
   _createClass(SignUps, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      console.log('rendering');
-
-      if (Object.keys(this.props.signups).length === 0) {
+      if (this.props.signups === undefined) {
         this.props.toggleLoading();
         this.props.fetchSignups().then(this.props.toggleLoading());
       }
 
-      if (Object.keys(this.props.list).length === 0) {
+      if (this.props.list.list === undefined) {
         this.props.toggleLoading();
         this.props.fetchList().then(this.props.toggleLoading());
       }
@@ -12929,7 +12931,9 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      if (this.props.isLoading || !this.props.signups.signups || !this.props.list.list) {
+      console.log(this.props);
+
+      if (this.props.isLoading || !this.props.signups || !this.props.list.list) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "lds-dual-ring"
         });
@@ -12947,7 +12951,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
           ref: provided.innerRef,
           className: "rough-draft"
-        }), _this2.props.signups.signups.map(function (comic, index) {
+        }), _this2.signupsOrList().map(function (comic, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
             index: index,
             id: index.toString(),
@@ -12957,12 +12961,17 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
             key: Math.random(),
             firstTimer: comic.attributes.first_timer,
             headlinerOrFeature: comic.attributes.headliner_or_feature,
-            handleOnClick: false
+            handleOnClick: false,
+            toggleFilledOut: _this2.toggleFilledOut
           });
         }), provided.placeholder);
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "swap-lists"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", null, "Finalize List")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+        onClick: function onClick(e) {
+          return _this2.handleToggle();
+        }
+      }, "Finalize List")), !this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
         droppableId: "droppable2"
       }, function (provided, snapshot) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
@@ -12973,12 +12982,13 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "drag comics to create list ")), _this2.props.list.list.map(function (comic, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
             index: index,
-            id: _this2.props.signups.signups.length + index,
+            id: _this2.props.signups.length + index,
             firstName: comic.attributes.first_name,
             lastName: comic.attributes.last_name,
             onList: true,
             key: Math.random(),
-            handleOnClick: _this2.handleOnClick
+            handleOnClick: _this2.handleOnClick,
+            toggleFilledOut: _this2.toggleFilledOut
           });
         }), provided.placeholder);
       })));
@@ -13019,11 +13029,12 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    signups: state.signups,
+    signups: state.signups.signups,
     columnId: '1',
     isLoading: (0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__.selectLoading)(state),
     token: state.session.csrfToken,
-    list: state.list
+    list: state.list,
+    filledOut: state.list.filledOut
   };
 }; // user(s) and comic(s) and signup(s) are being used interchangeably, based on what makes contextual sense
 
@@ -13053,6 +13064,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     receiveSignup: function receiveSignup(signup) {
       return dispatch((0,_slices_signups_slice__WEBPACK_IMPORTED_MODULE_2__.receiveSignup)(signup));
+    },
+    toggleFilledOut: function toggleFilledOut() {
+      return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.toggleFilledOut)());
     }
   };
 };
@@ -13111,6 +13125,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "listSlice": () => (/* binding */ listSlice),
 /* harmony export */   "receiveUser": () => (/* binding */ receiveUser),
 /* harmony export */   "removeListItem": () => (/* binding */ removeListItem),
+/* harmony export */   "toggleFilledOut": () => (/* binding */ toggleFilledOut),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
@@ -13126,20 +13141,25 @@ var fetchList = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThun
 });
 var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: 'list',
-  initialState: {},
+  initialState: {
+    filledOut: false
+  },
   reducers: {
     reorderList: function reorderList(state, action) {
       state.list.splice(action.payload.oldIndex, 1);
       state.list.splice(action.payload.newIndex, 0, action.payload.list);
     },
     receiveList: function receiveList(state, action) {
-      state = action.payload.data;
+      state['list'] = action.payload.data;
     },
     receiveUser: function receiveUser(state, action) {
       state.list.push(action.payload);
     },
     removeListItem: function removeListItem(state, action) {
       state.list.splice(action.payload.index, 1);
+    },
+    toggleFilledOut: function toggleFilledOut(state) {
+      state.filledOut = !state.filledOut;
     }
   },
   extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
@@ -13148,7 +13168,8 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
 });
 var _listSlice$actions = listSlice.actions,
     receiveUser = _listSlice$actions.receiveUser,
-    removeListItem = _listSlice$actions.removeListItem;
+    removeListItem = _listSlice$actions.removeListItem,
+    toggleFilledOut = _listSlice$actions.toggleFilledOut;
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (listSlice.reducer);
 

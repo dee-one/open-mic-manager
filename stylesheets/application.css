@@ -47,7 +47,8 @@ body {
     grid-template-columns: 4.75fr 2fr 2fr;
     grid-template-rows: 1fr 1fr 1fr;
     z-index: 1;
-    size: 16px;
+    font-size: 14px;
+  
     
 
 
@@ -56,7 +57,8 @@ body {
 button.comic-points {
   width: 18px;
   border: none;
-  background: rgb(229, 255, 0);
+  background-color: transparent;
+ 
 
 
 }
@@ -64,7 +66,8 @@ button.comic-points {
 .svg-inline--fa {
 
   vertical-align: 0;
-  size: 16px;
+  font-size: 12px;
+  background: transparent;
 }
 
 .comic-name {
@@ -79,6 +82,7 @@ margin-left: 20px;
  grid-row: 2/3;
  grid-column: 2/3;
  color: yellow;
+ 
 
 }
 
@@ -104,9 +108,10 @@ margin-left: 20px;
   
   
   margin-bottom: 0;
-  font-size: xx-small;
-background: rgb(229, 255, 0);
-color: black;
+
+
+background-image: linear-gradient(315deg, #ffffff 0%, #91a6ff 74%);
+color: white;
 }
 
 
@@ -138,18 +143,36 @@ gap: 5px;
   width: 80vw;
   height: 80px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-start;
   background: white;
   color: rgb(71, 127, 232);
+  margin-bottom: 10px;
 }
 
 .swap-lists button {
-  color: white;
-  background: greenyellow;
-  height: 40px;
-  width: 100px;
   
+  border: none;
+	background: rgb(229, 255, 0);
+	color: black;
+	font-weight: 100;
+	padding: 15px;
+	text-transform: uppercase;
+	border-radius: 6px;
+	display: inline-block;
+	transition: all 0.3s ease 0s;
+
+}
+
+.swap-lists button:hover {
+  color: rgb(71, 127, 232);
+  font-weight: 700;
+	letter-spacing: 3px;
+	background: none;
+	-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+	transition: all 0.3s ease 0s;
+
 
 }
 
@@ -172,6 +195,7 @@ gap: 5px;
 button:hover {
 
   cursor: pointer;
+
 }
 
 
@@ -186,6 +210,18 @@ button:hover {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: blue transparent blue transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
 }
 
 
@@ -235,10 +271,6 @@ button:hover {
   width: 50px;
 }
 
-.svg-inline--fa {
-
-  margin-right: 8px;
-}
 
 /* make only timer portion black, aligin buttons, give timer background color and radius */
 
@@ -246,14 +278,28 @@ button:hover {
 
 
 
-/*
-@media only screen and (max-width:633px) {
-    
-    .comic-list-item {
-     /* font-size: x-small; */
 
-    } 
+@media only screen and (max-width:853px) {
     
-  }
+   .svg-inline--fa {
 
-  */
+     
+     font-size: 1.6vw;
+   }
+
+   .final-list .comic-list-item {
+
+   
+   width: 80vw;
+
+   }
+
+   .final-list {
+      overflow: scroll;
+      grid-auto-flow: row;
+   }
+     
+    
+    }
+
+  
