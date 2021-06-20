@@ -7,9 +7,28 @@ import { faStar,faMinusCircle,faAward} from "@fortawesome/free-solid-svg-icons";
 library.add(faStar, faMinusCircle,faAward);
 
 
+
  
-const SignupItemComponent = (props) => (
-    <Draggable 
+const SignupItemComponent = (props) => {
+    
+  const getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: 'none',
+   
+   
+
+   
+
+    // change background colour if dragging
+    background: isDragging ? 'red' : 'cornflowerblue',
+
+    // styles we need to apply on draggables
+    ...draggableStyle,
+  });
+    
+    
+    
+    return ( <Draggable 
       key={Math.random()}
       draggableId={props.id.toString()} 
       index={props.index}>
@@ -18,6 +37,10 @@ const SignupItemComponent = (props) => (
              ref={provided.innerRef} 
             {...provided.draggableProps} 
             {...provided.dragHandleProps} 
+        style={getItemStyle(
+          snapshot.isDragging,
+          provided.draggableProps.style
+        )}
             
             
             > 
@@ -73,9 +96,10 @@ const SignupItemComponent = (props) => (
 
      
     </Draggable>
+    )
 
 
 
-)
+      }
 
 export default SignupItemComponent;

@@ -12739,6 +12739,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -12747,6 +12753,15 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faStar, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faMinusCircle, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faAward);
 
 var SignupItemComponent = function SignupItemComponent(props) {
+  var getItemStyle = function getItemStyle(isDragging, draggableStyle) {
+    return _objectSpread({
+      // some basic styles to make the items look a bit nicer
+      userSelect: 'none',
+      // change background colour if dragging
+      background: isDragging ? 'red' : 'cornflowerblue'
+    }, draggableStyle);
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
     key: Math.random(),
     draggableId: props.id.toString(),
@@ -12755,7 +12770,9 @@ var SignupItemComponent = function SignupItemComponent(props) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", _extends({
       className: "comic-list-item",
       ref: provided.innerRef
-    }, provided.draggableProps, provided.dragHandleProps), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", null, props.index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    }, provided.draggableProps, provided.dragHandleProps, {
+      style: getItemStyle(snapshot.isDragging, provided.draggableProps.style)
+    }), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", null, props.index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "comic-name"
     }, "".concat(props.firstName, " ").concat(props.lastName)), props.headlinerOrFeature && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "accolades"
@@ -12912,6 +12929,13 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       _this.props.toggleFilledOut();
     });
 
+    _defineProperty(_assertThisInitialized(_this), "getListStyle", function (isDraggingOver) {
+      return {
+        background: isDraggingOver ? 'lightblue' : 'white',
+        width: isDraggingOver ? '90vw' : '80vw'
+      };
+    });
+
     return _this;
   }
 
@@ -12978,6 +13002,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       }, function (provided, snapshot) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
           ref: provided.innerRef,
+          style: _this2.getListStyle(snapshot.isDraggingOver),
           className: "final-list"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
           className: "list-box-text"

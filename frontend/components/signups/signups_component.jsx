@@ -95,6 +95,14 @@ handleToggle = () => {
   this.props.toggleFilledOut()
 }
 
+  getListStyle = isDraggingOver => ({
+     background: isDraggingOver ? 'lightblue' : 'white',
+    width: isDraggingOver ? '90vw' : '80vw',
+    
+    
+    
+  });
+
 
 
 render(){
@@ -159,7 +167,11 @@ render(){
       {!this.props.filledOut &&
        <Droppable droppableId="droppable2">
          {(provided, snapshot) => (
-           <ul {...provided.droppableProps} ref={provided.innerRef} className="final-list">
+           <ul 
+             {...provided.droppableProps} 
+             ref={provided.innerRef}
+             style={this.getListStyle(snapshot.isDraggingOver)}
+             className="final-list">
               <span className='list-box-text'><h2>drag comics to create list </h2></span>
              {this.props.list.list.map((comic, index) => (
                <SignupItemComponent
