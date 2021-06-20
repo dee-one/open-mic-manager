@@ -19,8 +19,9 @@ export const listSlice = createSlice({
  initialState: {filledOut: false},
  reducers: {
     reorderList: (state, action) => {
+         console.log(action.payload);
       state.list.splice(action.payload.oldIndex, 1)
-       state.list.splice(action.payload.newIndex, 0, action.payload.list)
+       state.list.splice(action.payload.newIndex, 0, action.payload.comic)
         },
      receiveList: (state, action) => {
          state['list']= action.payload.data
@@ -50,5 +51,5 @@ export const listSlice = createSlice({
 })
 
 
-export const { receiveUser,removeListItem,toggleFilledOut} = listSlice.actions;
+export const { receiveUser,removeListItem,toggleFilledOut,reorderList} = listSlice.actions;
 export default listSlice.reducer;

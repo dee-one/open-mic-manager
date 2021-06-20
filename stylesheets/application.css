@@ -276,6 +276,33 @@ button:hover {
 
 
 
+    @media only screen and (max-width:1558px) {
+
+    .final-list .comic-list-item {
+      font-size: x-small;
+    }
+   
+button.comic-points {
+  margin-left: 0;
+}
+
+
+  }
+
+
+   @media only screen and()
+
+  @media only screen and (max-height:750px) {
+
+   .swap-lists {
+     height: 40px;
+     margin-bottom: 20px;
+   }
+
+
+
+
+  }
 
 
 
@@ -284,7 +311,7 @@ button:hover {
    .svg-inline--fa {
 
      
-     font-size: 1.6vw;
+     font-size: medium;
    }
 
    .final-list .comic-list-item {
@@ -300,6 +327,18 @@ button:hover {
    }
      
     
+    }
+
+    @media only screen and (max-width:400px) {
+
+      .svg-inline--fa {
+
+     
+     font-size: medium;
+   }
+
+
+
     }
 
   

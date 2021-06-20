@@ -13,7 +13,7 @@ import {NavLink} from 'react-router-dom';
 class SignUps extends React.Component {
   constructor(props){
     super(props)
-   console.log(props);
+ 
   }
 
 
@@ -60,9 +60,12 @@ componentDidMount(){
       return;
     }
     // dragging item from list 1 to a different index in list 1
-    const payload = {oldIndex: source.index ,newIndex: destination.index ,comic: this.props.signups[draggableId] }
+    const comic = this.props.filledOut ? this.props.list.list[draggableId] : this.props.signups[draggableId];
+    console.log('comic', comic)
+    console.log('props', this.props)    
+    const payload = {oldIndex: source.index ,newIndex: destination.index ,comic}
    if(source.droppableId === 'droppable1' && destination.droppableId === 'droppable1') {
-     this.props.reorderSignups(payload);
+     !this.props.filledOut ? this.props.reorderSignups(payload) : this.props.reorderList(payload);
     };
     // dragging item from list 1 to list 2
     if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable2') {
@@ -95,7 +98,7 @@ handleToggle = () => {
 
 
 render(){
-  console.log(this.props)
+  
  if(this.props.isLoading || !this.props.signups || !this.props.list.list) {
    
   return (<div className="lds-dual-ring"></div>);
@@ -131,6 +134,8 @@ render(){
                headlinerOrFeature = {comic.attributes.headliner_or_feature}
                handleOnClick={false}
                toggleFilledOut={this.toggleFilledOut}
+               onList={this.props.filledOut? true : null}
+               filledOut={this.props.filledOut}
               >
                
                </SignupItemComponent>
@@ -144,7 +149,12 @@ render(){
      </Droppable>
 
      
-       <div className='swap-lists'><button onClick={e => this.handleToggle()}>Finalize List</button></div>
+       <div className='swap-lists'>
+         
+         <button onClick={e => this.handleToggle()}>Finalize List</button>
+       
+       
+       </div>
        
       {!this.props.filledOut &&
        <Droppable droppableId="droppable2">
@@ -157,11 +167,11 @@ render(){
                  id={this.props.signups.length + index}
                  firstName={comic.attributes.first_name}
                  lastName={comic.attributes.last_name}
-                 onList={true}
+                 
                  key={Math.random()}
                  handleOnClick={this.handleOnClick}
                  toggleFilledOut={this.toggleFilledOut}
-             
+                 deleteButton={true}
                  
                >
               
@@ -175,27 +185,10 @@ render(){
        </Droppable>
       
       }
-
-
-
       </div>
    </DragDropContext>
   )
 }
 
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
 export default SignUps;

@@ -59,7 +59,7 @@ const SignupItemComponent = (props) => (
         <span className='comic-points'>{props.points}</span>
      
         
-        {props.onList && 
+        {props.deleteButton && 
           <button className='comic-points' >
            <FontAwesomeIcon
             icon="minus-circle"

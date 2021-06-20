@@ -19,6 +19,7 @@ export const signupsSlice = createSlice({
     initialState: {},
     reducers: {
      reorderSignups: (state,action) => {
+           
             state.signups.splice(action.payload.oldIndex,1)
             state.signups.splice(action.payload.newIndex, 0, action.payload.comic)
          },
@@ -28,7 +29,7 @@ export const signupsSlice = createSlice({
          },
          removeUser: (state, action) => {
            state.signups.splice(action.payload, 1)
-             console.log(action.payload);
+             
          },
          receiveSignup: (state,action) => {
             console.log('action', action)

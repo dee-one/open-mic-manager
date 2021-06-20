@@ -12773,7 +12773,7 @@ var SignupItemComponent = function SignupItemComponent(props) {
       className: "accolades"
     }, "first timer "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "comic-points"
-    }, props.points), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    }, props.points), props.deleteButton && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
       className: "comic-points"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
       icon: "minus-circle",
@@ -12870,22 +12870,25 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       } // dragging item from list 1 to a different index in list 1
 
 
+      var comic = _this.props.filledOut ? _this.props.list.list[draggableId] : _this.props.signups[draggableId];
+      console.log('comic', comic);
+      console.log('props', _this.props);
       var payload = {
         oldIndex: source.index,
         newIndex: destination.index,
-        comic: _this.props.signups[draggableId]
+        comic: comic
       };
 
       if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable1') {
-        _this.props.reorderSignups(payload);
+        !_this.props.filledOut ? _this.props.reorderSignups(payload) : _this.props.reorderList(payload);
       }
 
       ; // dragging item from list 1 to list 2
 
       if (source.droppableId === 'droppable1' && destination.droppableId === 'droppable2') {
-        var comic = _this.props.signups[draggableId];
+        var _comic = _this.props.signups[draggableId];
 
-        _this.props.receiveUser(comic);
+        _this.props.receiveUser(_comic);
 
         _this.props.removeUser(draggableId);
       }
@@ -12909,7 +12912,6 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       _this.props.toggleFilledOut();
     });
 
-    console.log(props);
     return _this;
   }
 
@@ -12930,8 +12932,6 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this2 = this;
-
-      console.log(this.props);
 
       if (this.props.isLoading || !this.props.signups || !this.props.list.list) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -12962,7 +12962,9 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
             firstTimer: comic.attributes.first_timer,
             headlinerOrFeature: comic.attributes.headliner_or_feature,
             handleOnClick: false,
-            toggleFilledOut: _this2.toggleFilledOut
+            toggleFilledOut: _this2.toggleFilledOut,
+            onList: _this2.props.filledOut ? true : null,
+            filledOut: _this2.props.filledOut
           });
         }), provided.placeholder);
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -12985,10 +12987,10 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
             id: _this2.props.signups.length + index,
             firstName: comic.attributes.first_name,
             lastName: comic.attributes.last_name,
-            onList: true,
             key: Math.random(),
             handleOnClick: _this2.handleOnClick,
-            toggleFilledOut: _this2.toggleFilledOut
+            toggleFilledOut: _this2.toggleFilledOut,
+            deleteButton: true
           });
         }), provided.placeholder);
       })));
@@ -13067,6 +13069,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     toggleFilledOut: function toggleFilledOut() {
       return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.toggleFilledOut)());
+    },
+    reorderList: function reorderList(payload) {
+      return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.reorderList)(payload));
     }
   };
 };
@@ -13126,6 +13131,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "receiveUser": () => (/* binding */ receiveUser),
 /* harmony export */   "removeListItem": () => (/* binding */ removeListItem),
 /* harmony export */   "toggleFilledOut": () => (/* binding */ toggleFilledOut),
+/* harmony export */   "reorderList": () => (/* binding */ reorderList),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
@@ -13146,8 +13152,9 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   },
   reducers: {
     reorderList: function reorderList(state, action) {
+      console.log(action.payload);
       state.list.splice(action.payload.oldIndex, 1);
-      state.list.splice(action.payload.newIndex, 0, action.payload.list);
+      state.list.splice(action.payload.newIndex, 0, action.payload.comic);
     },
     receiveList: function receiveList(state, action) {
       state['list'] = action.payload.data;
@@ -13169,7 +13176,8 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
 var _listSlice$actions = listSlice.actions,
     receiveUser = _listSlice$actions.receiveUser,
     removeListItem = _listSlice$actions.removeListItem,
-    toggleFilledOut = _listSlice$actions.toggleFilledOut;
+    toggleFilledOut = _listSlice$actions.toggleFilledOut,
+    reorderList = _listSlice$actions.reorderList;
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (listSlice.reducer);
 
@@ -13311,7 +13319,6 @@ var signupsSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)
     },
     removeUser: function removeUser(state, action) {
       state.signups.splice(action.payload, 1);
-      console.log(action.payload);
     },
     receiveSignup: function receiveSignup(state, action) {
       console.log('action', action);
