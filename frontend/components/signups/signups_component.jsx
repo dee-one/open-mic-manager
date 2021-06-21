@@ -10,6 +10,7 @@ import {NavLink} from 'react-router-dom';
 
 
 
+
 class SignUps extends React.Component {
   constructor(props){
     super(props)
@@ -39,14 +40,15 @@ componentDidMount(){
 
   getListStyle = isDraggingOver => ({
     background: isDraggingOver ? 'lightblue' : 'lightgrey',
-    padding: grid,
-    width: 250
+    overflow: isDraggingOver ? 'hidden' : 'scroll',
+   width: 250
   });
 
 
 
 
   onDragEnd = result => {
+   
     const { destination, source, draggableId } = result;
     if (!destination) {
       
@@ -61,8 +63,7 @@ componentDidMount(){
     }
     // dragging item from list 1 to a different index in list 1
     const comic = this.props.filledOut ? this.props.list.list[draggableId] : this.props.signups[draggableId];
-    console.log('comic', comic)
-    console.log('props', this.props)    
+     
     const payload = {oldIndex: source.index ,newIndex: destination.index ,comic}
    if(source.droppableId === 'droppable1' && destination.droppableId === 'droppable1') {
      !this.props.filledOut ? this.props.reorderSignups(payload) : this.props.reorderList(payload);
@@ -95,14 +96,24 @@ handleToggle = () => {
   this.props.toggleFilledOut()
 }
 
-  getListStyle = isDraggingOver => ({
-     background: isDraggingOver ? 'lightblue' : 'white',
+  getListStyle = isDraggingOver => {
+    
+    return (
+      {
+      
+    // display: isDraggingOver ? 'flex' : 'grid',
+    background: isDraggingOver ? 	'#E8E8E8' : 'white',
     width: isDraggingOver ? '90vw' : '80vw',
-    
-    
-    
-  });
+    height: isDraggingOver ? '50vh' : '30vh'
+      }
+    )
+  };
+ 
+handleClassName = () => (
+ !this.props.filledOut ? 'create-list-container' : 'finish-list-container'
+ 
 
+)
 
 
 render(){
@@ -116,6 +127,7 @@ render(){
   
    <DragDropContext
      onDragEnd={this.onDragEnd}
+     
 
    >
      <NavLink to='/' >
@@ -123,7 +135,7 @@ render(){
      </NavLink>
 
      
-   <div className="create-list-container">
+   <div className={this.handleClassName()}>
        
      <Droppable droppableId='droppable1'>
       
@@ -144,6 +156,7 @@ render(){
                toggleFilledOut={this.toggleFilledOut}
                onList={this.props.filledOut? true : null}
                filledOut={this.props.filledOut}
+               droppableId={this.props.columnId}
               >
                
                </SignupItemComponent>
@@ -158,9 +171,23 @@ render(){
 
      
        <div className='swap-lists'>
-         
-         <button onClick={e => this.handleToggle()}>Finalize List</button>
-       
+         {this.props.filledOut &&
+            
+           
+          <button onClick={e => this.handleToggle()}>Go Back </button>
+
+         }
+         {this.props.filledOut &&
+
+
+           <button> Start Show </button>
+
+         }
+
+
+         {!this.props.filledOut &&
+          <button onClick={e => this.handleToggle()}>Finalize List</button>
+         }
        
        </div>
        
@@ -171,7 +198,9 @@ render(){
              {...provided.droppableProps} 
              ref={provided.innerRef}
              style={this.getListStyle(snapshot.isDraggingOver)}
-             className="final-list">
+             className="final-list"
+            
+             >
               <span className='list-box-text'><h2>drag comics to create list </h2></span>
              {this.props.list.list.map((comic, index) => (
                <SignupItemComponent
@@ -179,12 +208,12 @@ render(){
                  id={this.props.signups.length + index}
                  firstName={comic.attributes.first_name}
                  lastName={comic.attributes.last_name}
-                 
+                 droppableId={this.props}
                  key={Math.random()}
                  handleOnClick={this.handleOnClick}
                  toggleFilledOut={this.toggleFilledOut}
                  deleteButton={true}
-                 
+                
                >
               
                </SignupItemComponent>

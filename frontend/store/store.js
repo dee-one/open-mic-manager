@@ -6,7 +6,9 @@ import sessionReducer from '../slices/session_slice';
 import formReducer from '../slices/form_slice';
 import listReducer from '../slices/list_slice';
 import timeReducer from '../slices/time_slice';
-window.loadingReducer = loadingReducer;
+import draggingReducer from '../slices/dragging_slice'; 
+
+
 
 
 
@@ -16,7 +18,8 @@ const reducer = {
     session: sessionReducer,
     form: formReducer,
     list: listReducer,
-    time: timeReducer
+    time: timeReducer,
+    dragging: draggingReducer
 }
 
 

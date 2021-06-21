@@ -12762,6 +12762,7 @@ var SignupItemComponent = function SignupItemComponent(props) {
     }, draggableStyle);
   };
 
+  console.log('props', props);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
     key: Math.random(),
     draggableId: props.id.toString(),
@@ -12868,7 +12869,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     _defineProperty(_assertThisInitialized(_this), "getListStyle", function (isDraggingOver) {
       return {
         background: isDraggingOver ? 'lightblue' : 'lightgrey',
-        padding: grid,
+        overflow: isDraggingOver ? 'hidden' : 'scroll',
         width: 250
       };
     });
@@ -12888,8 +12889,6 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
 
 
       var comic = _this.props.filledOut ? _this.props.list.list[draggableId] : _this.props.signups[draggableId];
-      console.log('comic', comic);
-      console.log('props', _this.props);
       var payload = {
         oldIndex: source.index,
         newIndex: destination.index,
@@ -12931,9 +12930,15 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "getListStyle", function (isDraggingOver) {
       return {
-        background: isDraggingOver ? 'lightblue' : 'white',
-        width: isDraggingOver ? '90vw' : '80vw'
+        // display: isDraggingOver ? 'flex' : 'grid',
+        background: isDraggingOver ? '#E8E8E8' : 'white',
+        width: isDraggingOver ? '90vw' : '80vw',
+        height: isDraggingOver ? '50vh' : '30vh'
       };
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleClassName", function () {
+      return !_this.props.filledOut ? 'create-list-container' : 'finish-list-container';
     });
 
     return _this;
@@ -12968,7 +12973,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
         to: "/"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: "create-list-container"
+        className: this.handleClassName()
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
         droppableId: "droppable1"
       }, function (provided) {
@@ -12988,12 +12993,17 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
             handleOnClick: false,
             toggleFilledOut: _this2.toggleFilledOut,
             onList: _this2.props.filledOut ? true : null,
-            filledOut: _this2.props.filledOut
+            filledOut: _this2.props.filledOut,
+            droppableId: _this2.props.columnId
           });
         }), provided.placeholder);
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "swap-lists"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      }, this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+        onClick: function onClick(e) {
+          return _this2.handleToggle();
+        }
+      }, "Go Back "), this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", null, " Start Show "), !this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
         onClick: function onClick(e) {
           return _this2.handleToggle();
         }
@@ -13012,6 +13022,7 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
             id: _this2.props.signups.length + index,
             firstName: comic.attributes.first_name,
             lastName: comic.attributes.last_name,
+            droppableId: _this2.props,
             key: Math.random(),
             handleOnClick: _this2.handleOnClick,
             toggleFilledOut: _this2.toggleFilledOut,
@@ -13045,6 +13056,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slices_signups_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/signups_slice */ "./frontend/slices/signups_slice.js");
 /* harmony import */ var _slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../slices/loading_slice */ "./frontend/slices/loading_slice.js");
 /* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
+/* harmony import */ var _slices_dragging_slice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../slices/dragging_slice */ "./frontend/slices/dragging_slice.js");
+
 
 
 
@@ -13061,7 +13074,8 @@ var mapStateToProps = function mapStateToProps(state) {
     isLoading: (0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_3__.selectLoading)(state),
     token: state.session.csrfToken,
     list: state.list,
-    filledOut: state.list.filledOut
+    filledOut: state.list.filledOut,
+    draggingOver: state.dragging.draggingOver
   };
 }; // user(s) and comic(s) and signup(s) are being used interchangeably, based on what makes contextual sense
 
@@ -13097,11 +13111,45 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     reorderList: function reorderList(payload) {
       return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.reorderList)(payload));
+    },
+    toggleDraggingOver: function toggleDraggingOver() {
+      return dispatch((0,_slices_dragging_slice__WEBPACK_IMPORTED_MODULE_5__.toggleDraggingOver)());
     }
   };
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(_signups_component__WEBPACK_IMPORTED_MODULE_0__.default));
+
+/***/ }),
+
+/***/ "./frontend/slices/dragging_slice.js":
+/*!*******************************************!*\
+  !*** ./frontend/slices/dragging_slice.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "toggleDraggingOver": () => (/* binding */ toggleDraggingOver),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+
+var draggingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+  name: 'draggingOver',
+  initialState: {
+    draggingOver: false
+  },
+  reducers: {
+    toggleDraggingOver: function toggleDraggingOver(state, action) {
+      state.draggingOver = !state.draggingOver;
+    }
+  }
+});
+var toggleDraggingOver = draggingSlice.actions.toggleDraggingOver;
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (draggingSlice.reducer);
 
 /***/ }),
 
@@ -13432,7 +13480,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
 /* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _slices_signups_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../slices/signups_slice */ "./frontend/slices/signups_slice.js");
@@ -13441,6 +13489,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slices_form_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../slices/form_slice */ "./frontend/slices/form_slice.js");
 /* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../slices/list_slice */ "./frontend/slices/list_slice.js");
 /* harmony import */ var _slices_time_slice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../slices/time_slice */ "./frontend/slices/time_slice.js");
+/* harmony import */ var _slices_dragging_slice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../slices/dragging_slice */ "./frontend/slices/dragging_slice.js");
 
 
 
@@ -13449,16 +13498,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-window.loadingReducer = _slices_loading_slice__WEBPACK_IMPORTED_MODULE_2__.default;
+
 var reducer = {
   signups: _slices_signups_slice__WEBPACK_IMPORTED_MODULE_1__.default,
   loading: _slices_loading_slice__WEBPACK_IMPORTED_MODULE_2__.default,
   session: _slices_session_slice__WEBPACK_IMPORTED_MODULE_3__.default,
   form: _slices_form_slice__WEBPACK_IMPORTED_MODULE_4__.default,
   list: _slices_list_slice__WEBPACK_IMPORTED_MODULE_5__.default,
-  time: _slices_time_slice__WEBPACK_IMPORTED_MODULE_6__.default
+  time: _slices_time_slice__WEBPACK_IMPORTED_MODULE_6__.default,
+  dragging: _slices_dragging_slice__WEBPACK_IMPORTED_MODULE_7__.default
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_7__.configureStore)({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_8__.configureStore)({
   reducer: reducer,
   middleware: function middleware(getDefaultMiddleware) {
     return getDefaultMiddleware().concat(redux_logger__WEBPACK_IMPORTED_MODULE_0__.logger);

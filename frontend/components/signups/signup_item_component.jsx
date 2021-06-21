@@ -26,7 +26,7 @@ const SignupItemComponent = (props) => {
     ...draggableStyle,
   });
     
-    
+    console.log('props', props)
     
     return ( <Draggable 
       key={Math.random()}
@@ -44,12 +44,12 @@ const SignupItemComponent = (props) => {
             
             
             > 
-         {/* this causes box to break,need to fix */}
+    
         { props.onList &&
 
           <small>{props.index + 1}</small>
          }
-        {/* this causes box to break,need to fix */}
+  
         
           
         <span className="comic-name">{`${props.firstName} ${props.lastName}`}</span>
