@@ -26,7 +26,7 @@ const SignupItemComponent = (props) => {
     ...draggableStyle,
   });
     
-    console.log('props', props)
+    
     
     return ( <Draggable 
       key={Math.random()}
@@ -47,7 +47,7 @@ const SignupItemComponent = (props) => {
     
         { props.onList &&
 
-          <small>{props.index + 1}</small>
+          <small className="order">{props.index + 1}</small>
          }
   
         

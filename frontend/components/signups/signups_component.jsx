@@ -139,8 +139,8 @@ render(){
        
      <Droppable droppableId='droppable1'>
       
-     {(provided) => (
-         <ul {...provided.droppableProps} ref={provided.innerRef} className="rough-draft">
+     {(provided,snapshot) => (
+         <ul {...provided.droppableProps} ref={provided.innerRef} className="rough-draft" thing={snapshot.droppableId}>
          
            {this.signupsOrList().map((comic,index) => (
              <SignupItemComponent 

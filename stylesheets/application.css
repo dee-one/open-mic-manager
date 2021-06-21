@@ -16,19 +16,24 @@ body {
 
 
 .create-list-container {
-  width: 90vw;
-  
+  width: 100vw;
+  background: white;
   display: flex;
   flex-direction: column-reverse;
   position: relative; 
   height: 100vh;
   justify-content: flex-start;
+  align-items: center;
 }
 
 .rough-draft {
   height: 55vh;
   overflow: scroll;
   width: 90vw;
+  background: #f6f6f6;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
   
  
@@ -38,7 +43,7 @@ body {
 .comic-list-item {
  background:cornflowerblue;
   margin-bottom: 15px;
-  width: 90vw;
+  width: 85vw;
   height: 50px;
   color: ghostwhite;
   box-shadow: 0 0 10px gray;
@@ -48,6 +53,7 @@ body {
     grid-template-rows: 1fr 1fr 1fr;
     z-index: 1;
     font-size: 14px;
+    position: relative;
   
     
 
@@ -69,7 +75,7 @@ button.comic-points {
   font-size: 12px;
   background: transparent;
 }
-
+      
 .comic-name {
 
 grid-row: 2/3;
@@ -187,7 +193,7 @@ position: relative;
 }
 
 .finish-list-container .rough-draft {
-  width: 80vw;
+  width: 90vw;
   overflow: visible;
 
 
@@ -202,7 +208,7 @@ position: relative;
 }
 
 .finish-list-container .comic-list-item  {
-  width: 80vh;
+  width: 90vw;
 }
 
 .list-box-text {
@@ -252,7 +258,13 @@ button:hover {
 }
 
 
+.order {
+ position: absolute;
+ margin-left: 5px;
+ 
+ 
 
+}
 
 
 .time {
@@ -344,7 +356,7 @@ button.comic-points {
    }
   
   .finish-list-container .rough-draft {
-    height: 45vh;
+    height: 75vh;
     overflow: scroll;
   }
 
@@ -353,7 +365,7 @@ button.comic-points {
   }
 
    .comic-list-item {
-      font-size: x-small;
+      font-size: small;
    }
 
     .svg-inline--fa {
@@ -374,7 +386,7 @@ button.comic-points {
    .svg-inline--fa {
 
      
-     font-size: medium;
+     font-size: smaller;
    }
 
    .final-list .comic-list-item {
@@ -398,7 +410,8 @@ button.comic-points {
       .svg-inline--fa {
 
      
-     font-size: medium;
+     font-size: smaller;
+      }
    }
 
        @media only screen and (max-width:1558px) {

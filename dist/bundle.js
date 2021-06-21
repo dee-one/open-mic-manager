@@ -12762,7 +12762,6 @@ var SignupItemComponent = function SignupItemComponent(props) {
     }, draggableStyle);
   };
 
-  console.log('props', props);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
     key: Math.random(),
     draggableId: props.id.toString(),
@@ -12773,7 +12772,9 @@ var SignupItemComponent = function SignupItemComponent(props) {
       ref: provided.innerRef
     }, provided.draggableProps, provided.dragHandleProps, {
       style: getItemStyle(snapshot.isDragging, provided.draggableProps.style)
-    }), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", null, props.index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    }), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", {
+      className: "order"
+    }, props.index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "comic-name"
     }, "".concat(props.firstName, " ").concat(props.lastName)), props.headlinerOrFeature && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "accolades"
@@ -12976,10 +12977,11 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         className: this.handleClassName()
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
         droppableId: "droppable1"
-      }, function (provided) {
+      }, function (provided, snapshot) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
           ref: provided.innerRef,
-          className: "rough-draft"
+          className: "rough-draft",
+          thing: snapshot.droppableId
         }), _this2.signupsOrList().map(function (comic, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
             index: index,
