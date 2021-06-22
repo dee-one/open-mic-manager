@@ -10,37 +10,19 @@ library.add(faStar, faMinusCircle,faAward);
 
  
 const SignupItemComponent = (props) => {
-    
-  const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: 'none',
-   
-   
 
-   
 
-    // change background colour if dragging
-    background: isDragging ? 'red' : 'cornflowerblue',
-
-    // styles we need to apply on draggables
-    ...draggableStyle,
-  });
-    
-    
-    
     return ( <Draggable 
       key={Math.random()}
       draggableId={props.id.toString()} 
       index={props.index}>
      {(provided,snapshot) => (   
-            <li className="comic-list-item"
+            <li className={props.className}
              ref={provided.innerRef} 
             {...provided.draggableProps} 
             {...provided.dragHandleProps} 
-        style={getItemStyle(
-          snapshot.isDragging,
-          provided.draggableProps.style
-        )}
+           
+           
             
             
             > 

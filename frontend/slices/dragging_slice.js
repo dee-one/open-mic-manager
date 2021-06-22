@@ -7,7 +7,7 @@ const draggingSlice = createSlice({
  initialState: {draggingOver: false},
  reducers: {
   toggleDraggingOver: (state,action) => {
-    state.draggingOver = !state.draggingOver
+    state.draggingOver = action.payload.draggingOver
   }
  }
 

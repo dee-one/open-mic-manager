@@ -4,6 +4,7 @@ import { Droppable,DragDropContext,Draggable } from 'react-beautiful-dnd';
 
 import SignupItemComponent from './signup_item_component';
 import {NavLink} from 'react-router-dom';
+import ListComponent from '../list/list_component';
 
 
 
@@ -36,6 +37,10 @@ componentDidMount(){
   }
 }
 
+
+componentDidUpdate = () => {
+  console.log(this.props)
+}
 
 
   getListStyle = isDraggingOver => ({
@@ -140,30 +145,17 @@ render(){
      <Droppable droppableId='droppable1'>
       
      {(provided,snapshot) => (
-         <ul {...provided.droppableProps} ref={provided.innerRef} className="rough-draft" thing={snapshot.droppableId}>
-         
-           {this.signupsOrList().map((comic,index) => (
-             <SignupItemComponent 
-               index={index}
-               id={index.toString()}  
-               firstName={comic.attributes.first_name} 
-               lastName={comic.attributes.last_name} 
-               points={comic.attributes.points} 
-               key={Math.random()}
-               firstTimer= {comic.attributes.first_timer}
-               headlinerOrFeature = {comic.attributes.headliner_or_feature}
-               handleOnClick={false}
-               toggleFilledOut={this.toggleFilledOut}
-               onList={this.props.filledOut? true : null}
-               filledOut={this.props.filledOut}
-               droppableId={this.props.columnId}
-              >
-               
-               </SignupItemComponent>
+         <ListComponent  
+           className="rough-draft" 
+           innerRef={provided.innerRef} 
+           provided={provided} 
+           signupsOrList={this.signupsOrList()} 
+           filledOut={this.props.filledOut}
            
-           ))}
-           {provided.placeholder}
-         </ul>
+           >
+         
+          
+         </ListComponent>
 
      )}
       
@@ -194,34 +186,23 @@ render(){
       {!this.props.filledOut &&
        <Droppable droppableId="droppable2">
          {(provided, snapshot) => (
-           <ul 
-             {...provided.droppableProps} 
-             ref={provided.innerRef}
-             style={this.getListStyle(snapshot.isDraggingOver)}
+         
+           <ListComponent
              className="final-list"
-            
-             >
-              <span className='list-box-text'><h2>drag comics to create list </h2></span>
-             {this.props.list.list.map((comic, index) => (
-               <SignupItemComponent
-                 index={index}
-                 id={this.props.signups.length + index}
-                 firstName={comic.attributes.first_name}
-                 lastName={comic.attributes.last_name}
-                 droppableId={this.props}
-                 key={Math.random()}
-                 handleOnClick={this.handleOnClick}
-                 toggleFilledOut={this.toggleFilledOut}
-                 deleteButton={true}
-                
-               >
-              
-               </SignupItemComponent>
+             innerRef={provided.innerRef}
+             provided={provided}
+             list={this.props.list.list}
+             filledOut={this.props.filledOut}
+             isDraggingOver={snapshot.isDraggingOver}
+             signups={this.props.signups}
+             handleOnClick={this.handleOnClick}
+           >
 
-             ))}
-             {provided.placeholder}
-           </ul>
-        
+
+           </ListComponent>
+
+
+
          )}
        </Droppable>
       

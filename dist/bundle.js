@@ -12341,6 +12341,106 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 /***/ }),
 
+/***/ "./frontend/components/list/list_component.jsx":
+/*!*****************************************************!*\
+  !*** ./frontend/components/list/list_component.jsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _signups_signup_item_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../signups/signup_item_component */ "./frontend/components/signups/signup_item_component.jsx");
+/* harmony import */ var _slices_dragging_slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../slices/dragging_slice */ "./frontend/slices/dragging_slice.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (props) {
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
+  var provided = props.provided,
+      innerRef = props.innerRef;
+  var draggingOver = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
+    return state.dragging.draggingOver;
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    dispatch((0,_slices_dragging_slice__WEBPACK_IMPORTED_MODULE_3__.toggleDraggingOver)({
+      draggingOver: props.isDraggingOver
+    }));
+  }, [props.isDraggingOver]);
+
+  var handleClassName = function handleClassName() {
+    return draggingOver ? 'comic-list-item hidden' : 'comic-list-item';
+  };
+
+  var handleStyle = function handleStyle() {
+    if (props.className === 'rough-draft') {
+      return {
+        display: 'grid'
+      };
+    }
+
+    return draggingOver ? {
+      display: 'none'
+    } : {
+      display: 'grid'
+    };
+  };
+
+  if (props.className === 'rough-draft') {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
+      ref: innerRef,
+      className: props.className
+    }), props.signupsOrList.map(function (comic, index) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signups_signup_item_component__WEBPACK_IMPORTED_MODULE_2__.default, {
+        index: index,
+        id: index.toString(),
+        firstName: comic.attributes.first_name,
+        lastName: comic.attributes.last_name,
+        points: comic.attributes.points,
+        className: "comic-list-item",
+        key: Math.random(),
+        firstTimer: comic.attributes.first_timer,
+        headlinerOrFeature: comic.attributes.headliner_or_feature,
+        handleOnClick: false // toggleFilledOut={this.toggleFilledOut}
+        ,
+        onList: props.filledOut ? true : null,
+        filledOut: props.filledOut,
+        droppableId: props.columnId
+      });
+    }), provided.placeholder);
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
+    ref: innerRef,
+    className: props.className
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+    className: "list-box-text"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "drag comics to create list ")), props.list.map(function (comic, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signups_signup_item_component__WEBPACK_IMPORTED_MODULE_2__.default, {
+      index: index,
+      id: props.signups.length + index,
+      firstName: comic.attributes.first_name,
+      lastName: comic.attributes.last_name,
+      className: handleClassName(),
+      key: Math.random(),
+      handleOnClick: props.handleOnClick,
+      toggleFilledOut: props.toggleFilledOut,
+      deleteButton: true
+    });
+  }), provided.placeholder);
+});
+
+/***/ }),
+
 /***/ "./frontend/components/list/showtime_component.jsx":
 /*!*********************************************************!*\
   !*** ./frontend/components/list/showtime_component.jsx ***!
@@ -12739,12 +12839,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -12753,26 +12847,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faStar, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faMinusCircle, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_3__.faAward);
 
 var SignupItemComponent = function SignupItemComponent(props) {
-  var getItemStyle = function getItemStyle(isDragging, draggableStyle) {
-    return _objectSpread({
-      // some basic styles to make the items look a bit nicer
-      userSelect: 'none',
-      // change background colour if dragging
-      background: isDragging ? 'red' : 'cornflowerblue'
-    }, draggableStyle);
-  };
-
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
     key: Math.random(),
     draggableId: props.id.toString(),
     index: props.index
   }, function (provided, snapshot) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", _extends({
-      className: "comic-list-item",
+      className: props.className,
       ref: provided.innerRef
-    }, provided.draggableProps, provided.dragHandleProps, {
-      style: getItemStyle(snapshot.isDragging, provided.draggableProps.style)
-    }), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", {
+    }, provided.draggableProps, provided.dragHandleProps), props.onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("small", {
       className: "order"
     }, props.index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
       className: "comic-name"
@@ -12821,12 +12904,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 /* harmony import */ var _signup_item_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./signup_item_component */ "./frontend/components/signups/signup_item_component.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _list_list_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../list/list_component */ "./frontend/components/list/list_component.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -12855,6 +12937,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var SignUps = /*#__PURE__*/function (_React$Component) {
   _inherits(SignUps, _React$Component);
 
@@ -12866,6 +12949,10 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, SignUps);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "componentDidUpdate", function () {
+      console.log(_this.props);
+    });
 
     _defineProperty(_assertThisInitialized(_this), "getListStyle", function (isDraggingOver) {
       return {
@@ -12969,36 +13056,22 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         });
       }
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.DragDropContext, {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__.DragDropContext, {
         onDragEnd: this.onDragEnd
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.NavLink, {
         to: "/"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: this.handleClassName()
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__.Droppable, {
         droppableId: "droppable1"
       }, function (provided, snapshot) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
-          ref: provided.innerRef,
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_list_list_component__WEBPACK_IMPORTED_MODULE_2__.default, {
           className: "rough-draft",
-          thing: snapshot.droppableId
-        }), _this2.signupsOrList().map(function (comic, index) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
-            index: index,
-            id: index.toString(),
-            firstName: comic.attributes.first_name,
-            lastName: comic.attributes.last_name,
-            points: comic.attributes.points,
-            key: Math.random(),
-            firstTimer: comic.attributes.first_timer,
-            headlinerOrFeature: comic.attributes.headliner_or_feature,
-            handleOnClick: false,
-            toggleFilledOut: _this2.toggleFilledOut,
-            onList: _this2.props.filledOut ? true : null,
-            filledOut: _this2.props.filledOut,
-            droppableId: _this2.props.columnId
-          });
-        }), provided.placeholder);
+          innerRef: provided.innerRef,
+          provided: provided,
+          signupsOrList: _this2.signupsOrList(),
+          filledOut: _this2.props.filledOut
+        });
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "swap-lists"
       }, this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
@@ -13009,28 +13082,19 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick(e) {
           return _this2.handleToggle();
         }
-      }, "Finalize List")), !this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_2__.Droppable, {
+      }, "Finalize List")), !this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_3__.Droppable, {
         droppableId: "droppable2"
       }, function (provided, snapshot) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", _extends({}, provided.droppableProps, {
-          ref: provided.innerRef,
-          style: _this2.getListStyle(snapshot.isDraggingOver),
-          className: "final-list"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
-          className: "list-box-text"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "drag comics to create list ")), _this2.props.list.list.map(function (comic, index) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_signup_item_component__WEBPACK_IMPORTED_MODULE_1__.default, {
-            index: index,
-            id: _this2.props.signups.length + index,
-            firstName: comic.attributes.first_name,
-            lastName: comic.attributes.last_name,
-            droppableId: _this2.props,
-            key: Math.random(),
-            handleOnClick: _this2.handleOnClick,
-            toggleFilledOut: _this2.toggleFilledOut,
-            deleteButton: true
-          });
-        }), provided.placeholder);
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_list_list_component__WEBPACK_IMPORTED_MODULE_2__.default, {
+          className: "final-list",
+          innerRef: provided.innerRef,
+          provided: provided,
+          list: _this2.props.list.list,
+          filledOut: _this2.props.filledOut,
+          isDraggingOver: snapshot.isDraggingOver,
+          signups: _this2.props.signups,
+          handleOnClick: _this2.handleOnClick
+        });
       })));
     }
   }]);
@@ -13145,7 +13209,7 @@ var draggingSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice
   },
   reducers: {
     toggleDraggingOver: function toggleDraggingOver(state, action) {
-      state.draggingOver = !state.draggingOver;
+      state.draggingOver = action.payload.draggingOver;
     }
   }
 });
