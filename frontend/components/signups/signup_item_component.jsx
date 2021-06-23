@@ -13,7 +13,7 @@ library.add(faStar, faMinusCircle,faAward);
  
 const SignupItemComponent = (props) => {
 
-   console.log(`item component`, props)
+ 
     return ( <Draggable 
       key={Math.random()}
       draggableId={props.id.toString()} 

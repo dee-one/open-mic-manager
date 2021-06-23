@@ -12913,7 +12913,6 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_2__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__.faStar, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__.faMinusCircle, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_4__.faAward);
 
 var SignupItemComponent = function SignupItemComponent(props) {
-  console.log("item component", props);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.Draggable, {
     key: Math.random(),
     draggableId: props.id.toString(),
