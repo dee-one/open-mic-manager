@@ -327,9 +327,42 @@ button.comic-points {
 
 
 .comic-list-item.hidden {
-  display: none;
+  /* display: none; */
+  opacity: .3;
 }
   
+.set-duration {
+  grid-column: 2/4;
+  grid-row: 2;
+  
+  border-radius: 15px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.25);
+
+  overflow: hidden;
+}
+
+.radio__input {
+  display: none;
+}
+
+.radio__label {
+  padding: 1vh 1.5vw;
+  font-size: small;
+  color: blue;
+  background: white;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.radio__label:not(:last-of-type) {
+  border-right:2px solid darkblue;
+}
+
+.checked {
+  background: darkblue;
+  color: white;
+}
+
+
 
 
   

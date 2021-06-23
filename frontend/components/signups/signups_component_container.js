@@ -7,7 +7,7 @@ import { selectLoading,toggleLoading } from "../../slices/loading_slice";
 import { fetchList } from "../../slices/list_slice";
 import { receiveUser,removeListItem,toggleFilledOut,reorderList } from "../../slices/list_slice";
 import { removeUser,receiveSignup } from "../../slices/signups_slice";
-import { toggleDraggingOver } from "../../slices/dragging_slice";
+
 
 
 const mapStateToProps = state => (
@@ -17,8 +17,8 @@ const mapStateToProps = state => (
   isLoading: selectLoading(state),
   token: state.session.csrfToken,
   list: state.list,
-  filledOut: state.list.filledOut,
-  draggingOver: state.dragging.draggingOver
+  filledOut: state.list.filledOut
+
   
  }
 );
@@ -36,8 +36,7 @@ removeUser: (userId) => dispatch(removeUser(userId)),
 removeListItem: (listItem) => dispatch(removeListItem(listItem)),
 receiveSignup: (signup) => dispatch(receiveSignup(signup)),
 toggleFilledOut: () => dispatch(toggleFilledOut()),
-reorderList: (payload) => dispatch(reorderList(payload)),
-toggleDraggingOver: () => dispatch(toggleDraggingOver())
+reorderList: (payload) => dispatch(reorderList(payload))
  
 })
 

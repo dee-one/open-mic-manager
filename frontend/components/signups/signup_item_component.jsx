@@ -3,6 +3,8 @@ import { Draggable } from 'react-beautiful-dnd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faStar,faMinusCircle,faAward} from "@fortawesome/free-solid-svg-icons";
+import SetDurationComponent from './set_duration_component';
+
 
 library.add(faStar, faMinusCircle,faAward);
 
@@ -11,7 +13,7 @@ library.add(faStar, faMinusCircle,faAward);
  
 const SignupItemComponent = (props) => {
 
-
+   console.log(`item component`, props)
     return ( <Draggable 
       key={Math.random()}
       draggableId={props.id.toString()} 
@@ -35,7 +37,7 @@ const SignupItemComponent = (props) => {
         
           
         <span className="comic-name">{`${props.firstName} ${props.lastName}`}</span>
-                {props.headlinerOrFeature &&
+                {props.headlinerOrFeature  && !props.filledOut &&
                   <span className='accolades'>
                  <FontAwesomeIcon
                   icon="star"
@@ -58,11 +60,13 @@ const SignupItemComponent = (props) => {
                 
                 }
 
-        {props.firstTimer &&
+        {props.firstTimer && !props.filledOut &&
           <span className='accolades'>first timer </span>
         }
-        <span className='comic-points'>{props.points}</span>
-     
+
+        {!props.filledOut &&
+         <span className='comic-points'>{props.points}</span>
+        }
         
         {props.deleteButton && 
           <button className='comic-points' >
@@ -72,6 +76,9 @@ const SignupItemComponent = (props) => {
           />
           </button>
         }
+       {props.filledOut &&
+         <SetDurationComponent    />
+       }
         
       </li>
      )}

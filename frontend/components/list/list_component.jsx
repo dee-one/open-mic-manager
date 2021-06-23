@@ -1,41 +1,25 @@
 import React from "react";
-import { useEffect } from "react";
+
 import { useDispatch } from "react-redux";
 import SignupItemComponent from "../signups/signup_item_component";
-import { toggleDraggingOver } from "../../slices/dragging_slice";
-import { useSelector } from "react-redux";
+
 
 
 
 export default (props) => {
 const dispatch = useDispatch();
 const { provided, innerRef} = props;
-const draggingOver = useSelector(state => state.dragging.draggingOver);
- 
-useEffect(() => {
-   dispatch(toggleDraggingOver({draggingOver: props.isDraggingOver}))
-  
 
+ const draggingOver = props.isDraggingOver;
 
-  },[props.isDraggingOver]);
-
-
-  const handleClassName  = () => {
+ const handleClassName  = () => {
    
   return draggingOver ? 'comic-list-item hidden' : 'comic-list-item';
 
   }
 
 
- const handleStyle = () => {
- 
-  if(props.className === 'rough-draft') {
-     return {display: 'grid'};
-  }
- 
- return draggingOver ? {display: 'none'} : {display: 'grid'}
 
- }
  
 
     if(props.className === 'rough-draft') {
@@ -56,7 +40,6 @@ useEffect(() => {
             firstTimer={comic.attributes.first_timer}
             headlinerOrFeature={comic.attributes.headliner_or_feature}
             handleOnClick={false}
-            // toggleFilledOut={this.toggleFilledOut}
             onList={props.filledOut ? true : null}
             filledOut={props.filledOut}
             droppableId={props.columnId}

@@ -1,8 +1,6 @@
 
 import React from 'react';
-import { Droppable,DragDropContext,Draggable } from 'react-beautiful-dnd';
-
-import SignupItemComponent from './signup_item_component';
+import { Droppable,DragDropContext} from 'react-beautiful-dnd';
 import {NavLink} from 'react-router-dom';
 import ListComponent from '../list/list_component';
 
@@ -38,9 +36,7 @@ componentDidMount(){
 }
 
 
-componentDidUpdate = () => {
-  console.log(this.props)
-}
+
 
 
   getListStyle = isDraggingOver => ({
@@ -101,18 +97,7 @@ handleToggle = () => {
   this.props.toggleFilledOut()
 }
 
-  getListStyle = isDraggingOver => {
-    
-    return (
-      {
-      
-    // display: isDraggingOver ? 'flex' : 'grid',
-    background: isDraggingOver ? 	'#E8E8E8' : 'white',
-    width: isDraggingOver ? '90vw' : '80vw',
-    height: isDraggingOver ? '50vh' : '30vh'
-      }
-    )
-  };
+ 
  
 handleClassName = () => (
  !this.props.filledOut ? 'create-list-container' : 'finish-list-container'
@@ -146,11 +131,12 @@ render(){
       
      {(provided,snapshot) => (
          <ListComponent  
-           className="rough-draft" 
+           className={"rough-draft" }
            innerRef={provided.innerRef} 
            provided={provided} 
            signupsOrList={this.signupsOrList()} 
            filledOut={this.props.filledOut}
+           isDraggingOver={snapshot.isDraggingOver}
            
            >
          
@@ -196,6 +182,7 @@ render(){
              isDraggingOver={snapshot.isDraggingOver}
              signups={this.props.signups}
              handleOnClick={this.handleOnClick}
+             filledOut={this.props.filledOut}
            >
 
 
