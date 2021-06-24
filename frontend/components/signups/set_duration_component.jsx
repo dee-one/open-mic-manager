@@ -1,16 +1,39 @@
 import React from 'react';
 import { useState } from 'react';
-
+import { useDispatch,useSelector } from 'react-redux';
+import { updateSetDuration } from '../../slices/list_slice';
 
 
 
 
 
 export default (props) => {
-const [checked,setChecked] = useState({});
- 
+  const comicIndex = props.index
+  // access the comic(user) from list state, check if set_duration parameter is set, use as default state of component
+  const checked = useSelector(state => state.list.list[comicIndex].attributes.set_duration)
+
+ const dispatch = useDispatch(); 
+
+
+ const handleColor = (index) => {
+     console.log(index)
+        switch(index) {
+         case 3:
+            return {background: '#F9FF33', color: 'red'};
+          case 5:
+            return {background: '#f28500', color: 'white' };
+          case 7:
+           return {background: 'red',color: 'yellow'};
+            default:
+            return null
+      
+        }
+      
+     }
+
 const handleStyle = (index) => (
-  checked != index ? null : {background: 'darkblue',color: 'white'}
+  // if index of radio button matches index of clicked element, apply a css property.
+    checked != index ? null : handleColor(index)
   
   
 )
@@ -21,7 +44,8 @@ const handleStyle = (index) => (
 
 
 const handleOnClick = (e) => {
-    setChecked(e.target.id)
+    const setDuration = e.target.id
+    dispatch(updateSetDuration({ id: props.index,setDuration }))
    
 }
     

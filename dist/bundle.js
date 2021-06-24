@@ -12564,8 +12564,7 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleSubmit", function (e) {
-      e.preventDefault(); //  const csrfToken = document.querySelector("[name='csrf-token']").content
-
+      e.preventDefault();
       var request = {
         method: 'post',
         credentials: 'include',
@@ -12807,35 +12806,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (props) {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
-      _useState2 = _slicedToArray(_useState, 2),
-      checked = _useState2[0],
-      setChecked = _useState2[1];
+  var comicIndex = props.index; // access the comic(user) from list state, check if set_duration parameter is set, use as default state of component
+
+  var checked = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
+    return state.list.list[comicIndex].attributes.set_duration;
+  });
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
+
+  var handleColor = function handleColor(index) {
+    console.log(index);
+
+    switch (index) {
+      case 3:
+        return {
+          background: '#F9FF33',
+          color: 'red'
+        };
+
+      case 5:
+        return {
+          background: '#f28500',
+          color: 'white'
+        };
+
+      case 7:
+        return {
+          background: 'red',
+          color: 'yellow'
+        };
+
+      default:
+        return null;
+    }
+  };
 
   var handleStyle = function handleStyle(index) {
-    return checked != index ? null : {
-      background: 'darkblue',
-      color: 'white'
-    };
+    return (// if index of radio button matches index of clicked element, apply a css property.
+      checked != index ? null : handleColor(index)
+    );
   };
 
   var handleOnClick = function handleOnClick(e) {
-    setChecked(e.target.id);
+    var setDuration = e.target.id;
+    dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_2__.updateSetDuration)({
+      id: props.index,
+      setDuration: setDuration
+    }));
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -12950,7 +12973,9 @@ var SignupItemComponent = function SignupItemComponent(props) {
           index: props.index
         });
       }
-    })), props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_set_duration_component__WEBPACK_IMPORTED_MODULE_3__.default, null));
+    })), props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_set_duration_component__WEBPACK_IMPORTED_MODULE_3__.default, {
+      index: props.index
+    }));
   });
 };
 
@@ -13275,65 +13300,9 @@ var toggleCompleted = formSlice.actions.toggleCompleted;
 /*!***************************************!*\
   !*** ./frontend/slices/list_slice.js ***!
   \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (() => {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchList": () => (/* binding */ fetchList),
-/* harmony export */   "listSlice": () => (/* binding */ listSlice),
-/* harmony export */   "receiveUser": () => (/* binding */ receiveUser),
-/* harmony export */   "removeListItem": () => (/* binding */ removeListItem),
-/* harmony export */   "toggleFilledOut": () => (/* binding */ toggleFilledOut),
-/* harmony export */   "reorderList": () => (/* binding */ reorderList),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-var fetchList = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('fetchList', function () {
-  return fetch('http://localhost:3000/api/list', {
-    'credentials': 'include'
-  }).then(function (res) {
-    return res.json();
-  });
-});
-var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
-  name: 'list',
-  initialState: {
-    filledOut: false
-  },
-  reducers: {
-    reorderList: function reorderList(state, action) {
-      console.log(action.payload);
-      state.list.splice(action.payload.oldIndex, 1);
-      state.list.splice(action.payload.newIndex, 0, action.payload.comic);
-    },
-    receiveList: function receiveList(state, action) {
-      state['list'] = action.payload.data;
-    },
-    receiveUser: function receiveUser(state, action) {
-      state.list.push(action.payload);
-    },
-    removeListItem: function removeListItem(state, action) {
-      state.list.splice(action.payload.index, 1);
-    },
-    toggleFilledOut: function toggleFilledOut(state) {
-      state.filledOut = !state.filledOut;
-    }
-  },
-  extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
-    state['list'] = action.payload.data;
-  })
-});
-var _listSlice$actions = listSlice.actions,
-    receiveUser = _listSlice$actions.receiveUser,
-    removeListItem = _listSlice$actions.removeListItem,
-    toggleFilledOut = _listSlice$actions.toggleFilledOut,
-    reorderList = _listSlice$actions.reorderList;
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (listSlice.reducer);
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Users/danwilliams/Projects/open-mic-manager/frontend/slices/list_slice.js: Identifier 'createList' has already been declared. (71:89)\n\n\u001b[0m \u001b[90m 69 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 70 |\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mconst\u001b[39m { receiveUser\u001b[33m,\u001b[39mremoveListItem\u001b[33m,\u001b[39mtoggleFilledOut\u001b[33m,\u001b[39mreorderList\u001b[33m,\u001b[39m updateSetDuration\u001b[33m,\u001b[39mcreateList} \u001b[33m=\u001b[39m listSlice\u001b[33m.\u001b[39mactions\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    |\u001b[39m                                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 72 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m listSlice\u001b[33m.\u001b[39mreducer\u001b[33m;\u001b[39m\u001b[0m\n    at Object._raise (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:810:17)\n    at Object.raiseWithData (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:803:17)\n    at Object.raise (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:764:17)\n    at ScopeHandler.checkRedeclarationInScope (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:1474:12)\n    at ScopeHandler.declareName (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:1440:12)\n    at Object.checkLVal (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:10506:24)\n    at Object.checkLVal (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:10522:16)\n    at Object.parseVarId (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:13288:10)\n    at Object.parseVar (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:13263:12)\n    at Object.parseVarStatement (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:13080:10)");
 
 /***/ }),
 
@@ -13404,14 +13373,7 @@ var fetchCurrentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAs
   }).then(function (res) {
     return res.json();
   });
-}
-/*    
- 'fetchCookies', () => (fetch('http://localhost:3000/'),
-   { credentials: 'include'}
- )
- .then(res => res.json())
-  */
-);
+});
 var sessionSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: 'session',
   initialState: {},
@@ -13421,8 +13383,6 @@ var sessionSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)
     }
   },
   extraReducers: _defineProperty({}, fetchCurrentUser.fulfilled, function (state, action) {
-    // state['currentUser'] = action.payload.data.loggedIn
-    //   state['token'] = action.payload.data.csrfToken
     if (action.payload.loggedIn) {
       state['currentUser'] = action.payload.user.data;
     }

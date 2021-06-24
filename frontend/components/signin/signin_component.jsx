@@ -33,7 +33,7 @@ class SigninComponent extends React.Component  {
 
  handleSubmit = (e) => {
   e.preventDefault();
-  //  const csrfToken = document.querySelector("[name='csrf-token']").content
+  
    
 
 

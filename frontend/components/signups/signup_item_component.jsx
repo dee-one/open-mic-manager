@@ -10,7 +10,7 @@ library.add(faStar, faMinusCircle,faAward);
 
 
 
- 
+  
 const SignupItemComponent = (props) => {
 
  
@@ -77,7 +77,7 @@ const SignupItemComponent = (props) => {
           </button>
         }
        {props.filledOut &&
-         <SetDurationComponent    />
+         <SetDurationComponent index={props.index} />
        }
         
       </li>

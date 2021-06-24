@@ -19,13 +19,7 @@ export const fetchCurrentUser = createAsyncThunk(
         
           })
      .then(res => res.json()))
-      /*    
-       'fetchCookies', () => (fetch('http://localhost:3000/'),
-         { credentials: 'include'}
-       )
-       .then(res => res.json())
-        */
-
+      
 );
 
 
@@ -39,8 +33,6 @@ export const sessionSlice = createSlice({
     },
         extraReducers: {
             [fetchCurrentUser.fulfilled]: (state, action) => {
-            // state['currentUser'] = action.payload.data.loggedIn
-            //   state['token'] = action.payload.data.csrfToken
               if(action.payload.loggedIn){
                   state['currentUser'] = action.payload.user.data 
               }

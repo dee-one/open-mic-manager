@@ -332,7 +332,7 @@ button.comic-points {
 }
   
 .set-duration {
-  grid-column: 2/4;
+  grid-column: 2/3;
   grid-row: 2;
   
   border-radius: 15px;
@@ -357,7 +357,7 @@ button.comic-points {
   border-right:2px solid darkblue;
 }
 
-.checked {
+.radio__input:checked + .radio__label {
   background: darkblue;
   color: white;
 }
