@@ -12511,12 +12511,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _signin_rules_1_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./signin_rules _1_component */ "./frontend/components/signin/signin_rules _1_component.jsx");
 /* harmony import */ var _signin_rules_2_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signin_rules_2_component */ "./frontend/components/signin/signin_rules_2_component.jsx");
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
 /* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _util_get_token__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/get_token */ "./frontend/util/get_token.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -12544,7 +12545,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faEnvelope, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPhone, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faUser, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCheckSquare);
+
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_4__.library.add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faEnvelope, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faPhone, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faUser, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faCheckSquare);
 
 var SigninComponent = /*#__PURE__*/function (_React$Component) {
   _inherits(SigninComponent, _React$Component);
@@ -12558,18 +12560,13 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "getCSRFToken", function () {
-      console.log(unescape(document.cookie.split('=')[1]));
-      return unescape(document.cookie.split('=')[1]);
-    });
-
     _defineProperty(_assertThisInitialized(_this), "handleSubmit", function (e) {
       e.preventDefault();
       var request = {
         method: 'post',
         credentials: 'include',
         headers: {
-          'X-CSRF-Token': _this.getCSRFToken(),
+          'X-CSRF-Token': (0,_util_get_token__WEBPACK_IMPORTED_MODULE_5__.default)(),
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -12631,7 +12628,7 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
         className: "Sign-in"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
         className: "Header-title"
-      }, " CCU Open Mic Signup!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.NavLink, {
+      }, " CCU Open Mic Signup!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.NavLink, {
         to: "/admin/list"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("b", null, "list")), bodyComponent(), !_this.props.isCompleted && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
         id: "signin-form"
@@ -13300,9 +13297,89 @@ var toggleCompleted = formSlice.actions.toggleCompleted;
 /*!***************************************!*\
   !*** ./frontend/slices/list_slice.js ***!
   \***************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /Users/danwilliams/Projects/open-mic-manager/frontend/slices/list_slice.js: Identifier 'createList' has already been declared. (71:89)\n\n\u001b[0m \u001b[90m 69 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 70 |\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mconst\u001b[39m { receiveUser\u001b[33m,\u001b[39mremoveListItem\u001b[33m,\u001b[39mtoggleFilledOut\u001b[33m,\u001b[39mreorderList\u001b[33m,\u001b[39m updateSetDuration\u001b[33m,\u001b[39mcreateList} \u001b[33m=\u001b[39m listSlice\u001b[33m.\u001b[39mactions\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    |\u001b[39m                                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 72 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m listSlice\u001b[33m.\u001b[39mreducer\u001b[33m;\u001b[39m\u001b[0m\n    at Object._raise (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:810:17)\n    at Object.raiseWithData (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:803:17)\n    at Object.raise (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:764:17)\n    at ScopeHandler.checkRedeclarationInScope (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:1474:12)\n    at ScopeHandler.declareName (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:1440:12)\n    at Object.checkLVal (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:10506:24)\n    at Object.checkLVal (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:10522:16)\n    at Object.parseVarId (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:13288:10)\n    at Object.parseVar (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:13263:12)\n    at Object.parseVarStatement (/Users/danwilliams/Projects/open-mic-manager/node_modules/@babel/parser/lib/index.js:13080:10)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchList": () => (/* binding */ fetchList),
+/* harmony export */   "postList": () => (/* binding */ postList),
+/* harmony export */   "listSlice": () => (/* binding */ listSlice),
+/* harmony export */   "receiveUser": () => (/* binding */ receiveUser),
+/* harmony export */   "removeListItem": () => (/* binding */ removeListItem),
+/* harmony export */   "toggleFilledOut": () => (/* binding */ toggleFilledOut),
+/* harmony export */   "reorderList": () => (/* binding */ reorderList),
+/* harmony export */   "updateSetDuration": () => (/* binding */ updateSetDuration),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _util_get_token__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/get_token */ "./frontend/util/get_token.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var fetchList = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('fetchList', function () {
+  return fetch('http://localhost:3000/api/list', {
+    'credentials': 'include'
+  }).then(function (res) {
+    return res.json();
+  });
+});
+var postList = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('postList', function (list) {
+  return fetch('http://localhost:3000/api/list', {
+    method: 'POST',
+    'credentials': 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': (0,_util_get_token__WEBPACK_IMPORTED_MODULE_0__.default)()
+    },
+    body: JSON.stringify({
+      list: list
+    })
+  }).then(function (res) {
+    return res.json();
+  });
+});
+window.postList = postList;
+var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
+  name: 'list',
+  initialState: {
+    filledOut: false
+  },
+  reducers: {
+    reorderList: function reorderList(state, action) {
+      console.log(action.payload);
+      state.list.splice(action.payload.oldIndex, 1);
+      state.list.splice(action.payload.newIndex, 0, action.payload.comic);
+    },
+    receiveList: function receiveList(state, action) {
+      state['list'] = action.payload.data;
+    },
+    receiveUser: function receiveUser(state, action) {
+      state.list.push(action.payload);
+    },
+    removeListItem: function removeListItem(state, action) {
+      state.list.splice(action.payload.index, 1);
+    },
+    toggleFilledOut: function toggleFilledOut(state) {
+      state.filledOut = !state.filledOut;
+    },
+    updateSetDuration: function updateSetDuration(state, action) {
+      state.list[action.payload.id].attributes.set_duration = parseInt(action.payload.setDuration);
+    }
+  },
+  extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
+    state['list'] = action.payload.data;
+  })
+});
+var _listSlice$actions = listSlice.actions,
+    receiveUser = _listSlice$actions.receiveUser,
+    removeListItem = _listSlice$actions.removeListItem,
+    toggleFilledOut = _listSlice$actions.toggleFilledOut,
+    reorderList = _listSlice$actions.reorderList,
+    updateSetDuration = _listSlice$actions.updateSetDuration;
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (listSlice.reducer);
 
 /***/ }),
 
@@ -13354,16 +13431,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "receiveLogin": () => (/* binding */ receiveLogin),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
+/* harmony import */ var _util_get_token__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/get_token */ "./frontend/util/get_token.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
-function getCSRFToken() {
-  return unescape(document.cookie.split('=')[1]);
-}
-
-var fetchCurrentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAsyncThunk)('fetchCurrentUser', function () {
+var fetchCurrentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('fetchCurrentUser', function () {
   return fetch('http://localhost:3000/api/logged_in', {
     credentials: 'include',
     headers: {
@@ -13374,7 +13448,7 @@ var fetchCurrentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createAs
     return res.json();
   });
 });
-var sessionSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
+var sessionSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
   name: 'session',
   initialState: {},
   reducers: {
@@ -13552,6 +13626,23 @@ var reducer = {
     return getDefaultMiddleware().concat(redux_logger__WEBPACK_IMPORTED_MODULE_0__.logger);
   }
 }));
+
+/***/ }),
+
+/***/ "./frontend/util/get_token.js":
+/*!************************************!*\
+  !*** ./frontend/util/get_token.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function () {
+  return unescape(document.cookie.split('=')[1]);
+});
 
 /***/ }),
 

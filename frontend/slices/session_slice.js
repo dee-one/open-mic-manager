@@ -1,12 +1,6 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import getCSRFToken from "../util/get_token";
 
-
-
-
-
-function getCSRFToken() {
-    return unescape(document.cookie.split('=')[1])
-}
 
 
 

@@ -7,6 +7,7 @@ import signin_rules_2_component from './signin_rules_2_component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPhone, faEnvelope, faUser, faCheckSquare } from "@fortawesome/free-solid-svg-icons";
+import getCSRFToken from '../../util/get_token';
 
 library.add(faEnvelope, faPhone, faUser, faCheckSquare);
 
@@ -25,10 +26,7 @@ class SigninComponent extends React.Component  {
 
 
 
-  getCSRFToken = () => {
-    console.log(unescape(document.cookie.split('=')[1]))
-   return unescape(document.cookie.split('=')[1])
-  }
+
 
 
  handleSubmit = (e) => {
@@ -41,7 +39,7 @@ class SigninComponent extends React.Component  {
      method: 'post',
      credentials: 'include',
      headers: {
-         'X-CSRF-Token': this.getCSRFToken(),
+         'X-CSRF-Token': getCSRFToken(),
          'Content-Type': 'application/json' 
      },
      body: JSON.stringify({comic: this.state}),

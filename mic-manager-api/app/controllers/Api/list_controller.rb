@@ -5,17 +5,26 @@ class Api::ListController < ApplicationController
 
 
 def index 
-  @list = List.all
-  options = {include: [:user]}
-  render json: ListSerializer.new(@list,options)
+  list = User.where(on_list: true)
+  
+  render json: ListSerializer.new(list)
   
 end
 
  def create
-  @list_item = List.new(list_item_params)
-   if @comic.save
+  
+  list_params.each do |user|
+    attributes = user[:attributes]
+    user[:attributes][:on_list] = true
+    user = User.find_by(id: attributes[:id])
+    
+    user.update!(attributes)
+    
+  end
+   
+   
     render json: {}, status: 200
-   end
+  
 
  end
 
@@ -34,9 +43,22 @@ end
 
 private
 
-def list_item_params
-  params.require(:list).permit(:user_id,:set_duration,:position,:start_time)
+def list_params 
+ params.require(:list).map do |controller_instance|
+
+ controller_instance.permit(attributes: [
+     :id,
+     :first_name,
+     :last_name,
+     :set_duration,
+     :set_complete,
+     :on_list]
+     )
+ end
+     
 end
+
+
 
 
 end

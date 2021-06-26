@@ -1,4 +1,5 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import getCSRFToken from "../util/get_token";
 
 
 
@@ -11,18 +12,21 @@ export const fetchList = createAsyncThunk(
         .then(res => res.json()))
 );
 
-export const createList = createAsyncThunk(
-    'createList', (list) => (fetch('http://localhost:3000/api/list',
+export const postList = createAsyncThunk(
+    'postList', (list) => (fetch('http://localhost:3000/api/list',
         {
             method: 'POST',
             'credentials': 'include',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': getCSRFToken()
             },
-            body: JSON.stringify(list)
+            body: JSON.stringify({list})
         })
         .then(res => res.json()))
 );
+
+window.postList = postList;
 
 
 
@@ -68,5 +72,5 @@ export const listSlice = createSlice({
 })
 
 
-export const { receiveUser,removeListItem,toggleFilledOut,reorderList, updateSetDuration,createList} = listSlice.actions;
+export const { receiveUser,removeListItem,toggleFilledOut,reorderList, updateSetDuration} = listSlice.actions;
 export default listSlice.reducer;

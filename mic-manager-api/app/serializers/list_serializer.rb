@@ -1,15 +1,7 @@
 class ListSerializer
   include JSONAPI::Serializer
   
-  attributes :id,:set_duration, :start_time
+  attributes :id,:set_duration, :set_complete, :first_name, :last_name
 
-  belongs_to :user, serializer: UserSerializer
-
-  collection_attr = [:user]
-
-   collection_attr.each do |attr|
-    attribute attr, if: Proc.new {|user,params|
-     params && !params[:collection]
-   }
-   end
+ 
 end
