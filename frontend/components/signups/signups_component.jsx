@@ -13,6 +13,7 @@ import ListComponent from '../list/list_component';
 class SignUps extends React.Component {
   constructor(props){
     super(props);
+    console.log(props)
  
   }
 
@@ -107,9 +108,9 @@ handleClassName = () => (
 
 
 handleStartShow = () => {
-  console.log('props',props);
- this.props.postList(props.list)
- .then(() => this.props.history.replace('/admin_showtime'))
+  console.log('props',this.props);
+ this.props.postList(this.props.list.list)
+ .then(() => this.props.history.replace('/admin/showtime'))
 
 }
 

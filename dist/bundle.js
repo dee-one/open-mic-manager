@@ -12272,9 +12272,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
 /* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../root */ "./frontend/components/root.jsx");
 /* harmony import */ var _clock_clock_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../clock/clock_component */ "./frontend/components/clock/clock_component.jsx");
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -12302,11 +12299,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       setChannel = _useState2[1];
 
   var list = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
-    return state.list;
+    return state.list.list;
   });
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_2__.fetchList)());
+    if (!list) {
+      dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_2__.fetchList)());
+    }
+
     var channel = cable.subscriptions.create({
       channel: 'ListChannel',
       id: 1
@@ -12328,14 +12328,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_4__.default, {
     sendTime: sendTime,
     admin: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.DragDropContext, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.Droppable, {
-    droppableId: "droppable",
-    mode: "virtual",
-    renderClone: function renderClone(provided, snapshot, rubric) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", _extends({}, provided.draggableProps, provided.dragHandleProps, {
-        ref: provided.innerRef
-      }), "Item id: ", items[rubric.source.index].id);
-    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, list.map(function (comic) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "".concat(comic.first_name, " ").concat(comic.last_name));
   })));
 });
 
@@ -13029,12 +13023,12 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(SignUps);
 
-  function SignUps(_props) {
+  function SignUps(props) {
     var _this;
 
     _classCallCheck(this, SignUps);
 
-    _this = _super.call(this, _props);
+    _this = _super.call(this, props);
 
     _defineProperty(_assertThisInitialized(_this), "getListStyle", function (isDraggingOver) {
       return {
@@ -13103,13 +13097,14 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleStartShow", function () {
-      console.log('props', props);
+      console.log('props', _this.props);
 
-      _this.props.postList(props.list).then(function () {
-        return _this.props.history.replace('/admin_showtime');
+      _this.props.postList(_this.props.list.list).then(function () {
+        return _this.props.history.replace('/admin/showtime');
       });
     });
 
+    console.log(props);
     return _this;
   }
 
@@ -13261,19 +13256,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     reorderList: function reorderList(payload) {
       return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.reorderList)(payload));
     },
-    postList: function (_postList) {
-      function postList(_x) {
-        return _postList.apply(this, arguments);
-      }
-
-      postList.toString = function () {
-        return _postList.toString();
-      };
-
-      return postList;
-    }(function (list) {
-      return dispatch(postList(list));
-    })
+    postList: function postList(list) {
+      return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.postList)(list));
+    }
   };
 };
 
@@ -13572,7 +13557,7 @@ var timeSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_0__.createSlice)({
   name: 'time',
   initialState: {
     minutes: 0,
-    seconds: 58,
+    seconds: 0,
     isRunning: false
   },
   reducers: {

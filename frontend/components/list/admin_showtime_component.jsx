@@ -11,13 +11,15 @@ export default (props) => {
 
   const cable = useContext(ActionCableContext)
   const [channel, setChannel] = useState(null);
-  const list = useSelector(state => state.list)
+  const list = useSelector(state => state.list.list)
   const dispatch = useDispatch();
 
   useEffect(() => {
 
       
-      dispatch(fetchList())
+      if(!list) {
+        dispatch(fetchList())
+      }
       
     const channel = cable.subscriptions.create({
       channel: 'ListChannel',
@@ -49,25 +51,18 @@ export default (props) => {
       {/* <Editor sendMessage={sendMessage} /> */}
       <ClockComponent sendTime={sendTime} admin={true} />
       {/* list of signed up users component */}
-     <DragDropContext>
-      <Droppable 
-        droppableId="droppable" 
-        mode="virtual"
-        renderClone={(provided, snapshot, rubric) => (
-         <div
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-       >
-        Item id: {items[rubric.source.index].id}
-       </div>
-    )}
-       
-   >
-       
-   </Droppable>
-  </DragDropContext>  
-    </div>
+
+     <div>
+       {list.map(comic => (
+      
+       <li>
+         {`${comic.first_name} ${comic.last_name}`}
+       </li>
+
+       ) ) }
+       </div> 
+     
+   </div>
   )
 
 }

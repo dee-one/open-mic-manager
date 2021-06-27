@@ -12,11 +12,12 @@ def index
 end
 
  def create
-  
+  @users = User.where(signed_up: true)
   list_params.each do |user|
     attributes = user[:attributes]
     user[:attributes][:on_list] = true
-    user = User.find_by(id: attributes[:id])
+
+    user = @users.find_by(id: attributes[:id])
     
     user.update!(attributes)
     

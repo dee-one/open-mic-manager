@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const timeSlice = createSlice({
  name: 'time',
- initialState: {minutes: 0, seconds: 58, isRunning: false},
+ initialState: {minutes: 0, seconds: 0, isRunning: false},
  reducers: {
   incrementSeconds: (state, action) => {
    state['seconds'] = state.seconds + 1
