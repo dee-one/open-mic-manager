@@ -26,8 +26,6 @@ export const postList = createAsyncThunk(
         .then(res => res.json()))
 );
 
-window.postList = postList;
-
 
 
 
@@ -41,12 +39,12 @@ export const listSlice = createSlice({
        state.list.splice(action.payload.newIndex, 0, action.payload.comic);
         },
      receiveList: (state, action) => {
-         state['list']= action.payload.data;
+         state.list = action.payload.data;
 
      },
      receiveUser: (state,action) => {
          
-         state.list.push(action.payload)
+         state.list.push(action.payload);
      },
      removeListItem: (state,action) => {
          state.list.splice(action.payload.index,1);
@@ -64,7 +62,7 @@ export const listSlice = createSlice({
     extraReducers: {
         [fetchList.fulfilled]: (state, action) => {
 
-            state['list'] = action.payload.data;
+            state.list = action.payload.data;
         }
     }
 

@@ -12,7 +12,7 @@ import ListComponent from '../list/list_component';
 
 class SignUps extends React.Component {
   constructor(props){
-    super(props)
+    super(props);
  
   }
 
@@ -25,13 +25,13 @@ componentDidMount(){
   if(this.props.signups === undefined){
     this.props.toggleLoading()
     this.props.fetchSignups()
-    .then(this.props.toggleLoading())
+    .then(this.props.toggleLoading());
    }
 
   if (this.props.list.list === undefined) {
     this.props.toggleLoading()
     this.props.fetchList()
-      .then(this.props.toggleLoading())
+      .then(this.props.toggleLoading());
   }
 }
 
@@ -106,6 +106,16 @@ handleClassName = () => (
 )
 
 
+handleStartShow = () => {
+  console.log('props',props);
+ this.props.postList(props.list)
+ .then(() => this.props.history.replace('/admin_showtime'))
+
+}
+
+
+
+
 render(){
   
  if(this.props.isLoading || !this.props.signups || !this.props.list.list) {
@@ -158,7 +168,7 @@ render(){
          {this.props.filledOut &&
 
 
-           <button> Start Show </button>
+           <button onClick={() => this.handleStartShow()} > Start Show </button>
 
          }
 

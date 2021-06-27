@@ -12108,7 +12108,7 @@ var App = function App() {
     component: _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_8__.Route, {
     exact: true,
-    path: "/admin_showtime",
+    path: "/admin/showtime",
     component: _list_admin_showtime_component__WEBPACK_IMPORTED_MODULE_3__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_8__.Route, {
     exact: true,
@@ -13029,12 +13029,12 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(SignUps);
 
-  function SignUps(props) {
+  function SignUps(_props) {
     var _this;
 
     _classCallCheck(this, SignUps);
 
-    _this = _super.call(this, props);
+    _this = _super.call(this, _props);
 
     _defineProperty(_assertThisInitialized(_this), "getListStyle", function (isDraggingOver) {
       return {
@@ -13102,6 +13102,14 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
       return !_this.props.filledOut ? 'create-list-container' : 'finish-list-container';
     });
 
+    _defineProperty(_assertThisInitialized(_this), "handleStartShow", function () {
+      console.log('props', props);
+
+      _this.props.postList(props.list).then(function () {
+        return _this.props.history.replace('/admin_showtime');
+      });
+    });
+
     return _this;
   }
 
@@ -13152,7 +13160,11 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick(e) {
           return _this2.handleToggle();
         }
-      }, "Go Back "), this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", null, " Start Show "), !this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+      }, "Go Back "), this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+        onClick: function onClick() {
+          return _this2.handleStartShow();
+        }
+      }, " Start Show "), !this.props.filledOut && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
         onClick: function onClick(e) {
           return _this2.handleToggle();
         }
@@ -13248,7 +13260,20 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     reorderList: function reorderList(payload) {
       return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.reorderList)(payload));
-    }
+    },
+    postList: function (_postList) {
+      function postList(_x) {
+        return _postList.apply(this, arguments);
+      }
+
+      postList.toString = function () {
+        return _postList.toString();
+      };
+
+      return postList;
+    }(function (list) {
+      return dispatch(postList(list));
+    })
   };
 };
 
@@ -13340,7 +13365,6 @@ var postList = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk
     return res.json();
   });
 });
-window.postList = postList;
 var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
   name: 'list',
   initialState: {
@@ -13353,7 +13377,7 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
       state.list.splice(action.payload.newIndex, 0, action.payload.comic);
     },
     receiveList: function receiveList(state, action) {
-      state['list'] = action.payload.data;
+      state.list = action.payload.data;
     },
     receiveUser: function receiveUser(state, action) {
       state.list.push(action.payload);
@@ -13369,7 +13393,7 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
     }
   },
   extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
-    state['list'] = action.payload.data;
+    state.list = action.payload.data;
   })
 });
 var _listSlice$actions = listSlice.actions,

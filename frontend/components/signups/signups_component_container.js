@@ -5,7 +5,7 @@ import { fetchSignups} from '../../slices/signups_slice';
 import { signupsSlice } from '../../slices/signups_slice'
 import { selectLoading,toggleLoading } from "../../slices/loading_slice";
 import { fetchList } from "../../slices/list_slice";
-import { receiveUser,removeListItem,toggleFilledOut,reorderList } from "../../slices/list_slice";
+import { receiveUser,removeListItem,toggleFilledOut,reorderList} from "../../slices/list_slice";
 import { removeUser,receiveSignup } from "../../slices/signups_slice";
 
 
@@ -36,9 +36,10 @@ removeUser: (userId) => dispatch(removeUser(userId)),
 removeListItem: (listItem) => dispatch(removeListItem(listItem)),
 receiveSignup: (signup) => dispatch(receiveSignup(signup)),
 toggleFilledOut: () => dispatch(toggleFilledOut()),
-reorderList: (payload) => dispatch(reorderList(payload))
+reorderList: (payload) => dispatch(reorderList(payload)),
+postList: (list) => dispatch(postList(list))
  
-})
+});
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(SignUps);

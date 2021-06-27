@@ -28,17 +28,17 @@ export default (props) => {
      setChannel(channel);
 
     return () => {
-      channel.unsubscribe()
+      channel.unsubscribe();
     }
 
   
   
-  }, [])
+  }, []);
 
   const sendTime = (time) => {
     // const data = { teamId, userId, content }
-    const data = { time } 
-    channel.send(data)
+    const data = { time }; 
+    channel.send(data);
   }
 
   
