@@ -12303,6 +12303,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   });
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log('list', list);
+
     if (!list) {
       dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_2__.fetchList)());
     }
@@ -12328,8 +12330,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_4__.default, {
     sendTime: sendTime,
     admin: true
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, list.map(function (comic) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, "".concat(comic.first_name, " ").concat(comic.last_name));
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
+    className: "showtime-list"
+  }, list.map(function (comic, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+      key: index
+    }, "".concat(index + 1, ". ").concat(comic.attributes.first_name, " ").concat(comic.attributes.last_name));
   })));
 });
 
@@ -12425,6 +12431,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../root */ "./frontend/components/root.jsx");
 /* harmony import */ var _slices_time_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../slices/time_slice */ "./frontend/slices/time_slice.js");
+/* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
+
 
 
 
@@ -12436,6 +12444,9 @@ __webpack_require__.r(__webpack_exports__);
   var time = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
     return state.time;
   });
+  var list = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
+    return state.list.list;
+  });
   var cable = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_root__WEBPACK_IMPORTED_MODULE_3__.ActionCableContext);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var channel = cable.subscriptions.create({
@@ -12445,10 +12456,20 @@ __webpack_require__.r(__webpack_exports__);
         dispatch((0,_slices_time_slice__WEBPACK_IMPORTED_MODULE_4__.receiveTime)(data));
       }
     });
-  }, [time]);
+
+    if (!list) {
+      dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_5__.fetchList)());
+    }
+  }, [time, list]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Showtime!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_1__.default, {
     admin: false
-  }));
+  }), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
+    className: "showtime-list"
+  }, list.map(function (comic, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+      key: index
+    }, "".concat(index + 1, ". ").concat(comic.attributes.first_name, " ").concat(comic.attributes.last_name));
+  })));
 });
 
 /***/ }),

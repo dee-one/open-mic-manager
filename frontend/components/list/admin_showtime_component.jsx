@@ -16,7 +16,7 @@ export default (props) => {
 
   useEffect(() => {
 
-      
+      console.log('list',list)
       if(!list) {
         dispatch(fetchList())
       }
@@ -51,16 +51,16 @@ export default (props) => {
       {/* <Editor sendMessage={sendMessage} /> */}
       <ClockComponent sendTime={sendTime} admin={true} />
       {/* list of signed up users component */}
-
-     <div>
-       {list.map(comic => (
+      <h2>List</h2>
+     <ul className="showtime-list">
+       {list.map((comic,index) => (
       
-       <li>
-         {`${comic.first_name} ${comic.last_name}`}
+       <li key={index} >
+         {`${index + 1}. ${comic.attributes.first_name} ${comic.attributes.last_name}`}
        </li>
 
        ) ) }
-       </div> 
+       </ul> 
      
    </div>
   )
