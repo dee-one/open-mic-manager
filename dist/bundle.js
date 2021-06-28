@@ -12106,6 +12106,10 @@ var App = function App() {
     exact: true,
     path: "/admin/list",
     component: _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__.default
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
+    exact: true,
+    path: "/",
+    component: _signin_signin_component_container__WEBPACK_IMPORTED_MODULE_2__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_8__.Route, {
     exact: true,
     path: "/admin/showtime",
@@ -12189,6 +12193,10 @@ __webpack_require__.r(__webpack_exports__);
     e.preventDefault();
     isRunning ? dispatch((0,_slices_time_slice__WEBPACK_IMPORTED_MODULE_2__.toggleRunning)()) : "";
     dispatch((0,_slices_time_slice__WEBPACK_IMPORTED_MODULE_2__.resetTime)());
+    props.sendTime({
+      minutes: 0,
+      seconds: 0
+    });
   };
 
   var icon = !isRunning ? "play" : "pause";
@@ -12447,7 +12455,14 @@ __webpack_require__.r(__webpack_exports__);
   var list = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
     return state.list.list;
   });
+  var currentUser = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
+    return state.session.currentUser;
+  });
+  var onList = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
+    return state.session.currentUser.attributes.on_list;
+  });
   var cable = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_root__WEBPACK_IMPORTED_MODULE_3__.ActionCableContext);
+  console.log(currentUser);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var channel = cable.subscriptions.create({
       channel: 'ListChannel'
@@ -12461,7 +12476,7 @@ __webpack_require__.r(__webpack_exports__);
       dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_5__.fetchList)());
     }
   }, [time, list]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Showtime!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_1__.default, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, onList && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Hey ", currentUser.attributes.first_name, " have fun and watch that light!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_1__.default, {
     admin: false
   }), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
     className: "showtime-list"

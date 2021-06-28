@@ -9,9 +9,12 @@ import { fetchList } from '../../slices/list_slice';
 
 export default (props) => {
   const dispatch = useDispatch();
-  const time = useSelector(state => state.time)
-  const list = useSelector(state => state.list.list)
+  const time = useSelector(state => state.time);
+  const list = useSelector(state => state.list.list);
+  const currentUser = useSelector(state => state.session.currentUser);
+  const onList = useSelector(state => state.session.currentUser.attributes.on_list)
   const cable = useContext(ActionCableContext);
+  console.log(currentUser);
     
    
     useEffect(() => {
@@ -31,7 +34,7 @@ export default (props) => {
 
         
     
-    }, [time,list])
+    }, [time,list]);
     
  
 
@@ -39,7 +42,13 @@ export default (props) => {
 
 return (
    <div>
-    <p>Showtime!</p>
+    {onList && 
+    
+    <h2>Hey {currentUser.attributes.first_name} have fun and watch that light!</h2>
+    
+    }
+
+
   <ClockComponent admin={false} />
   {list &&
 

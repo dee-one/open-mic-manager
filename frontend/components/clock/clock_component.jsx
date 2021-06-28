@@ -51,9 +51,10 @@ return "Start";
 }
 
 const handleOnReset = (e) => {
-  e.preventDefault()
-  isRunning ? dispatch(toggleRunning()) : ""
-  dispatch(resetTime())
+  e.preventDefault();
+  isRunning ? dispatch(toggleRunning()) : "";
+  dispatch(resetTime());
+  props.sendTime({ minutes: 0, seconds: 0 })
 }
 
 const icon = !isRunning ? "play" : "pause";
