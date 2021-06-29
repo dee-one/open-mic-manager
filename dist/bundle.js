@@ -12548,6 +12548,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _slices_session_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../slices/session_slice */ "./frontend/slices/session_slice.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var _this = undefined;
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -12565,6 +12566,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function () {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
       _useState2 = _slicedToArray(_useState, 2),
@@ -12576,11 +12578,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       password = _useState4[0],
       setPassword = _useState4[1];
 
-  var handleOnSubmit = function handleOnSubmit() {
-    (0,_slices_session_slice__WEBPACK_IMPORTED_MODULE_1__.adminLogin)({
+  var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useDispatch)();
+
+  var handleOnClick = function handleOnClick() {
+    var params = {
       username: username,
       password: password
-    }).then(function (res) {
+    };
+    dispatch((0,_slices_session_slice__WEBPACK_IMPORTED_MODULE_1__.adminLogin)(params)).then(function (res) {
       return res.json();
     }).then(function (data) {
       return _this.props.receiveLogin({
@@ -12599,9 +12604,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         setPassword(e.target.value);
         break;
     }
-
-    console.log(username);
-    console.log(password);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Log In"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "username", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
@@ -12611,15 +12613,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     },
     name: "username"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "password", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
-    type: "text",
+    type: "password",
     onChange: function onChange(e) {
       return handleOnChange(e);
     },
     name: "password"
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     type: "submit",
-    onSubmit: function onSubmit() {
-      return handleOnSubmit();
+    onClick: function onClick() {
+      return handleOnClick();
     }
   }, "Login"));
 });
@@ -13591,17 +13593,20 @@ var fetchCurrentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAs
     return res.json();
   });
 });
-var adminLogin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('adminLogin', function (username, password) {
-  return fetch('http://localhost:3000/api/sessions', {
+var adminLogin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('adminLogin', function (params) {
+  return fetch('http://localhost:3000/api/session', {
     method: "POST",
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      "Accept": "application/json"
+      "Accept": "application/json",
+      'X-CSRF-TOKEN': (0,_util_get_token__WEBPACK_IMPORTED_MODULE_0__.default)()
     },
     body: JSON.stringify({
-      username: username,
-      password: password
+      session: {
+        username: params.username,
+        password: params.password
+      }
     })
   });
 });

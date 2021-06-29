@@ -2,6 +2,8 @@
 import React from 'react';
 import { adminLogin } from '../../slices/session_slice';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 
 
 
@@ -9,12 +11,14 @@ export default () => {
 
 const [username,setUsername] = useState({});
 const [password,setPassword] = useState({});
+const dispatch = useDispatch();
 
 
 
-const handleOnSubmit = () => {
+const handleOnClick = () => {
 
-    adminLogin({username,password})
+    const params = {username,password}
+    dispatch(adminLogin(params))
      .then(res => res.json())
      .then(data => this.props.receiveLogin({ currentUser: data }))
 
@@ -34,8 +38,7 @@ const handleOnChange = (e) => {
 
 
     }
-    console.log(username)
-    console.log(password)
+  
   
 
 }
@@ -54,10 +57,10 @@ return (
  </label>
 <label>
   password
- <input type="text" onChange={e => handleOnChange(e)} name="password"></input>
+ <input type="password" onChange={e => handleOnChange(e)} name="password"></input>
  </label>
   
-<button type="submit" onSubmit={() => handleOnSubmit()}>Login</button>
+<button type="submit" onClick={() => handleOnClick()}>Login</button>
 
 </div>
 

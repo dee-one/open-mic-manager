@@ -9,6 +9,7 @@ export const fetchCurrentUser = createAsyncThunk(
      { credentials: 'include',
        headers: {'Content-Type': 'application/json',
            "Accept": "application/json",
+           
      }
         
           })
@@ -18,15 +19,16 @@ export const fetchCurrentUser = createAsyncThunk(
 
 
 export const adminLogin = createAsyncThunk(
-    'adminLogin', (username,password) => (fetch('http://localhost:3000/api/sessions' , 
+    'adminLogin', (params) => (fetch('http://localhost:3000/api/session' , 
         {
             method: "POST",
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
                 "Accept": "application/json",
+                'X-CSRF-TOKEN': getCSRFToken(),
               },
-            body: JSON.stringify({username,password})
+            body: JSON.stringify({session:{username: params.username,password: params.password}})
          }
     
     

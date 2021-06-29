@@ -2,9 +2,9 @@ class User < ApplicationRecord
 
  attr_accessor :password, :password_confirmation 
 
-has_one :list, primary_key: :id, foreign_key: :user_id
 
-#add comments section to DB, make it an array
+
+
 
  validates :password_digest, presence: { message: 'Password can\'t be blank' },
  unless: Proc.new {|user|  !user.admin  }
@@ -21,12 +21,12 @@ validates :first_name, :last_name, :email, :phone_number, presence: true,
 validates :email, uniqueness: true
 
 #commented out to prevent another Admin account being created
-=begin
+
 def password=(password)
    @password = password
    self.password_digest = BCrypt::Password.create(password)
 end
-=end
+
 
  def is_password?(password)
   BCrypt::Password.new(self.password_digest).is_password?(password)

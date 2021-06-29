@@ -44,14 +44,13 @@ class Api::UsersController < ApplicationController
        render json: {
      status: :created,
      logged_in: true,
-     yo: 'yo',
      user:  UserSerializer.new(@comic),
      session: session
   
     }
 
       return
-      #debugger
+   
     
       else
         render json: {errors: @comic.errors, status: :unprocessable_entity}
@@ -74,7 +73,6 @@ class Api::UsersController < ApplicationController
          render json: {
              status: :created,
              logged_in: true,
-             yo: 'yo',
             user:  UserSerializer.new(@comic),
             current_user: current_user
            
@@ -85,7 +83,7 @@ class Api::UsersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def comic_params
   
-     params.require(:comic).permit(:first_name,:last_name,:email,:phone_number,:first_timer)
+     params.require(:comic).permit(:first_name,:last_name,:email,:phone_number,:first_timer,:password)
    end
 
 end
