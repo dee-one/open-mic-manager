@@ -30,7 +30,7 @@ export default (props) => {
      setChannel(channel);
 
     return () => {
-      channel.unsubscribe();
+      cable.disconnect();
     }
 
   
@@ -52,6 +52,8 @@ export default (props) => {
       <ClockComponent sendTime={sendTime} admin={true} />
       {/* list of signed up users component */}
       <h2>List</h2>
+
+     {list &&
      <ul className="showtime-list">
        {list.map((comic,index) => (
       
@@ -60,8 +62,10 @@ export default (props) => {
        </li>
 
        ) ) }
+
+      
        </ul> 
-     
+      } 
    </div>
   )
 

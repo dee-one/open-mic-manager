@@ -5,10 +5,10 @@ import SigninComponentContainer from './signin/signin_component_container';
 import ListComponent from './list/admin_showtime_component';
 import { useDispatch,useSelector } from 'react-redux';
 import { fetchCurrentUser } from '../slices/session_slice';
-import { AuthRoute,ProtectedRoute } from '../util/route_utils';
+import { AuthRoute,ProtectedRoute,AdminRoute } from '../util/route_utils';
 import ShowTimeComponent from './list/showtime_component';
 import AdminShowtimeComponent from './list/admin_showtime_component';
-
+import AdminSigninComponent from './signin/admin_sign_in_component';
 
 
 
@@ -33,11 +33,12 @@ const App = () => {
     
      
       
-    <Route exact path='/admin/list' component={SignUpsComponentContainer} />
+    <AdminRoute exact path='/admin/list' component={SignUpsComponentContainer} />
   <AuthRoute exact path='/'   component={SigninComponentContainer} />
 {/* <Route exact path='/sign-in' component={MicFormRulesComponent} /> */}
-  <Route exact path='/admin/showtime' component={AdminShowtimeComponent} />
+  <AdminRoute exact path='/admin/showtime' component={AdminShowtimeComponent} />
       <Route exact path='/showtime' component={ShowTimeComponent} />
+      <Route exact path='/admin/signin' component={AdminSigninComponent} />
   </div>
   )
  

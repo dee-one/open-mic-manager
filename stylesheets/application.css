@@ -280,7 +280,7 @@ button:hover {
 
 .clock {
   width: 200px;
-  background: black;
+  background: white;
   size: 2em;
   border: 3px solid rgb(42,198,17);
   border-radius: 12px;
@@ -295,7 +295,7 @@ button:hover {
 .timer-buttons {
   
   width: 90px;
-  height: 40px;
+  height: 30px;
   letter-spacing: 1px;
   font-weight: normal;
   align-items: center;

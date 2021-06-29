@@ -12,12 +12,15 @@ export default (props) => {
   const time = useSelector(state => state.time);
   const list = useSelector(state => state.list.list);
   const currentUser = useSelector(state => state.session.currentUser);
-  const onList = useSelector(state => state.session.currentUser.attributes.on_list)
+
   const cable = useContext(ActionCableContext);
-  console.log(currentUser);
+  
     
    
     useEffect(() => {
+
+     
+      
       const channel = cable.subscriptions.create(
             { channel: 'ListChannel' },
             {
@@ -30,11 +33,13 @@ export default (props) => {
         dispatch(fetchList())
       }
       
-    
+    return () => {
+      channel.unsubscribe()
+      }
 
-        
+      
     
-    }, [time,list]);
+    }, []);
     
  
 
@@ -42,7 +47,7 @@ export default (props) => {
 
 return (
    <div>
-    {onList && 
+    {currentUser && 
     
     <h2>Hey {currentUser.attributes.first_name} have fun and watch that light!</h2>
     
@@ -50,6 +55,8 @@ return (
 
 
   <ClockComponent admin={false} />
+  
+  
   {list &&
 
       <ul className="showtime-list">

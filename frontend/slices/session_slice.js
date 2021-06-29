@@ -17,6 +17,34 @@ export const fetchCurrentUser = createAsyncThunk(
 );
 
 
+export const adminLogin = createAsyncThunk(
+    'adminLogin', (username,password) => (fetch('http://localhost:3000/api/sessions' , 
+        {
+            method: "POST",
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept": "application/json",
+              },
+            body: JSON.stringify({username,password})
+         }
+    
+    
+    
+    
+    )
+    
+       
+
+
+  )
+
+
+
+
+)
+
+
 export const sessionSlice = createSlice({
     name: 'session',
     initialState: {},
