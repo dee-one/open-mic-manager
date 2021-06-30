@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { incrementSeconds,incrementMinutes,toggleRunning,resetTime } from '../../slices/time_slice';
 import TimerButtonsComponent from './timer_buttons_component';
+import { nextComic,prevComic } from '../../slices/list_slice';
 
 
 
@@ -57,6 +58,22 @@ const handleOnReset = (e) => {
   props.sendTime({ minutes: 0, seconds: 0 })
 }
 
+const handleOnForward = (e) => {
+  e.preventDefault();
+  dispatch(nextComic());
+
+
+}
+
+  const handleOnBackward = (e) => {
+    e.preventDefault();
+    dispatch(prevComic());
+
+
+  }
+
+
+
 const icon = !isRunning ? "play" : "pause";
 
  return (
@@ -72,6 +89,8 @@ const icon = !isRunning ? "play" : "pause";
         icon={icon} 
         handleOnReset={handleOnReset} 
         handleOnClick={handleOnClick} 
+        handleOnForward={handleOnForward}
+        handleOnBackward={handleOnBackward}
         buttonText={buttonText}
          />
        }

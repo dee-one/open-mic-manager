@@ -12144,6 +12144,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _slices_time_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/time_slice */ "./frontend/slices/time_slice.js");
 /* harmony import */ var _timer_buttons_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./timer_buttons_component */ "./frontend/components/clock/timer_buttons_component.jsx");
+/* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
+
 
 
 
@@ -12203,6 +12205,16 @@ __webpack_require__.r(__webpack_exports__);
     });
   };
 
+  var handleOnForward = function handleOnForward(e) {
+    e.preventDefault();
+    dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.nextComic)());
+  };
+
+  var handleOnBackward = function handleOnBackward(e) {
+    e.preventDefault();
+    dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.prevComic)());
+  };
+
   var icon = !isRunning ? "play" : "pause";
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "clock"
@@ -12220,6 +12232,8 @@ __webpack_require__.r(__webpack_exports__);
     icon: icon,
     handleOnReset: handleOnReset,
     handleOnClick: handleOnClick,
+    handleOnForward: handleOnForward,
+    handleOnBackward: handleOnBackward,
     buttonText: buttonText
   }));
 });
@@ -12251,7 +12265,7 @@ __webpack_require__.r(__webpack_exports__);
     className: "timer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
     onClick: function onClick(e) {
-      return props.handleOnClick(e);
+      return props.handleOnBackward(e);
     },
     icon: "fast-backward"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
@@ -12261,7 +12275,7 @@ __webpack_require__.r(__webpack_exports__);
     icon: props.icon
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
     onClick: function onClick(e) {
-      return props.handleOnClick(e);
+      return props.handleOnForward(e);
     },
     icon: "fast-forward"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_1__.FontAwesomeIcon, {
@@ -12307,7 +12321,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (props) {
   var cable = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_root__WEBPACK_IMPORTED_MODULE_3__.ActionCableContext);
 
@@ -12319,10 +12332,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   var list = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
     return state.list.list;
   });
+  var currentComic = list && list[0];
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    console.log('list', list);
-
     if (!list) {
       dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_2__.fetchList)());
     }
@@ -12345,6 +12357,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     channel.send(data);
   };
 
+  var handleStyle = function handleStyle(comic) {
+    return comic.id === currentComic.id ? {
+      fontWeight: 'bold'
+    } : {
+      fontWeight: 'normal'
+    };
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "clock-list-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -12352,11 +12372,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_4__.default, {
     sendTime: sendTime,
     admin: true
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "List"), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
+  }), currentComic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "current-comic-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "".concat(currentComic.attributes.first_name, " ").concat(currentComic.attributes.last_name)))), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
     className: "showtime-list"
   }, list.map(function (comic, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-      key: index
+      key: index,
+      style: handleStyle(comic)
     }, "".concat(index + 1, ". ").concat(comic.attributes.first_name, " ").concat(comic.attributes.last_name));
   })));
 });
@@ -13467,6 +13490,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toggleFilledOut": () => (/* binding */ toggleFilledOut),
 /* harmony export */   "reorderList": () => (/* binding */ reorderList),
 /* harmony export */   "updateSetDuration": () => (/* binding */ updateSetDuration),
+/* harmony export */   "nextComic": () => (/* binding */ nextComic),
+/* harmony export */   "prevComic": () => (/* binding */ prevComic),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
@@ -13500,11 +13525,11 @@ var postList = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk
 var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
   name: 'list',
   initialState: {
-    filledOut: false
+    filledOut: false,
+    completedSet: []
   },
   reducers: {
     reorderList: function reorderList(state, action) {
-      console.log(action.payload);
       state.list.splice(action.payload.oldIndex, 1);
       state.list.splice(action.payload.newIndex, 0, action.payload.comic);
     },
@@ -13522,6 +13547,15 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
     },
     updateSetDuration: function updateSetDuration(state, action) {
       state.list[action.payload.id].attributes.set_duration = parseInt(action.payload.setDuration);
+    },
+    nextComic: function nextComic(state, action) {
+      if (state.list.length === 1) return;
+      state.list[0].completed = true;
+      state.completedSet.push(state.list.splice(0, 1));
+    },
+    prevComic: function prevComic(state, action) {
+      if (state.completedSet.length < 1) return;
+      state.list.unshift(state.completedSet.pop()[0]);
     }
   },
   extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
@@ -13533,7 +13567,9 @@ var _listSlice$actions = listSlice.actions,
     removeListItem = _listSlice$actions.removeListItem,
     toggleFilledOut = _listSlice$actions.toggleFilledOut,
     reorderList = _listSlice$actions.reorderList,
-    updateSetDuration = _listSlice$actions.updateSetDuration;
+    updateSetDuration = _listSlice$actions.updateSetDuration,
+    nextComic = _listSlice$actions.nextComic,
+    prevComic = _listSlice$actions.prevComic;
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (listSlice.reducer);
 

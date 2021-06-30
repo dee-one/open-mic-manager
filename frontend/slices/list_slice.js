@@ -31,11 +31,11 @@ export const postList = createAsyncThunk(
 
 export const listSlice = createSlice({
  name: 'list',
- initialState: {filledOut: false},
+ initialState: {filledOut: false,completedSet: []},
  reducers: {
     reorderList: (state, action) => {
-         console.log(action.payload);
-      state.list.splice(action.payload.oldIndex, 1);
+        
+       state.list.splice(action.payload.oldIndex, 1);
        state.list.splice(action.payload.newIndex, 0, action.payload.comic);
         },
      receiveList: (state, action) => {
@@ -55,6 +55,18 @@ export const listSlice = createSlice({
      },
      updateSetDuration: (state,action) => {
          state.list[action.payload.id].attributes.set_duration = parseInt(action.payload.setDuration);
+     },
+     nextComic: (state,action) => {
+        if(state.list.length === 1 ) return;
+        state.list[0].completed = true
+       state.completedSet.push(state.list.splice(0, 1));
+      
+     },
+     prevComic: (state,action) => {
+       
+         if (state.completedSet.length < 1) return;
+        state.list.unshift(state.completedSet.pop()[0])
+
      }
 
     },
@@ -70,5 +82,5 @@ export const listSlice = createSlice({
 })
 
 
-export const { receiveUser,removeListItem,toggleFilledOut,reorderList, updateSetDuration} = listSlice.actions;
+export const { receiveUser,removeListItem,toggleFilledOut,reorderList, updateSetDuration,nextComic,prevComic} = listSlice.actions;
 export default listSlice.reducer;

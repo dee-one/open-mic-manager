@@ -4,7 +4,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import {fetchList} from '../../slices/list_slice';
 import { ActionCableContext } from '../root';
 import ClockComponent from '../clock/clock_component';
-import { Droppable,Draggable,DragDropContext } from 'react-beautiful-dnd';
+
 
 
 export default (props) => {
@@ -12,11 +12,13 @@ export default (props) => {
   const cable = useContext(ActionCableContext)
   const [channel, setChannel] = useState(null);
   const list = useSelector(state => state.list.list)
+  const currentComic = list && list[0];
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-
-      console.log('list',list)
+     
+      
       if(!list) {
         dispatch(fetchList())
       }
@@ -43,6 +45,14 @@ export default (props) => {
     channel.send(data);
   }
 
+  const handleStyle = (comic) => {
+   
+   
+   return comic.id === currentComic.id ? {fontWeight: 'bold'} : {fontWeight: 'normal'}
+
+
+  }
+
   
 
   return (
@@ -53,15 +63,22 @@ export default (props) => {
       <div className='player'>
       <ClockComponent sendTime={sendTime} admin={true} />
       {/* list of signed up users component */}
+      {currentComic &&
+      <div className="current-comic-info">
+      
+         <h2>{`${currentComic.attributes.first_name} ${currentComic.attributes.last_name}`}</h2>
+         
+      
+        </div>
+       } 
 
       </div>
-      <h2>List</h2>
 
      {list &&
      <ul className="showtime-list">
        {list.map((comic,index) => (
       
-       <li key={index} >
+       <li key={index} style={handleStyle(comic)} >
          {`${index + 1}. ${comic.attributes.first_name} ${comic.attributes.last_name}`}
        </li>
 

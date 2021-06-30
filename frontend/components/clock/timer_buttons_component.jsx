@@ -16,7 +16,7 @@ export default (props) => {
         <div className="timer">
             
             <FontAwesomeIcon
-                onClick={e => props.handleOnClick(e)}
+                onClick={e => props.handleOnBackward(e)}
                 icon='fast-backward'
             />
 
@@ -26,7 +26,7 @@ export default (props) => {
                 />
 
             <FontAwesomeIcon
-                onClick={e => props.handleOnClick(e)}
+                onClick={e => props.handleOnForward(e)}
                 icon='fast-forward'
             />
 
