@@ -12,9 +12,9 @@ const mapStateToProps = state => ({
 });
 
 
-const Auth = ({loggedIn,path, component: Component}) => (
+const Auth = ({loggedIn,admin,path, component: Component}) => (
   <Route 
-   path={path}
+   exact path={path}
    render={props => (
    loggedIn ? <Redirect to='/showtime'/> : <Component {...props} />
   )}
@@ -23,9 +23,9 @@ const Auth = ({loggedIn,path, component: Component}) => (
 
 );
 
-const Protected = ({loggedIn, path, component: Component}) => (
+const Protected = ({loggedIn,admin, path, component: Component}) => (
  <Route
- path={path}
+ exact path={path}
  render= {props => (
  loggedIn ? <Component {...props} /> : <Redirect to='/'/>
 
@@ -36,9 +36,22 @@ const Protected = ({loggedIn, path, component: Component}) => (
 
 );
 
-const Admin= ({ loggedIn,admin, path, component: Component }) => (
+const AdminAuth= ({ loggedIn,admin, path, component: Component }) => (
   <Route
-    path={path}
+    exact path={path}
+    render={props => (
+      loggedIn && admin ? <Component {...props} /> : <Redirect to='/admin/signin' />
+
+
+    )}
+
+  />
+
+);
+
+const AdminProtected = ({ loggedIn, admin, path, component: Component }) => (
+  <Route
+    exact path={path}
     render={props => (
       loggedIn && admin ? <Component {...props} /> : <Redirect to='/admin/signin' />
 
@@ -54,6 +67,7 @@ const Admin= ({ loggedIn,admin, path, component: Component }) => (
 
 
 
+
 export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));
 export const ProtectedRoute = withRouter(connect(mapStateToProps)(Protected));
-export const AdminRoute = withRouter(connect(mapStateToProps)(Admin));
+export const AdminRoute = withRouter(connect(mapStateToProps)(AdminProtected));

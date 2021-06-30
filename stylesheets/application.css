@@ -267,25 +267,41 @@ button:hover {
 }
 
 
+
+.clock-list-container {width: 90vw;height: 100vh;background: rgb(246, 246, 246);display: flex;justify-content: center;align-items: center;flex-direction: column;}
+
+.player {
+ display: grid;
+ grid-template-rows: repeat(3,1fr);
+ height: 20vh;
+ background: cornflowerblue;
+ margin-top: 40px;
+}
+
+
+
 .time {
 
   display: flex;
-  padding: 40px;
   font-size: 28px;
   font-family: 'Orbitron', sans-serif;
-  justify-content: space-between;
-  color: rgb(42,198,17);
+ 
   
 }
 
 .clock {
-  width: 200px;
-  background: white;
-  size: 2em;
-  border: 3px solid rgb(42,198,17);
+  /* height: 30vh; */
+  /* margin-top: 60px; */
+  width: 90vw;
+  /* background: cornflowerblue; */
   border-radius: 12px;
+  grid-row: 2/4;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
 }
-
 .timer {
   width: 200px;
   display: flex;
@@ -300,6 +316,7 @@ button:hover {
   font-weight: normal;
   align-items: center;
   border-radius: 0;
+  grid-row: 3/4;
 }
 
 .minutes {

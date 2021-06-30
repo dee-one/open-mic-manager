@@ -33,9 +33,9 @@ const App = () => {
     
      
       
-    <AdminRoute exact path='/admin/list' component={SignUpsComponentContainer} />
-  <AuthRoute exact path='/'   component={SigninComponentContainer} />
-{/* <Route exact path='/sign-in' component={MicFormRulesComponent} /> */}
+    <AdminRoute path='/admin/list' component={SignUpsComponentContainer} />
+  <AuthRoute  path='/'   component={SigninComponentContainer} />
+{/* <ProtectedRoute exact path='/sign-in' component={MicFormRulesComponent} /> */}
   <AdminRoute exact path='/admin/showtime' component={AdminShowtimeComponent} />
       <Route exact path='/showtime' component={ShowTimeComponent} />
       <Route exact path='/admin/signin' component={AdminSigninComponent} />

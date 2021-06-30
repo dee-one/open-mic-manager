@@ -46,11 +46,15 @@ export default (props) => {
   
 
   return (
-    <div>
+    <div className="clock-list-container">
       {/* {renderedMessages} */}
       {/* <Editor sendMessage={sendMessage} /> */}
+
+      <div className='player'>
       <ClockComponent sendTime={sendTime} admin={true} />
       {/* list of signed up users component */}
+
+      </div>
       <h2>List</h2>
 
      {list &&

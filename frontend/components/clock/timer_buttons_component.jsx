@@ -2,23 +2,39 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faPause, faFastForward, faFastBackward, faUndo } from "@fortawesome/free-solid-svg-icons";
 
 export default (props) => {
 
 
 
-    library.add(faPlay, faPause);
+    library.add(faPlay, faPause, faFastForward, faFastBackward,faUndo);
 
 
 
     return (
         <div className="timer">
-            <button type="button" onClick={e => props.handleOnClick(e)} className="timer-buttons">
+            
+            <FontAwesomeIcon
+                onClick={e => props.handleOnClick(e)}
+                icon='fast-backward'
+            />
+
                 <FontAwesomeIcon
+                    onClick={e => props.handleOnClick(e)}
                     icon={props.icon}
-                />{props.buttonText()}</button>
-            <button type="reset" onClick={e => props.handleOnReset(e)} className="timer-buttons">Reset</button>
+                />
+
+            <FontAwesomeIcon
+                onClick={e => props.handleOnClick(e)}
+                icon='fast-forward'
+            />
+
+            <FontAwesomeIcon
+                onClick={e => props.handleOnReset(e)}
+                icon='undo'
+            />
+            
         </div>
 
 

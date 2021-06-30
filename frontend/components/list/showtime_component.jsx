@@ -46,7 +46,9 @@ export default (props) => {
 
 
 return (
-   <div>
+   <div className="clock-list-container">
+
+    <div className='player'>
     {currentUser && 
     
     <h2>Hey {currentUser.attributes.first_name} have fun and watch that light!</h2>
@@ -56,7 +58,7 @@ return (
 
   <ClockComponent admin={false} />
   
-  
+  </div>
   {list &&
 
       <ul className="showtime-list">

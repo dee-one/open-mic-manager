@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
     def cookie 
       #p cookies
      # render json: cookies["CSRF-TOKEN"]
+     p session
      "ok"
     end
 
