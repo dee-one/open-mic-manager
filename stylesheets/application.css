@@ -69,11 +69,14 @@ button.comic-points {
 
 }
 
-.svg-inline--fa {
+.svg-inline--fa {vertical-align: 0;font-size: 16px;height: 40px;width: 40px;background: transparent;}
 
-  vertical-align: 0;
-  font-size: 12px;
-  background: transparent;
+.svg-inline--fa:hover {
+  
+  cursor: pointer;
+  color: silver;
+  transition: all .2s;
+  
 }
       
 .comic-name {
@@ -441,11 +444,7 @@ button.comic-points {
       font-size: small;
    }
 
-    .svg-inline--fa {
-
-     
-     font-size: x-small;
-   }
+    .svg-inline--fa {font-size: medium;}
 
    .timer .svg-inline--fa:hover {
      cursor: pointer;
@@ -463,7 +462,7 @@ button.comic-points {
    .svg-inline--fa {
 
      
-     font-size: smaller;
+     font-size: medium;
    }
 
    .final-list .comic-list-item {
