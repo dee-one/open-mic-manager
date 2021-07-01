@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { incrementSeconds,incrementMinutes,toggleRunning,resetTime } from '../../slices/time_slice';
 import TimerButtonsComponent from './timer_buttons_component';
-import { nextComic,prevComic } from '../../slices/list_slice';
+import { nextComic,prevComic, updateList } from '../../slices/list_slice';
 
 
 
@@ -60,14 +60,24 @@ const handleOnReset = (e) => {
 
 const handleOnForward = (e) => {
   e.preventDefault();
+  if (props.updatedList.current.length === 1) return;
+  const updatedList = [...props.updatedList.current]
   dispatch(nextComic());
+  updatedList.splice(0,1);
+  props.sendList(updatedList);
 
 
 }
 
   const handleOnBackward = (e) => {
     e.preventDefault();
+    if (props.completedSets.current.length === 0) return;
+    const completedSets = [...props.completedSets.current];
     dispatch(prevComic());
+    const updatedList = [...props.updatedList.current];
+    
+    updatedList.unshift(completedSets.pop()[0])
+    props.sendList(updatedList);
 
 
   }

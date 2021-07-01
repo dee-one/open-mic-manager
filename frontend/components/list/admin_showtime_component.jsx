@@ -1,4 +1,4 @@
-import React, { useState, useContext,useEffect } from 'react';
+import React, { useState, useContext,useEffect,useRef } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 
 import {fetchList} from '../../slices/list_slice';
@@ -12,18 +12,22 @@ export default (props) => {
   const cable = useContext(ActionCableContext)
   const [channel, setChannel] = useState(null);
   const list = useSelector(state => state.list.list)
+  const updatedList = useRef(list)
+  const completedSets = useSelector(state => state.list.completedSet);
+  const updatedCompletedSets = useRef(completedSets);
   const currentComic = list && list[0];
+  
 
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
-     
-      
+      updatedList.current = list;
+      updatedCompletedSets.current = completedSets;
       if(!list) {
         dispatch(fetchList())
       }
       
-    const channel = cable.subscriptions.create({
+     const channel = cable.subscriptions.create({
       channel: 'ListChannel',
       id: 1
 
@@ -37,11 +41,18 @@ export default (props) => {
 
   
   
-  }, []);
+  }, [list]);
 
   const sendTime = (time) => {
     // const data = { teamId, userId, content }
     const data = { time }; 
+    channel.send(data);
+  }
+
+
+  const sendList = (list) => {
+    // const data = { teamId, userId, content }
+    const data = { list };
     channel.send(data);
   }
 
@@ -61,7 +72,7 @@ export default (props) => {
       {/* <Editor sendMessage={sendMessage} /> */}
 
       <div className='player'>
-      <ClockComponent sendTime={sendTime} admin={true} />
+      <ClockComponent sendTime={sendTime} admin={true} sendList={sendList} list={list} updatedList={updatedList} completedSets={updatedCompletedSets} />
       {/* list of signed up users component */}
       {currentComic &&
       <div className="current-comic-info">

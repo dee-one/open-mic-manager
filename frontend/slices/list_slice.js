@@ -39,6 +39,7 @@ export const listSlice = createSlice({
        state.list.splice(action.payload.newIndex, 0, action.payload.comic);
         },
      receiveList: (state, action) => {
+         
          state.list = action.payload.data;
 
      },
@@ -57,15 +58,21 @@ export const listSlice = createSlice({
          state.list[action.payload.id].attributes.set_duration = parseInt(action.payload.setDuration);
      },
      nextComic: (state,action) => {
-        if(state.list.length === 1 ) return;
-        state.list[0].completed = true
+        
+        state.list[0].attributes.set_complete = true
+        console.log(state.list.list)
        state.completedSet.push(state.list.splice(0, 1));
       
      },
      prevComic: (state,action) => {
-       
-         if (state.completedSet.length < 1) return;
+         
+         state.completedSet[0][0].attributes.set_complete = false;
         state.list.unshift(state.completedSet.pop()[0])
+
+     },
+     updateList: (state, action) => {
+         console.log(action)
+         state.list = action.payload.list;
 
      }
 
@@ -82,5 +89,5 @@ export const listSlice = createSlice({
 })
 
 
-export const { receiveUser,removeListItem,toggleFilledOut,reorderList, updateSetDuration,nextComic,prevComic} = listSlice.actions;
+export const { receiveUser,removeListItem,toggleFilledOut,reorderList, updateSetDuration,nextComic,prevComic,updateList} = listSlice.actions;
 export default listSlice.reducer;

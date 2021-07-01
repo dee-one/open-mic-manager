@@ -4,7 +4,7 @@ import { useEffect,useContext,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionCableContext } from '../root';
 import { receiveTime } from '../../slices/time_slice';
-import { fetchList } from '../../slices/list_slice';
+import { fetchList,updateList } from '../../slices/list_slice';
 
 
 export default (props) => {
@@ -25,7 +25,8 @@ export default (props) => {
             { channel: 'ListChannel' },
             {
                 received: (data) => {
-                    dispatch(receiveTime(data))
+                     
+                    data.time ? dispatch(receiveTime(data)) : dispatch(updateList(data))
                 },
             }
         );
