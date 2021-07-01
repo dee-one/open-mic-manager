@@ -12163,7 +12163,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function (props) {
   var isRunning = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
     return state.time.isRunning;
@@ -12175,15 +12174,25 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     return state.time.minutes;
   });
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
+  var updatedSeconds = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(seconds);
+  var updatedMinutes = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(minutes);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    updatedSeconds.current = seconds;
+    updatedMinutes.current = minutes;
     var intervalID;
 
     if (isRunning) {
       intervalID = setInterval(function () {
         seconds < 59 ? dispatch((0,_slices_time_slice__WEBPACK_IMPORTED_MODULE_2__.incrementSeconds)()) : dispatch((0,_slices_time_slice__WEBPACK_IMPORTED_MODULE_2__.incrementMinutes)());
+        var time = handleTime({
+          seconds: updatedSeconds.current,
+          minutes: updatedMinutes.current
+        });
+        console.log(minutes);
+        console.log(time);
         props.sendTime({
-          minutes: minutes,
-          seconds: seconds
+          minutes: time.minutes,
+          seconds: time.seconds
         });
       }, 1000);
     } //  stop setInterval from running after component Unmounts
@@ -12193,6 +12202,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return clearInterval(intervalID);
     };
   }, [isRunning, seconds, minutes]); // invoke useSelector for isRunning state value to update data on next mount
+
+  var handleTime = function handleTime(time) {
+    console.log(time);
+
+    if (time.seconds < 59) {
+      time.seconds += 1;
+      console.log(time);
+      return time;
+    }
+
+    time.seconds = 0;
+    time.minutes += 1;
+    return time;
+  };
 
   var handleOnClick = function handleOnClick(e) {
     e.preventDefault();

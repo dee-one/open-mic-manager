@@ -43,6 +43,8 @@ export default (props) => {
   
   }, [list]);
 
+
+
   const sendTime = (time) => {
     // const data = { teamId, userId, content }
     const data = { time }; 
@@ -72,7 +74,7 @@ export default (props) => {
       {/* <Editor sendMessage={sendMessage} /> */}
 
       <div className='player'>
-      <ClockComponent sendTime={sendTime} admin={true} sendList={sendList} list={list} updatedList={updatedList} completedSets={updatedCompletedSets} />
+      <ClockComponent sendTime={sendTime} admin={true} sendList={sendList} list={list} updatedList={updatedList} completedSets={updatedCompletedSets}  />
       {/* list of signed up users component */}
       {currentComic &&
       <div className="current-comic-info">

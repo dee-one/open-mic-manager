@@ -1,6 +1,6 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect,useRef } from 'react';
+
 import { useSelector,useDispatch } from 'react-redux';
 import { incrementSeconds,incrementMinutes,toggleRunning,resetTime } from '../../slices/time_slice';
 import TimerButtonsComponent from './timer_buttons_component';
@@ -15,18 +15,25 @@ export default (props) => {
   const seconds = useSelector(state => state.time.seconds);
   const minutes = useSelector(state => state.time.minutes);
   const dispatch = useDispatch();
-
+  const updatedSeconds =  useRef(seconds);
+  const updatedMinutes = useRef(minutes);
 
 
   
 useEffect(() => {    
+ updatedSeconds.current = seconds;
+ updatedMinutes.current = minutes;
+
   let intervalID;
   if(isRunning) {
     
   intervalID = setInterval(()=> {
 
    seconds < 59 ? dispatch(incrementSeconds()) : dispatch(incrementMinutes())
-   props.sendTime({minutes: minutes, seconds: seconds})
+    const time = handleTime({ seconds: updatedSeconds.current,minutes: updatedMinutes.current})
+    console.log(minutes)
+    console.log(time)
+   props.sendTime({minutes: time.minutes, seconds: time.seconds})
 }
   , 1000)
  }
@@ -35,6 +42,20 @@ useEffect(() => {
 },[isRunning,seconds,minutes]) // invoke useSelector for isRunning state value to update data on next mount
 
 
+
+  const handleTime = (time) => {
+   console.log(time)
+    if (time.seconds < 59) {
+      time.seconds += 1
+      console.log(time)
+      return time
+    }
+    time.seconds = 0;
+    time.minutes += 1;
+    return time;
+
+
+  }
  
 const handleOnClick = (e) => {
  
