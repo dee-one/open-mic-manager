@@ -5,7 +5,7 @@ import { fetchSignups} from '../../slices/signups_slice';
 import { signupsSlice } from '../../slices/signups_slice'
 import { selectLoading,toggleLoading } from "../../slices/loading_slice";
 import { fetchList } from "../../slices/list_slice";
-import { receiveUser,removeListItem,toggleFilledOut,reorderList,postList} from "../../slices/list_slice";
+import { receiveUser,removeListItem,toggleFilledOut,reorderList,postList,receiveList} from "../../slices/list_slice";
 import { removeUser,receiveSignup } from "../../slices/signups_slice";
 
 
@@ -37,7 +37,8 @@ removeListItem: (listItem) => dispatch(removeListItem(listItem)),
 receiveSignup: (signup) => dispatch(receiveSignup(signup)),
 toggleFilledOut: () => dispatch(toggleFilledOut()),
 reorderList: (payload) => dispatch(reorderList(payload)),
-postList: (list) => dispatch(postList(list))
+postList: (list) => dispatch(postList(list)),
+receiveList: (list) => dispatch(receiveList(list))
  
 });
 

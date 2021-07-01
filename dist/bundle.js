@@ -12145,18 +12145,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slices_time_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../slices/time_slice */ "./frontend/slices/time_slice.js");
 /* harmony import */ var _timer_buttons_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./timer_buttons_component */ "./frontend/components/clock/timer_buttons_component.jsx");
 /* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 
 
 
@@ -12242,27 +12230,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
   var handleOnForward = function handleOnForward(e) {
     e.preventDefault();
-    if (props.updatedList.current.length === 1) return;
-
-    var updatedList = _toConsumableArray(props.updatedList.current);
+    if (props.currentIndex === props.listLength - 1) return; // const updatedList = [...props.updatedList.current]
 
     dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.nextComic)());
-    updatedList.splice(0, 1);
-    props.sendList(updatedList);
+    props.sendList({
+      currentIndex: props.currentIndex + 1
+    });
   };
 
   var handleOnBackward = function handleOnBackward(e) {
     e.preventDefault();
-    if (props.completedSets.current.length === 0) return;
-
-    var completedSets = _toConsumableArray(props.completedSets.current);
-
+    if (props.currentIndex === 0) return;
     dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.prevComic)());
-
-    var updatedList = _toConsumableArray(props.updatedList.current);
-
-    updatedList.unshift(completedSets.pop()[0]);
-    props.sendList(updatedList);
+    props.sendList({
+      currentIndex: props.currentIndex - 1
+    });
   };
 
   var icon = !isRunning ? "play" : "pause";
@@ -12382,12 +12364,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   var list = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
     return state.list.list;
   });
+  var listLength = list && list.length;
   var updatedList = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(list);
   var completedSets = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
     return state.list.completedSet;
   });
   var updatedCompletedSets = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(completedSets);
-  var currentComic = list && list[0];
+  var currentIndex = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(function (state) {
+    return state.list.currentlyPeformingIndex;
+  });
+  var currentComic = list && list[currentIndex];
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     updatedList.current = list;
@@ -12415,11 +12401,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     channel.send(data);
   };
 
-  var sendList = function sendList(list) {
+  var sendList = function sendList(index) {
     // const data = { teamId, userId, content }
-    var data = {
-      list: list
-    };
+    var data = index;
     channel.send(data);
   };
 
@@ -12441,7 +12425,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     sendList: sendList,
     list: list,
     updatedList: updatedList,
-    completedSets: updatedCompletedSets
+    completedSets: updatedCompletedSets,
+    currentIndex: currentIndex,
+    listLength: listLength
   }), currentComic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "current-comic-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "".concat(currentComic.attributes.first_name, " ").concat(currentComic.attributes.last_name)))), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
@@ -12562,6 +12548,10 @@ __webpack_require__.r(__webpack_exports__);
   var list = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
     return state.list.list;
   });
+  var currentIndex = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
+    return state.list.currentlyPeformingIndex;
+  });
+  var currentComic = list && list[currentIndex];
   var currentUser = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
     return state.session.currentUser;
   });
@@ -12571,7 +12561,7 @@ __webpack_require__.r(__webpack_exports__);
       channel: 'ListChannel'
     }, {
       received: function received(data) {
-        data.time ? dispatch((0,_slices_time_slice__WEBPACK_IMPORTED_MODULE_4__.receiveTime)(data)) : dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_5__.updateList)(data));
+        data.time ? dispatch((0,_slices_time_slice__WEBPACK_IMPORTED_MODULE_4__.receiveTime)(data)) : dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_5__.receiveCurrentlyPeformingIndex)(data));
       }
     });
 
@@ -12583,6 +12573,15 @@ __webpack_require__.r(__webpack_exports__);
       channel.unsubscribe();
     };
   }, []);
+
+  var handleStyle = function handleStyle(comic) {
+    return comic.id === currentComic.id ? {
+      fontWeight: 'bold'
+    } : {
+      fontWeight: 'normal'
+    };
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "clock-list-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -12593,7 +12592,8 @@ __webpack_require__.r(__webpack_exports__);
     className: "showtime-list"
   }, list.map(function (comic, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-      key: index
+      key: index,
+      style: handleStyle(comic)
     }, "".concat(index + 1, ". ").concat(comic.attributes.first_name, " ").concat(comic.attributes.last_name));
   })));
 });
@@ -13052,8 +13052,6 @@ __webpack_require__.r(__webpack_exports__);
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
 
   var handleColor = function handleColor(index) {
-    console.log(index);
-
     switch (index) {
       case 3:
         return {
@@ -13337,14 +13335,13 @@ var SignUps = /*#__PURE__*/function (_React$Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleStartShow", function () {
-      console.log('props', _this.props);
-
-      _this.props.postList(_this.props.list.list).then(function () {
+      _this.props.postList(_this.props.list.list).then(function (list) {
+        return _this.props.receiveList(list);
+      }).then(function () {
         return _this.props.history.replace('/admin/showtime');
       });
     });
 
-    console.log(props);
     return _this;
   }
 
@@ -13498,6 +13495,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     postList: function postList(list) {
       return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.postList)(list));
+    },
+    receiveList: function receiveList(list) {
+      return dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.receiveList)(list));
     }
   };
 };
@@ -13563,6 +13563,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "nextComic": () => (/* binding */ nextComic),
 /* harmony export */   "prevComic": () => (/* binding */ prevComic),
 /* harmony export */   "updateList": () => (/* binding */ updateList),
+/* harmony export */   "receiveList": () => (/* binding */ receiveList),
+/* harmony export */   "receiveCurrentlyPeformingIndex": () => (/* binding */ receiveCurrentlyPeformingIndex),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
@@ -13597,7 +13599,8 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
   name: 'list',
   initialState: {
     filledOut: false,
-    completedSet: []
+    completedSet: [],
+    currentlyPeformingIndex: 0
   },
   reducers: {
     reorderList: function reorderList(state, action) {
@@ -13605,7 +13608,7 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
       state.list.splice(action.payload.newIndex, 0, action.payload.comic);
     },
     receiveList: function receiveList(state, action) {
-      state.list = action.payload.data;
+      state.list = action.payload.payload.data;
     },
     receiveUser: function receiveUser(state, action) {
       state.list.push(action.payload);
@@ -13620,17 +13623,20 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
       state.list[action.payload.id].attributes.set_duration = parseInt(action.payload.setDuration);
     },
     nextComic: function nextComic(state, action) {
-      state.list[0].attributes.set_complete = true;
-      console.log(state.list.list);
-      state.completedSet.push(state.list.splice(0, 1));
+      state.list[state.currentlyPeformingIndex].attributes.set_complete = true;
+      state.currentlyPeformingIndex++;
     },
     prevComic: function prevComic(state, action) {
-      state.completedSet[0][0].attributes.set_complete = false;
-      state.list.unshift(state.completedSet.pop()[0]);
+      state.list[state.currentlyPeformingIndex].attributes.set_complete = false;
+      state.list[state.currentlyPeformingIndex - 1].attributes.set_complete = false;
+      state.currentlyPeformingIndex--;
     },
     updateList: function updateList(state, action) {
-      console.log(action);
       state.list = action.payload.list;
+    },
+    receiveCurrentlyPeformingIndex: function receiveCurrentlyPeformingIndex(state, action) {
+      window.payload = action.payload;
+      state.currentlyPeformingIndex = action.payload.currentIndex;
     }
   },
   extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
@@ -13645,7 +13651,9 @@ var _listSlice$actions = listSlice.actions,
     updateSetDuration = _listSlice$actions.updateSetDuration,
     nextComic = _listSlice$actions.nextComic,
     prevComic = _listSlice$actions.prevComic,
-    updateList = _listSlice$actions.updateList;
+    updateList = _listSlice$actions.updateList,
+    receiveList = _listSlice$actions.receiveList,
+    receiveCurrentlyPeformingIndex = _listSlice$actions.receiveCurrentlyPeformingIndex;
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (listSlice.reducer);
 

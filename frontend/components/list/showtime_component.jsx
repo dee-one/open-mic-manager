@@ -4,13 +4,15 @@ import { useEffect,useContext,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionCableContext } from '../root';
 import { receiveTime } from '../../slices/time_slice';
-import { fetchList,updateList } from '../../slices/list_slice';
+import { fetchList,updateList,receiveCurrentlyPeformingIndex } from '../../slices/list_slice';
 
 
 export default (props) => {
   const dispatch = useDispatch();
   const time = useSelector(state => state.time);
   const list = useSelector(state => state.list.list);
+  const currentIndex = useSelector(state => state.list.currentlyPeformingIndex);
+  const currentComic = list && list[currentIndex];
   const currentUser = useSelector(state => state.session.currentUser);
 
   const cable = useContext(ActionCableContext);
@@ -26,7 +28,7 @@ export default (props) => {
             {
                 received: (data) => {
                      
-                    data.time ? dispatch(receiveTime(data)) : dispatch(updateList(data))
+                    data.time ? dispatch(receiveTime(data)) : dispatch(receiveCurrentlyPeformingIndex(data))
                 },
             }
         );
@@ -42,7 +44,13 @@ export default (props) => {
     
     }, []);
     
- 
+  const handleStyle = (comic) => {
+
+
+    return comic.id === currentComic.id ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+
+
+  }
 
 
 
@@ -65,8 +73,9 @@ return (
       <ul className="showtime-list">
         {list.map((comic, index) => (
 
-          <li key={index} >
+          <li key={index} style={handleStyle(comic)} >
             {`${index + 1}. ${comic.attributes.first_name} ${comic.attributes.last_name}`}
+            
           </li>
 
         ))}

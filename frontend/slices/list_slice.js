@@ -31,7 +31,7 @@ export const postList = createAsyncThunk(
 
 export const listSlice = createSlice({
  name: 'list',
- initialState: {filledOut: false,completedSet: []},
+ initialState: {filledOut: false,completedSet: [], currentlyPeformingIndex: 0},
  reducers: {
     reorderList: (state, action) => {
         
@@ -40,7 +40,7 @@ export const listSlice = createSlice({
         },
      receiveList: (state, action) => {
          
-         state.list = action.payload.data;
+         state.list = action.payload.payload.data;
 
      },
      receiveUser: (state,action) => {
@@ -58,23 +58,27 @@ export const listSlice = createSlice({
          state.list[action.payload.id].attributes.set_duration = parseInt(action.payload.setDuration);
      },
      nextComic: (state,action) => {
-        
-        state.list[0].attributes.set_complete = true
-        console.log(state.list.list)
-       state.completedSet.push(state.list.splice(0, 1));
-      
+         state.list[state.currentlyPeformingIndex].attributes.set_complete = true;
+         state.currentlyPeformingIndex++;
      },
      prevComic: (state,action) => {
          
-         state.completedSet[0][0].attributes.set_complete = false;
-        state.list.unshift(state.completedSet.pop()[0])
+     state.list[state.currentlyPeformingIndex].attributes.set_complete = false;
+         state.list[state.currentlyPeformingIndex-1].attributes.set_complete = false
+        state.currentlyPeformingIndex--
 
      },
      updateList: (state, action) => {
-         console.log(action)
          state.list = action.payload.list;
 
+     },
+     receiveCurrentlyPeformingIndex: (state,action) => {
+         window.payload = action.payload;
+        state.currentlyPeformingIndex = action.payload.currentIndex;
      }
+     
+     
+      
 
     },
     
@@ -89,5 +93,5 @@ export const listSlice = createSlice({
 })
 
 
-export const { receiveUser,removeListItem,toggleFilledOut,reorderList, updateSetDuration,nextComic,prevComic,updateList} = listSlice.actions;
+export const { receiveUser,removeListItem,toggleFilledOut,reorderList, updateSetDuration,nextComic,prevComic,updateList,receiveList,receiveCurrentlyPeformingIndex} = listSlice.actions;
 export default listSlice.reducer;

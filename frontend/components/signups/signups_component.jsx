@@ -13,8 +13,7 @@ import ListComponent from '../list/list_component';
 class SignUps extends React.Component {
   constructor(props){
     super(props);
-    console.log(props)
- 
+   
   }
 
 
@@ -108,8 +107,9 @@ handleClassName = () => (
 
 
 handleStartShow = () => {
-  console.log('props',this.props);
+  
  this.props.postList(this.props.list.list)
+ .then(list => this.props.receiveList(list))
  .then(() => this.props.history.replace('/admin/showtime'))
 
 }

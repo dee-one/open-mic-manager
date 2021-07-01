@@ -16,7 +16,7 @@ export default (props) => {
 
 
  const handleColor = (index) => {
-     console.log(index)
+    
         switch(index) {
          case 3:
             return {background: '#F9FF33', color: 'red'};

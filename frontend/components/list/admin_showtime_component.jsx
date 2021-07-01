@@ -12,11 +12,14 @@ export default (props) => {
   const cable = useContext(ActionCableContext)
   const [channel, setChannel] = useState(null);
   const list = useSelector(state => state.list.list)
-  const updatedList = useRef(list)
+  const listLength = list && list.length;
+  const updatedList = useRef(list);
   const completedSets = useSelector(state => state.list.completedSet);
   const updatedCompletedSets = useRef(completedSets);
-  const currentComic = list && list[0];
-  
+  const currentIndex = useSelector(state => state.list.currentlyPeformingIndex)
+  const currentComic = list && list[currentIndex];
+ 
+   
 
   const dispatch = useDispatch();
   
@@ -52,15 +55,15 @@ export default (props) => {
   }
 
 
-  const sendList = (list) => {
+  const sendList = (index) => {
     // const data = { teamId, userId, content }
-    const data = { list };
+    const data = index;
     channel.send(data);
   }
 
   const handleStyle = (comic) => {
    
-   
+    
    return comic.id === currentComic.id ? {fontWeight: 'bold'} : {fontWeight: 'normal'}
 
 
@@ -74,7 +77,7 @@ export default (props) => {
       {/* <Editor sendMessage={sendMessage} /> */}
 
       <div className='player'>
-      <ClockComponent sendTime={sendTime} admin={true} sendList={sendList} list={list} updatedList={updatedList} completedSets={updatedCompletedSets}  />
+      <ClockComponent sendTime={sendTime} admin={true} sendList={sendList} list={list} updatedList={updatedList} completedSets={updatedCompletedSets} currentIndex={currentIndex} listLength={listLength}  />
       {/* list of signed up users component */}
       {currentComic &&
       <div className="current-comic-info">

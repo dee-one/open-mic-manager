@@ -81,24 +81,22 @@ const handleOnReset = (e) => {
 
 const handleOnForward = (e) => {
   e.preventDefault();
-  if (props.updatedList.current.length === 1) return;
-  const updatedList = [...props.updatedList.current]
+  if (props.currentIndex === (props.listLength - 1)) return;
+  // const updatedList = [...props.updatedList.current]
   dispatch(nextComic());
-  updatedList.splice(0,1);
-  props.sendList(updatedList);
+  
+  props.sendList({ currentIndex: props.currentIndex + 1 });
 
 
 }
 
   const handleOnBackward = (e) => {
     e.preventDefault();
-    if (props.completedSets.current.length === 0) return;
-    const completedSets = [...props.completedSets.current];
-    dispatch(prevComic());
-    const updatedList = [...props.updatedList.current];
+    if (props.currentIndex === 0) return;
     
-    updatedList.unshift(completedSets.pop()[0])
-    props.sendList(updatedList);
+    dispatch(prevComic());
+    
+    props.sendList({currentIndex: props.currentIndex - 1});
 
 
   }

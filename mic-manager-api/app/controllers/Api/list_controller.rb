@@ -13,9 +13,11 @@ end
 
  def create
   @users = User.where(signed_up: true)
-  list_params.each do |user|
+  list_params.each_with_index do |user,index|
     attributes = user[:attributes]
     user[:attributes][:on_list] = true
+    p index
+    user[:attributes][:position] = index
 
     user = @users.find_by(id: attributes[:id])
     
@@ -23,8 +25,9 @@ end
     
   end
    
+  list = User.where(on_list: true).order(position: :asc)
    
-    render json: {}, status: 200
+    render json: ListSerializer.new(list), status: 200
   
 
  end
@@ -53,7 +56,9 @@ def list_params
      :last_name,
      :set_duration,
      :set_complete,
-     :on_list]
+     :on_list,
+     :position
+    ]
      )
  end
      
