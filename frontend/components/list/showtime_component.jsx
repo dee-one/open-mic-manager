@@ -4,7 +4,8 @@ import { useEffect,useContext,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ActionCableContext } from '../root';
 import { receiveTime } from '../../slices/time_slice';
-import { fetchList,updateList,receiveCurrentlyPeformingIndex } from '../../slices/list_slice';
+import { fetchList,updateList,receiveCurrentlyPeformingIndex,updateOnStage,getCurrrentlyPeformingIndex } from '../../slices/list_slice';
+import { toggleLoading } from '../../slices/loading_slice';
 
 
 export default (props) => {
@@ -14,14 +15,15 @@ export default (props) => {
   const currentIndex = useSelector(state => state.list.currentlyPeformingIndex);
   const currentComic = list && list[currentIndex];
   const currentUser = useSelector(state => state.session.currentUser);
+  const isLoading = useSelector(state => state.loading)
 
   const cable = useContext(ActionCableContext);
   
     
    
     useEffect(() => {
-
-     
+       
+       dispatch(getCurrrentlyPeformingIndex())
       
       const channel = cable.subscriptions.create(
             { channel: 'ListChannel' },
@@ -33,7 +35,9 @@ export default (props) => {
             }
         );
       if (!list) {
+        dispatch(toggleLoading())
         dispatch(fetchList())
+        .then(dispatch(toggleLoading()))
       }
       
     return () => {
@@ -58,7 +62,7 @@ return (
    <div className="clock-list-container">
 
     <div className='player'>
-    {currentUser && 
+    {currentUser && !currentUser.attributes.admin &&
     
     <h2>Hey {currentUser.attributes.first_name} have fun and watch that light!</h2>
     
@@ -68,13 +72,18 @@ return (
   <ClockComponent admin={false} />
   
   </div>
+
+  {isLoading &&
+      <div className="lds-dual-ring"></div>
+  }
+
   {list &&
 
       <ul className="showtime-list">
         {list.map((comic, index) => (
 
           <li key={index} style={handleStyle(comic)} >
-            {`${index + 1}. ${comic.attributes.first_name} ${comic.attributes.last_name}`}
+            {`${index + 1}. ${comic.attributes.first_name} ${comic.attributes.last_name} - ${comic.attributes.set_duration}`}
             
           </li>
 

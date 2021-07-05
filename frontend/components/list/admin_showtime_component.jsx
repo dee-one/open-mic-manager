@@ -1,7 +1,7 @@
 import React, { useState, useContext,useEffect,useRef } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 
-import {fetchList} from '../../slices/list_slice';
+import { fetchList, getCurrrentlyPeformingIndex } from '../../slices/list_slice';
 import { ActionCableContext } from '../root';
 import ClockComponent from '../clock/clock_component';
 
@@ -26,6 +26,7 @@ export default (props) => {
   useEffect(() => {
       updatedList.current = list;
       updatedCompletedSets.current = completedSets;
+    
       if(!list) {
         dispatch(fetchList())
       }
@@ -83,6 +84,7 @@ export default (props) => {
       <div className="current-comic-info">
       
          <h2>{`${currentComic.attributes.first_name} ${currentComic.attributes.last_name}`}</h2>
+         <p>{`${currentComic.attributes.set_duration}`}</p>
          
       
         </div>

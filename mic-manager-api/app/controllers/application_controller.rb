@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     def cookie 
       #p cookies
      # render json: cookies["CSRF-TOKEN"]
-     p session
+     
      "ok"
     end
 
@@ -21,6 +21,22 @@ def current_user
   @current_user ||= User.find_by(id: session[:user_id])
 end
 
+def current_peformer
+  @current_peformer ||= User.find_by(on_stage: true)
+end
+
+def onstage_index
+   if current_peformer 
+    render json: {
+      status: 200,
+      currentlyPeformingIndex: current_peformer.position
+    }
+
+  else render json: {
+     currentlyPeformingIndex: 0
+  }
+  end
+end
 
 
 

@@ -6,11 +6,16 @@ match '*all', controller: 'application', action: 'cors_preflight_check', via: [:
    
     mount ActionCable.server => '/cable'
      root to: "application#cookie"
+    
     namespace :api, defaults: { format: :json } do
     resources :users 
     resource :session, only: [:create]
-    resources :list, only: [:index,:create,:update]
+    resources :list, only: [:index,:create]
+     put 'list/update_onstage_id', to: 'list#update_onstage_peformer_id'
+     get 'list/currentlyPeformingIndex', to: 'list#onstage_index'
     get :logged_in, to: "sessions#logged_in?"
+    
+   
 
     end
 end

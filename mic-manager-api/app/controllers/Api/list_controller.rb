@@ -5,7 +5,7 @@ class Api::ListController < ApplicationController
 
 
 def index 
-  list = User.where(on_list: true)
+  list = User.where(on_list: true).order(position: :asc)
   
   render json: ListSerializer.new(list)
   
@@ -14,9 +14,10 @@ end
  def create
   @users = User.where(signed_up: true)
   list_params.each_with_index do |user,index|
+    p index
     attributes = user[:attributes]
     user[:attributes][:on_list] = true
-    p index
+
     user[:attributes][:position] = index
 
     user = @users.find_by(id: attributes[:id])
@@ -26,9 +27,7 @@ end
   end
    
   list = User.where(on_list: true).order(position: :asc)
-   
-    render json: ListSerializer.new(list), status: 200
-  
+  render json: ListSerializer.new(list), status: 200
 
  end
 
@@ -40,6 +39,17 @@ end
     # BCrypt::Password.new(self.password_digest).is_password?(password)
   # end
 
+  def update_onstage_peformer_id
+    previously_onstage = current_peformer
+    if previously_onstage 
+      previously_onstage.update(on_stage: false)
+    end
+    currently_onstage = User.find_by(id: params[:on_stage_id])
+   if currently_onstage.update(on_stage:true)
+      render json: {status: 200}
+   end
+    
+  end
 
 
 

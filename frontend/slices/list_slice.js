@@ -5,6 +5,8 @@ import getCSRFToken from "../util/get_token";
 
 
 
+
+
 export const fetchList = createAsyncThunk(
     'fetchList', () => (fetch('http://localhost:3000/api/list',
        {'credentials': 'include'
@@ -26,6 +28,31 @@ export const postList = createAsyncThunk(
         .then(res => res.json()))
 );
 
+
+export const updateOnStage = createAsyncThunk(
+    'updateOnStage', (_,{ getState }) => {
+         const onStageId  = getState().list.list[getState().list.currentlyPeformingIndex].attributes.id;
+        fetch('http://localhost:3000/api/list/update_onstage_id',
+        {
+            method: 'PUT',
+            'credentials': 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': getCSRFToken()
+            },
+            body: JSON.stringify({onStageId})
+        })
+        .then(res => res.json())}
+);
+
+
+export const getCurrrentlyPeformingIndex = createAsyncThunk(
+    'getCurrentlyPeformingIndex', () => (fetch('http://localhost:3000/api/list/currentlyPeformingIndex',
+        {
+            'credentials': 'include'
+        })
+        .then(res => res.json()))
+);
 
 
 
@@ -73,9 +100,9 @@ export const listSlice = createSlice({
 
      },
      receiveCurrentlyPeformingIndex: (state,action) => {
-         window.payload = action.payload;
-        state.currentlyPeformingIndex = action.payload.currentIndex;
-     }
+       state.currentlyPeformingIndex = action.payload.currentIndex;
+     },
+
      
      
       
@@ -86,6 +113,11 @@ export const listSlice = createSlice({
         [fetchList.fulfilled]: (state, action) => {
 
             state.list = action.payload.data;
+        },
+        [getCurrrentlyPeformingIndex.fulfilled]: (state,action) => {
+            console.log(action)
+          state.currentlyPeformingIndex = action.payload.currentlyPeformingIndex;
+
         }
     }
 

@@ -12076,7 +12076,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./signups/signups_component_container */ "./frontend/components/signups/signups_component_container.js");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _signin_signin_component_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signin/signin_component_container */ "./frontend/components/signin/signin_component_container.js");
 /* harmony import */ var _list_admin_showtime_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./list/admin_showtime_component */ "./frontend/components/list/admin_showtime_component.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
@@ -12084,6 +12084,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_route_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/route_utils */ "./frontend/util/route_utils.jsx");
 /* harmony import */ var _list_showtime_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./list/showtime_component */ "./frontend/components/list/showtime_component.jsx");
 /* harmony import */ var _signin_admin_sign_in_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./signin/admin_sign_in_component */ "./frontend/components/signin/admin_sign_in_component.jsx");
+/* harmony import */ var _slices_loading_slice__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../slices/loading_slice */ "./frontend/slices/loading_slice.js");
+
 
 
 
@@ -12100,25 +12102,40 @@ var App = function App() {
   var currentUser = (0,react_redux__WEBPACK_IMPORTED_MODULE_4__.useSelector)(function (state) {
     return state.session.currentUser;
   });
+  var isLoading = (0,react_redux__WEBPACK_IMPORTED_MODULE_4__.useSelector)(function (state) {
+    return state.loading;
+  });
   var dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_4__.useDispatch)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    dispatch((0,_slices_session_slice__WEBPACK_IMPORTED_MODULE_5__.fetchCurrentUser)());
+    dispatch((0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_9__.toggleLoading)());
+    dispatch((0,_slices_session_slice__WEBPACK_IMPORTED_MODULE_5__.fetchCurrentUser)()).then(function () {
+      return dispatch((0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_9__.toggleLoading)());
+    });
   }, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminRoute, {
+
+  if (isLoading) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "lds-dual-ring"
+    });
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminProtectedRoute, {
     path: "/admin/list",
     component: _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
     path: "/",
     component: _signin_signin_component_container__WEBPACK_IMPORTED_MODULE_2__.default
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminRoute, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_10__.Route, {
     exact: true,
+    path: "/sign-in",
+    component: _list_showtime_component__WEBPACK_IMPORTED_MODULE_7__.default
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminProtectedRoute, {
     path: "/admin/showtime",
     component: _list_admin_showtime_component__WEBPACK_IMPORTED_MODULE_3__.default
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_9__.Route, {
-    exact: true,
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
     path: "/showtime",
     component: _list_showtime_component__WEBPACK_IMPORTED_MODULE_7__.default
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_9__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminAuthRoute, {
     exact: true,
     path: "/admin/signin",
     component: _signin_admin_sign_in_component__WEBPACK_IMPORTED_MODULE_8__.default
@@ -12176,8 +12193,6 @@ __webpack_require__.r(__webpack_exports__);
           seconds: updatedSeconds.current,
           minutes: updatedMinutes.current
         });
-        console.log(minutes);
-        console.log(time);
         props.sendTime({
           minutes: time.minutes,
           seconds: time.seconds
@@ -12192,11 +12207,8 @@ __webpack_require__.r(__webpack_exports__);
   }, [isRunning, seconds, minutes]); // invoke useSelector for isRunning state value to update data on next mount
 
   var handleTime = function handleTime(time) {
-    console.log(time);
-
     if (time.seconds < 59) {
       time.seconds += 1;
-      console.log(time);
       return time;
     }
 
@@ -12232,7 +12244,11 @@ __webpack_require__.r(__webpack_exports__);
     e.preventDefault();
     if (props.currentIndex === props.listLength - 1) return; // const updatedList = [...props.updatedList.current]
 
+    var button = e.target; //toggle button
+
     dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.nextComic)());
+    dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.updateOnStage)()); //toggle button  
+
     props.sendList({
       currentIndex: props.currentIndex + 1
     });
@@ -12242,6 +12258,7 @@ __webpack_require__.r(__webpack_exports__);
     e.preventDefault();
     if (props.currentIndex === 0) return;
     dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.prevComic)());
+    dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_4__.updateOnStage)());
     props.sendList({
       currentIndex: props.currentIndex - 1
     });
@@ -12430,7 +12447,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     listLength: listLength
   }), currentComic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "current-comic-info"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "".concat(currentComic.attributes.first_name, " ").concat(currentComic.attributes.last_name)))), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "".concat(currentComic.attributes.first_name, " ").concat(currentComic.attributes.last_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "".concat(currentComic.attributes.set_duration)))), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
     className: "showtime-list"
   }, list.map(function (comic, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
@@ -12533,6 +12550,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../root */ "./frontend/components/root.jsx");
 /* harmony import */ var _slices_time_slice__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../slices/time_slice */ "./frontend/slices/time_slice.js");
 /* harmony import */ var _slices_list_slice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../slices/list_slice */ "./frontend/slices/list_slice.js");
+/* harmony import */ var _slices_loading_slice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../slices/loading_slice */ "./frontend/slices/loading_slice.js");
+
 
 
 
@@ -12555,8 +12574,12 @@ __webpack_require__.r(__webpack_exports__);
   var currentUser = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
     return state.session.currentUser;
   });
+  var isLoading = (0,react_redux__WEBPACK_IMPORTED_MODULE_2__.useSelector)(function (state) {
+    return state.loading;
+  });
   var cable = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_root__WEBPACK_IMPORTED_MODULE_3__.ActionCableContext);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_5__.getCurrrentlyPeformingIndex)());
     var channel = cable.subscriptions.create({
       channel: 'ListChannel'
     }, {
@@ -12566,7 +12589,8 @@ __webpack_require__.r(__webpack_exports__);
     });
 
     if (!list) {
-      dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_5__.fetchList)());
+      dispatch((0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_6__.toggleLoading)());
+      dispatch((0,_slices_list_slice__WEBPACK_IMPORTED_MODULE_5__.fetchList)()).then(dispatch((0,_slices_loading_slice__WEBPACK_IMPORTED_MODULE_6__.toggleLoading)()));
     }
 
     return function () {
@@ -12586,15 +12610,17 @@ __webpack_require__.r(__webpack_exports__);
     className: "clock-list-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "player"
-  }, currentUser && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Hey ", currentUser.attributes.first_name, " have fun and watch that light!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_1__.default, {
+  }, currentUser && !currentUser.attributes.admin && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Hey ", currentUser.attributes.first_name, " have fun and watch that light!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_1__.default, {
     admin: false
-  })), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
+  })), isLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "lds-dual-ring"
+  }), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
     className: "showtime-list"
   }, list.map(function (comic, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
       key: index,
       style: handleStyle(comic)
-    }, "".concat(index + 1, ". ").concat(comic.attributes.first_name, " ").concat(comic.attributes.last_name));
+    }, "".concat(index + 1, ". ").concat(comic.attributes.first_name, " ").concat(comic.attributes.last_name, " - ").concat(comic.attributes.set_duration));
   })));
 });
 
@@ -13554,6 +13580,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchList": () => (/* binding */ fetchList),
 /* harmony export */   "postList": () => (/* binding */ postList),
+/* harmony export */   "updateOnStage": () => (/* binding */ updateOnStage),
+/* harmony export */   "getCurrrentlyPeformingIndex": () => (/* binding */ getCurrrentlyPeformingIndex),
 /* harmony export */   "listSlice": () => (/* binding */ listSlice),
 /* harmony export */   "receiveUser": () => (/* binding */ receiveUser),
 /* harmony export */   "removeListItem": () => (/* binding */ removeListItem),
@@ -13569,6 +13597,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 /* harmony import */ var _util_get_token__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/get_token */ "./frontend/util/get_token.js");
+var _extraReducers;
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -13591,6 +13621,30 @@ var postList = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk
     body: JSON.stringify({
       list: list
     })
+  }).then(function (res) {
+    return res.json();
+  });
+});
+var updateOnStage = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('updateOnStage', function (_, _ref) {
+  var getState = _ref.getState;
+  var onStageId = getState().list.list[getState().list.currentlyPeformingIndex].attributes.id;
+  fetch('http://localhost:3000/api/list/update_onstage_id', {
+    method: 'PUT',
+    'credentials': 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': (0,_util_get_token__WEBPACK_IMPORTED_MODULE_0__.default)()
+    },
+    body: JSON.stringify({
+      onStageId: onStageId
+    })
+  }).then(function (res) {
+    return res.json();
+  });
+});
+var getCurrrentlyPeformingIndex = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('getCurrentlyPeformingIndex', function () {
+  return fetch('http://localhost:3000/api/list/currentlyPeformingIndex', {
+    'credentials': 'include'
   }).then(function (res) {
     return res.json();
   });
@@ -13635,13 +13689,15 @@ var listSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
       state.list = action.payload.list;
     },
     receiveCurrentlyPeformingIndex: function receiveCurrentlyPeformingIndex(state, action) {
-      window.payload = action.payload;
       state.currentlyPeformingIndex = action.payload.currentIndex;
     }
   },
-  extraReducers: _defineProperty({}, fetchList.fulfilled, function (state, action) {
+  extraReducers: (_extraReducers = {}, _defineProperty(_extraReducers, fetchList.fulfilled, function (state, action) {
     state.list = action.payload.data;
-  })
+  }), _defineProperty(_extraReducers, getCurrrentlyPeformingIndex.fulfilled, function (state, action) {
+    console.log(action);
+    state.currentlyPeformingIndex = action.payload.currentlyPeformingIndex;
+  }), _extraReducers)
 });
 var _listSlice$actions = listSlice.actions,
     receiveUser = _listSlice$actions.receiveUser,
@@ -13951,7 +14007,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AuthRoute": () => (/* binding */ AuthRoute),
 /* harmony export */   "ProtectedRoute": () => (/* binding */ ProtectedRoute),
-/* harmony export */   "AdminRoute": () => (/* binding */ AdminRoute)
+/* harmony export */   "AdminProtectedRoute": () => (/* binding */ AdminProtectedRoute),
+/* harmony export */   "AdminAuthRoute": () => (/* binding */ AdminAuthRoute)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
@@ -13960,7 +14017,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mapStateToProps = function mapStateToProps(state) {
+var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     loggedIn: Boolean(state.session.currentUser),
     admin: Boolean(state.session.currentUser) && Boolean(state.session.currentUser.attributes.admin)
@@ -13976,9 +14033,14 @@ var Auth = function Auth(_ref) {
     exact: true,
     path: path,
     render: function render(props) {
-      return loggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
+      if (loggedIn && !admin) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
         to: "/showtime"
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props);
+      });
+      if (!loggedIn && !admin) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props);
+      console.log(props);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
+        to: "/admin/showtime"
+      });
     }
   });
 };
@@ -14008,8 +14070,8 @@ var AdminAuth = function AdminAuth(_ref3) {
     exact: true,
     path: path,
     render: function render(props) {
-      return loggedIn && admin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
-        to: "/admin/signin"
+      return !admin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
+        to: "/admin/showtime"
       });
     }
   });
@@ -14033,7 +14095,8 @@ var AdminProtected = function AdminProtected(_ref4) {
 
 var AuthRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(Auth));
 var ProtectedRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(Protected));
-var AdminRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(AdminProtected));
+var AdminProtectedRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(AdminProtected));
+var AdminAuthRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(AdminAuth));
 
 /***/ }),
 

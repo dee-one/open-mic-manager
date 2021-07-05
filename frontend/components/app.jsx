@@ -5,10 +5,12 @@ import SigninComponentContainer from './signin/signin_component_container';
 import ListComponent from './list/admin_showtime_component';
 import { useDispatch,useSelector } from 'react-redux';
 import { fetchCurrentUser } from '../slices/session_slice';
-import { AuthRoute,ProtectedRoute,AdminRoute } from '../util/route_utils';
+import { AuthRoute,ProtectedRoute,AdminProtectedRoute,AdminAuthRoute } from '../util/route_utils';
 import ShowTimeComponent from './list/showtime_component';
 import AdminShowtimeComponent from './list/admin_showtime_component';
 import AdminSigninComponent from './signin/admin_sign_in_component';
+import { toggleLoading } from '../slices/loading_slice';
+
 
 
 
@@ -20,25 +22,33 @@ import AdminSigninComponent from './signin/admin_sign_in_component';
 
 const App = () => {
   const currentUser = useSelector((state) => state.session.currentUser);
+  const isLoading = useSelector((state) => state.loading)
   const dispatch = useDispatch();
 
   useEffect(() => {
-
-  dispatch(fetchCurrentUser())
+    dispatch(toggleLoading())
+    dispatch(fetchCurrentUser())
+    .then(() => dispatch(toggleLoading()))
 
   },[])
+
+  if (isLoading) {
+    return (
+     <div className="lds-dual-ring"></div>
+    );
+  }
  
   return (
     <div>
     
      
       
-    <AdminRoute path='/admin/list' component={SignUpsComponentContainer} />
+    <AdminProtectedRoute path='/admin/list' component={SignUpsComponentContainer} />
   <AuthRoute  path='/'   component={SigninComponentContainer} />
-{/* <ProtectedRoute exact path='/sign-in' component={MicFormRulesComponent} /> */}
-  <AdminRoute exact path='/admin/showtime' component={AdminShowtimeComponent} />
-      <Route exact path='/showtime' component={ShowTimeComponent} />
-      <Route exact path='/admin/signin' component={AdminSigninComponent} />
+<Route exact path='/sign-in' component={ShowTimeComponent} />
+  <AdminProtectedRoute  path='/admin/showtime' component={AdminShowtimeComponent} />
+      <AuthRoute path='/showtime' component={ShowTimeComponent} />
+      <AdminAuthRoute exact path='/admin/signin' component={AdminSigninComponent} />
   </div>
   )
  

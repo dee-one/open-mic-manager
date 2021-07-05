@@ -4,7 +4,7 @@ import { useEffect,useRef } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { incrementSeconds,incrementMinutes,toggleRunning,resetTime } from '../../slices/time_slice';
 import TimerButtonsComponent from './timer_buttons_component';
-import { nextComic,prevComic, updateList } from '../../slices/list_slice';
+import { nextComic,prevComic, updateList,updateOnStage } from '../../slices/list_slice';
 
 
 
@@ -31,8 +31,7 @@ useEffect(() => {
 
    seconds < 59 ? dispatch(incrementSeconds()) : dispatch(incrementMinutes())
     const time = handleTime({ seconds: updatedSeconds.current,minutes: updatedMinutes.current})
-    console.log(minutes)
-    console.log(time)
+    
    props.sendTime({minutes: time.minutes, seconds: time.seconds})
 }
   , 1000)
@@ -44,10 +43,10 @@ useEffect(() => {
 
 
   const handleTime = (time) => {
-   console.log(time)
+
     if (time.seconds < 59) {
       time.seconds += 1
-      console.log(time)
+    
       return time
     }
     time.seconds = 0;
@@ -83,8 +82,11 @@ const handleOnForward = (e) => {
   e.preventDefault();
   if (props.currentIndex === (props.listLength - 1)) return;
   // const updatedList = [...props.updatedList.current]
+  let button = e.target;
+  //toggle button
   dispatch(nextComic());
-  
+  dispatch(updateOnStage());
+ //toggle button  
   props.sendList({ currentIndex: props.currentIndex + 1 });
 
 
@@ -95,6 +97,7 @@ const handleOnForward = (e) => {
     if (props.currentIndex === 0) return;
     
     dispatch(prevComic());
+    dispatch(updateOnStage());
     
     props.sendList({currentIndex: props.currentIndex - 1});
 
