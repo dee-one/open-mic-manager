@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-     before_action :cors_set_access_control_headers
+     #before_action :cors_set_access_control_headers
      before_action :set_csrf_cookie
     include ActionController::Cookies
     include ActionController::RequestForgeryProtection
@@ -41,7 +41,7 @@ end
 
 
 def logged_in?
-   
+   p session
   if current_user 
    render json: {
     loggedIn: true,
@@ -58,9 +58,7 @@ def logged_in?
 end
 
 
-def login!(user)
-  session[:sesion_token] = user.session_token
-end
+
 
 def logout!
   session[:user_id] = nil
@@ -69,22 +67,22 @@ end
 helper_method :current_user
 
 
-def cors_preflight_check
-  if request.method == 'OPTIONS'
-    cors_set_access_control_headers
-    render text: '', content_type: 'text/plain'
-  end
-end
+#def cors_preflight_check
+ # if request.method == 'OPTIONS'
+  #  cors_set_access_control_headers
+  #  render text: '', content_type: 'text/plain'
+ # end
+#end
 
 protected
 
-def cors_set_access_control_headers
+#def cors_set_access_control_headers
   #maybe check on the line below this and uncomment it ? or maybe not
     #response.headers['Access-Control-Allow-Origin'] = '*'
-  response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, PATCH, DELETE, OPTIONS'
-  response.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token, Auth-Token, Email, X-User-Token, X-User-Email'
-  response.headers['Access-Control-Max-Age'] = '1728000'
-end
+#  response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, PATCH, DELETE, OPTIONS'
+ # response.headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token, Auth-Token, Email, X-User-Token, X-User-Email'
+ # response.headers['Access-Control-Max-Age'] = '1728000'
+#end
 
 
 

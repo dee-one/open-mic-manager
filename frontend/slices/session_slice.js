@@ -3,7 +3,7 @@ import getCSRFToken from "../util/get_token";
 
 
 
-
+  window.token = getCSRFToken;
 export const fetchCurrentUser = createAsyncThunk(
      'fetchCurrentUser', () => (fetch('http://localhost:3000/api/logged_in', 
      { credentials: 'include',
@@ -31,20 +31,28 @@ export const adminLogin = createAsyncThunk(
             body: JSON.stringify({session:{username: params.username,password: params.password}})
          }
     
-    
-    
-    
-    )
-    
-       
-
-
-  )
+  )))
 
 
 
+ 
+export const logoutAdmin = createAsyncThunk(
+  'logoutAdmin', () => (fetch('http://localhost:3000/api/session',
+    {
+      method: "DELETE",
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        "Accept": "application/json",
 
-)
+      }
+
+    })
+    .then(res => res.json()))
+
+);
+
+window.logout = logoutAdmin;
 
 
 export const sessionSlice = createSlice({

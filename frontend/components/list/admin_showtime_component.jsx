@@ -84,7 +84,7 @@ export default (props) => {
       <div className="current-comic-info">
       
          <h2>{`${currentComic.attributes.first_name} ${currentComic.attributes.last_name}`}</h2>
-         <p>{`${currentComic.attributes.set_duration}`}</p>
+         <p>{`${currentComic.attributes.set_duration} minutes`}</p>
          
       
         </div>

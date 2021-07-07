@@ -9,6 +9,7 @@ Rails.application.config.action_controller.forgery_protection_origin_check = fal
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
+    #origins 'http://10.0.0.91:8888'
     origins 'http://localhost:8080'
 
     

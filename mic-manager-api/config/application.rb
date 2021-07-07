@@ -32,7 +32,7 @@ module MicManagerApi
   #  config.hosts.clear
 
    
-    # config.middleware.use OliveBranch::Middleware
+     config.middleware.use OliveBranch::Middleware
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

@@ -234,6 +234,26 @@ button:hover {
 
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+ 
+}
+
+.button-container button {
+  height: 30px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+   background: cornflowerblue;
+   color: white;
+   border-color: cornflowerblue;
+   border: none;
+   box-shadow: 0 4px 2px -2px gray;
+}
+
 
 
 
@@ -282,14 +302,15 @@ button:hover {
 
 .player {
  display: grid;
- grid-template-rows: 1fr 1fr 1fr;
- height: 20vh;
+ grid-template-rows: 1fr 2fr;
+ height: 25vh;
  background: cornflowerblue;
  
 }
 
 .current-comic-info {
-   
+   grid-row: 1/2;
+   margin-left: 10px;
 
   
 
@@ -299,6 +320,7 @@ button:hover {
 
 .time {display: flex;font-size: 28px;font-family: 'Orbitron', sans-serif;
       justify-content: center; 
+      height: 27%;
 
 }
 
@@ -310,7 +332,9 @@ button:hover {
   /* background: cornflowerblue; */
   border-radius: 12px;
   grid-row: 2/3;
-
+ display: flex;
+ flex-direction: column;
+ justify-content: space-between;
   
   
   color: white;
@@ -402,9 +426,80 @@ button.comic-points {
 .showtime-list {
   margin-top: 40px;
   
+}
 
+.Sign-in {
+  width: 90vw;
+}
+
+.Sign-in  section {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.Sign-in  section span {
+  padding: 8px;
+}
+
+.signin-form {
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* padding: 10px; */
+  align-content: space-around;
 
 }
+
+
+
+.signin-form label {
+  display: flex;
+  justify-content: space-around;
+}
+
+.signin-form .svg-inline--fa {
+ 
+  width: 18px;
+  color: cornflowerblue;
+  
+  
+}
+
+.signin-form input {
+ 
+  flex-grow: .75;
+  border-left: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.signin-form label.check-box {
+  
+  align-items: center;
+  height: 40px;
+}
+
+.signin-form label.check-box input {
+  display: block;
+  flex-grow: 0;
+}
+
+.signin-form label.check-box span{
+  flex-grow: .75;
+
+}
+
+input[type='checkbox'] {
+  width: 18px;
+}
+
+
+
+
+
 
 
   

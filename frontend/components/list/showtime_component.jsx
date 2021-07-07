@@ -62,11 +62,15 @@ return (
    <div className="clock-list-container">
 
     <div className='player'>
-    {currentUser && !currentUser.attributes.admin &&
-    
-    <h2>Hey {currentUser.attributes.first_name} have fun and watch that light!</h2>
-    
-    }
+      {currentComic &&
+        <div className="current-comic-info">
+
+          <h2>{`${currentComic.attributes.first_name} ${currentComic.attributes.last_name}`}</h2>
+          <p>{`${currentComic.attributes.set_duration} minutes`}</p>
+
+
+        </div>
+      }
 
 
   <ClockComponent admin={false} />

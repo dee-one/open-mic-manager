@@ -89,9 +89,7 @@ class SigninComponent extends React.Component  {
      return (
      <div className="Sign-in">
      <h2 className='Header-title'> CCU Open Mic Signup!</h2>
-         <NavLink to='/admin/list' >
-             <b>list</b>
-         </NavLink>
+        
 
    
 
@@ -100,7 +98,7 @@ class SigninComponent extends React.Component  {
        
        
          {!this.props.isCompleted &&
-       <form id="signin-form">
+       <form className="signin-form">
         <label>
            <FontAwesomeIcon
              icon="user"

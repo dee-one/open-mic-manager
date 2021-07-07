@@ -12447,7 +12447,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     listLength: listLength
   }), currentComic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "current-comic-info"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "".concat(currentComic.attributes.first_name, " ").concat(currentComic.attributes.last_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "".concat(currentComic.attributes.set_duration)))), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "".concat(currentComic.attributes.first_name, " ").concat(currentComic.attributes.last_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "".concat(currentComic.attributes.set_duration, " minutes")))), list && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
     className: "showtime-list"
   }, list.map(function (comic, index) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
@@ -12610,7 +12610,9 @@ __webpack_require__.r(__webpack_exports__);
     className: "clock-list-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "player"
-  }, currentUser && !currentUser.attributes.admin && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Hey ", currentUser.attributes.first_name, " have fun and watch that light!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_1__.default, {
+  }, currentComic && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "current-comic-info"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "".concat(currentComic.attributes.first_name, " ").concat(currentComic.attributes.last_name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "".concat(currentComic.attributes.set_duration, " minutes"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_clock_clock_component__WEBPACK_IMPORTED_MODULE_1__.default, {
     admin: false
   })), isLoading && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "lds-dual-ring"
@@ -12771,7 +12773,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _signin_rules_1_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./signin_rules _1_component */ "./frontend/components/signin/signin_rules _1_component.jsx");
 /* harmony import */ var _signin_rules_2_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signin_rules_2_component */ "./frontend/components/signin/signin_rules_2_component.jsx");
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
@@ -12888,10 +12889,8 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
         className: "Sign-in"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
         className: "Header-title"
-      }, " CCU Open Mic Signup!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.NavLink, {
-        to: "/admin/list"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("b", null, "list")), bodyComponent(), !_this.props.isCompleted && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
-        id: "signin-form"
+      }, " CCU Open Mic Signup!"), bodyComponent(), !_this.props.isCompleted && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+        className: "signin-form"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon, {
         icon: "user"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
@@ -13760,6 +13759,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchCurrentUser": () => (/* binding */ fetchCurrentUser),
 /* harmony export */   "adminLogin": () => (/* binding */ adminLogin),
+/* harmony export */   "logoutAdmin": () => (/* binding */ logoutAdmin),
 /* harmony export */   "sessionSlice": () => (/* binding */ sessionSlice),
 /* harmony export */   "receiveLogin": () => (/* binding */ receiveLogin),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -13770,6 +13770,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+window.token = _util_get_token__WEBPACK_IMPORTED_MODULE_0__.default;
 var fetchCurrentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('fetchCurrentUser', function () {
   return fetch('http://localhost:3000/api/logged_in', {
     credentials: 'include',
@@ -13798,6 +13799,19 @@ var adminLogin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThu
     })
   });
 });
+var logoutAdmin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('logoutAdmin', function () {
+  return fetch('http://localhost:3000/api/session', {
+    method: "DELETE",
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      "Accept": "application/json"
+    }
+  }).then(function (res) {
+    return res.json();
+  });
+});
+window.logout = logoutAdmin;
 var sessionSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)({
   name: 'session',
   initialState: {},
