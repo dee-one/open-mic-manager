@@ -3,14 +3,11 @@ class Api::SessionsController < ApplicationController
 def create 
  
   user = User.find_by_credentials(session_params[:username],session_params[:password])
-  
+  p 'in action'
   if user
+    p 'successfull'
     session[:user_id] = user.id
-    render json: {
-     status: :created,
-     logged_in: true,
-     user: user
-    }
+    render json: {status: 200,logged_in: true,currentUser: UserSerializer.new(user)}
   
  
  else
@@ -18,10 +15,7 @@ def create
  end
 end
 
-def logout
-    logout!
-    render json: { status: 200, logged_out: true }
-end
+
 
 
 
@@ -42,8 +36,8 @@ end
 
 
 def destroy
- logout!
-  #maybe send logout info as JSON response
+logout!
+ render json: { status: 200, logged_out: true }
 end
 
  private

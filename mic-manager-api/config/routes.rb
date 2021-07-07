@@ -9,7 +9,7 @@ match '*all', controller: 'application', action: 'cors_preflight_check', via: [:
     
     namespace :api, defaults: { format: :json } do
     resources :users 
-    resource :session, only: [:create]
+    resource :session, only: [:create,:destroy]
     resources :list, only: [:index,:create]
      put 'list/update_onstage_id', to: 'list#update_onstage_peformer_id'
      get 'list/currentlyPeformingIndex', to: 'list#onstage_index'

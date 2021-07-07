@@ -30,8 +30,12 @@ export const adminLogin = createAsyncThunk(
               },
             body: JSON.stringify({session:{username: params.username,password: params.password}})
          }
-    
-  )))
+      
+  )
+  
+ .then(res => res.json()) 
+  
+))
 
 
 
@@ -44,6 +48,7 @@ export const logoutAdmin = createAsyncThunk(
       headers: {
         'Content-Type': 'application/json',
         "Accept": "application/json",
+        'X-CSRF-TOKEN': getCSRFToken(),
 
       }
 
@@ -69,6 +74,9 @@ export const sessionSlice = createSlice({
                   state['currentUser'] = action.payload.user.data 
               }
                 state['loggedIn'] = action.payload.loggedIn
+            },
+            [adminLogin.fulfilled]: (state,action) => {
+              state['currentUser'] = action.payload.currentUser.data
             }
 
     

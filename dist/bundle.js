@@ -12682,8 +12682,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _slices_session_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../slices/session_slice */ "./frontend/slices/session_slice.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-var _this = undefined;
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -12718,13 +12716,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       username: username,
       password: password
     };
-    dispatch((0,_slices_session_slice__WEBPACK_IMPORTED_MODULE_1__.adminLogin)(params)).then(function (res) {
-      return res.json();
-    }).then(function (data) {
-      return _this.props.receiveLogin({
-        currentUser: data
-      });
-    });
+    dispatch((0,_slices_session_slice__WEBPACK_IMPORTED_MODULE_1__.adminLogin)(params));
   };
 
   var handleOnChange = function handleOnChange(e) {
@@ -13766,6 +13758,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 /* harmony import */ var _util_get_token__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/get_token */ "./frontend/util/get_token.js");
+var _extraReducers;
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -13797,6 +13791,8 @@ var adminLogin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThu
         password: params.password
       }
     })
+  }).then(function (res) {
+    return res.json();
   });
 });
 var logoutAdmin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('logoutAdmin', function () {
@@ -13805,7 +13801,8 @@ var logoutAdmin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncTh
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      "Accept": "application/json"
+      "Accept": "application/json",
+      'X-CSRF-TOKEN': (0,_util_get_token__WEBPACK_IMPORTED_MODULE_0__.default)()
     }
   }).then(function (res) {
     return res.json();
@@ -13820,13 +13817,15 @@ var sessionSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)
       state['currentUser'] = action.payload.currentUser;
     }
   },
-  extraReducers: _defineProperty({}, fetchCurrentUser.fulfilled, function (state, action) {
+  extraReducers: (_extraReducers = {}, _defineProperty(_extraReducers, fetchCurrentUser.fulfilled, function (state, action) {
     if (action.payload.loggedIn) {
       state['currentUser'] = action.payload.user.data;
     }
 
     state['loggedIn'] = action.payload.loggedIn;
-  })
+  }), _defineProperty(_extraReducers, adminLogin.fulfilled, function (state, action) {
+    state['currentUser'] = action.payload.currentUser.data;
+  }), _extraReducers)
 });
 var receiveLogin = sessionSlice.actions.receiveLogin;
 

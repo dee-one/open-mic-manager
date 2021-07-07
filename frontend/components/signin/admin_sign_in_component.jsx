@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { adminLogin } from '../../slices/session_slice';
+import { adminLogin} from '../../slices/session_slice';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -19,8 +19,8 @@ const handleOnClick = () => {
 
     const params = {username,password}
     dispatch(adminLogin(params))
-     .then(res => res.json())
-     .then(data => this.props.receiveLogin({ currentUser: data }))
+
+    
 
 
 }

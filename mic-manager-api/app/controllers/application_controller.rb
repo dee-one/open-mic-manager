@@ -41,7 +41,7 @@ end
 
 
 def logged_in?
-   p session
+  
   if current_user 
    render json: {
     loggedIn: true,
