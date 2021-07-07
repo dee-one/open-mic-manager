@@ -65,18 +65,19 @@ export const sessionSlice = createSlice({
     initialState: {},
     reducers: {
         receiveLogin: (state, action) => {
-            state['currentUser'] = action.payload.currentUser
+          console.log(action.payload.data);
+            state.currentUser = action.payload.user.data;
         }
     },
         extraReducers: {
             [fetchCurrentUser.fulfilled]: (state, action) => {
               if(action.payload.loggedIn){
-                  state['currentUser'] = action.payload.user.data 
+                  state.currentUser = action.payload.user.data;
               }
-                state['loggedIn'] = action.payload.loggedIn
+                state.loggedIn = action.payload.loggedIn;
             },
             [adminLogin.fulfilled]: (state,action) => {
-              state['currentUser'] = action.payload.currentUser.data
+              state.currentUser = action.payload.currentUser.data
             }
 
     

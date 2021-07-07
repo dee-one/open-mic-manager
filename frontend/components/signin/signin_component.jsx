@@ -20,7 +20,7 @@ class SigninComponent extends React.Component  {
 
    this.handleSubmit = this.handleSubmit.bind(this)
    this.onChange = this.handleOnChange.bind(this)
-   this.state = {firstName: '',lastName: '',email: '', phoneNumber: '',firstTimer: false}
+   this.state = {firstName: '',lastName: '',email: '', phoneNumber: '',firstTimer: false};
  
   }
 
@@ -32,8 +32,8 @@ class SigninComponent extends React.Component  {
  handleSubmit = (e) => {
   e.preventDefault();
   
-   
-
+  // create loginUser async thunk in session slice
+ // abstract this function to Session SLice => [loginUser.fulfilled]
 
    const request = {
      method: 'post',
@@ -98,7 +98,10 @@ class SigninComponent extends React.Component  {
        
        
          {!this.props.isCompleted &&
-       <form className="signin-form">
+     <div className='form-section'>
+        
+
+      <form className="signin-form">
         <label>
            <FontAwesomeIcon
              icon="user"
@@ -133,7 +136,7 @@ class SigninComponent extends React.Component  {
         </label>
            
  </form>
-
+   </div>
          }
 
 
@@ -142,6 +145,7 @@ class SigninComponent extends React.Component  {
 
 
     </div>
+
 
          )
 

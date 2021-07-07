@@ -12814,7 +12814,9 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
 
     _defineProperty(_assertThisInitialized(_this), "handleSubmit", function (e) {
-      e.preventDefault();
+      e.preventDefault(); // create loginUser async thunk in session slice
+      // abstract this function to Session SLice => [loginUser.fulfilled]
+
       var request = {
         method: 'post',
         credentials: 'include',
@@ -12881,7 +12883,9 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
         className: "Sign-in"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
         className: "Header-title"
-      }, " CCU Open Mic Signup!"), bodyComponent(), !_this.props.isCompleted && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+      }, " CCU Open Mic Signup!"), bodyComponent(), !_this.props.isCompleted && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "form-section"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
         className: "signin-form"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_3__.FontAwesomeIcon, {
         icon: "user"
@@ -12935,7 +12939,7 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
         onChange: function onChange(e) {
           return _this.handleOnChange(e);
         }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "First Timer?"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "First Timer?")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "button-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
         onClick: _this.handleOnClick,
@@ -13814,17 +13818,18 @@ var sessionSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)
   initialState: {},
   reducers: {
     receiveLogin: function receiveLogin(state, action) {
-      state['currentUser'] = action.payload.currentUser;
+      console.log(action.payload.data);
+      state.currentUser = action.payload.user.data;
     }
   },
   extraReducers: (_extraReducers = {}, _defineProperty(_extraReducers, fetchCurrentUser.fulfilled, function (state, action) {
     if (action.payload.loggedIn) {
-      state['currentUser'] = action.payload.user.data;
+      state.currentUser = action.payload.user.data;
     }
 
-    state['loggedIn'] = action.payload.loggedIn;
+    state.loggedIn = action.payload.loggedIn;
   }), _defineProperty(_extraReducers, adminLogin.fulfilled, function (state, action) {
-    state['currentUser'] = action.payload.currentUser.data;
+    state.currentUser = action.payload.currentUser.data;
   }), _extraReducers)
 });
 var receiveLogin = sessionSlice.actions.receiveLogin;

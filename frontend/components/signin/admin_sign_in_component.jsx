@@ -18,7 +18,7 @@ const dispatch = useDispatch();
 const handleOnClick = () => {
 
     const params = {username,password}
-    dispatch(adminLogin(params))
+    dispatch(adminLogin(params));
 
     
 
@@ -41,7 +41,7 @@ const handleOnChange = (e) => {
   
   
 
-}
+};
 
 
 

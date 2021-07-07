@@ -11,6 +11,7 @@ body {
   font-size: 16px;
   font-family: poppins;
   font-weight: 400;
+  background: rgb(248, 248, 248);
 }
 
 
@@ -252,6 +253,7 @@ button:hover {
    border-color: cornflowerblue;
    border: none;
    box-shadow: 0 4px 2px -2px gray;
+   margin-top: 20px;
 }
 
 
@@ -442,21 +444,39 @@ button.comic-points {
   padding: 8px;
 }
 
+
+.form-section {
+ background: white;
+ height: 40vh;
+ width: 90vw;
+ display: flex;
+ flex-direction: column;
+ justify-content: space-around;
+ align-items: center;
+ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+ margin-top: 20px;
+}
+
+
+
 .signin-form {
-  width: 90vw;
+  width: 80vw;   
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* padding: 10px; */
-  align-content: space-around;
+  padding: 10px;
+  /* align-content: space-around; */
 
 }
 
 
 
+
+
 .signin-form label {
   display: flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
+  border-bottom: 2px solid rgb(118, 118, 118);
 }
 
 .signin-form .svg-inline--fa {
@@ -470,16 +490,33 @@ button.comic-points {
 .signin-form input {
  
   flex-grow: .75;
-  border-left: none;
   border-top: none;
   border-left: none;
   border-right: none;
+  margin-left: 10px;
+
+}
+
+::placeholder {
+  
+
+}
+
+.signin-form input:focus-visible {
+  outline: none;
+  /* border-bottom: 2px solid cornflowerblue ; */
+}
+
+.signin-form label:focus-within  {
+  border-bottom: 2px solid cornflowerblue
+
 }
 
 .signin-form label.check-box {
   
   align-items: center;
   height: 40px;
+  border-bottom: none;
 }
 
 .signin-form label.check-box input {
