@@ -44,10 +44,9 @@ const App = () => {
      
       
     <AdminProtectedRoute path='/admin/list' component={SignUpsComponentContainer} />
+      <AdminProtectedRoute path='/admin/showtime' component={AdminShowtimeComponent} />
   <AuthRoute  path='/sign-in'   component={SigninComponentContainer} />
-<Route path='/showtime' component={ShowTimeComponent} />
-  <AdminProtectedRoute  path='/admin/showtime' component={AdminShowtimeComponent} />
-      <AuthRoute path='/showtime' component={ShowTimeComponent} />
+  <AuthRoute path='/showtime' component={ShowTimeComponent} />
       <AdminAuthRoute path='/admin/signin' component={AdminSigninComponent} />
   </div>
   )

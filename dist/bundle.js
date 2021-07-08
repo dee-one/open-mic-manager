@@ -12076,7 +12076,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./signups/signups_component_container */ "./frontend/components/signups/signups_component_container.js");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _signin_signin_component_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./signin/signin_component_container */ "./frontend/components/signin/signin_component_container.js");
 /* harmony import */ var _list_admin_showtime_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./list/admin_showtime_component */ "./frontend/components/list/admin_showtime_component.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
@@ -12122,15 +12121,12 @@ var App = function App() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminProtectedRoute, {
     path: "/admin/list",
     component: _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__.default
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
-    path: "/sign-in",
-    component: _signin_signin_component_container__WEBPACK_IMPORTED_MODULE_2__.default
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_10__.Route, {
-    path: "/showtime",
-    component: _list_showtime_component__WEBPACK_IMPORTED_MODULE_7__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminProtectedRoute, {
     path: "/admin/showtime",
     component: _list_admin_showtime_component__WEBPACK_IMPORTED_MODULE_3__.default
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
+    path: "/sign-in",
+    component: _signin_signin_component_container__WEBPACK_IMPORTED_MODULE_2__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
     path: "/showtime",
     component: _list_showtime_component__WEBPACK_IMPORTED_MODULE_7__.default

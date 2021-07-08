@@ -484,11 +484,8 @@ button.comic-points {
 }
 
 .signin-form .svg-inline--fa {
- 
-  width: 18px;
-  color: cornflowerblue;
-  
-  
+ /* width: 16px; */
+ /* color: cornflowerblue; */
 }
 
 .signin-form input {
@@ -501,14 +498,12 @@ button.comic-points {
 
 }
 
-::placeholder {
-  
 
-}
 
 .signin-form input:focus-visible {
   outline: none;
   /* border-bottom: 2px solid cornflowerblue ; */
+
 }
 
 .signin-form label:focus-within  {
@@ -580,7 +575,7 @@ input[type='checkbox'] {
       font-size: small;
    }
 
-    .svg-inline--fa {font-size: medium;}
+    .svg-inline--fa {font-size: smaller;}
 
    .timer .svg-inline--fa:hover {
      cursor: pointer;
@@ -598,7 +593,7 @@ input[type='checkbox'] {
    .svg-inline--fa {
 
      
-     font-size: medium;
+     font-size: smaller;
    }
 
    .final-list .comic-list-item {
