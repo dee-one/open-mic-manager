@@ -3,7 +3,7 @@ import getCSRFToken from "../util/get_token";
 
 
 
-  window.token = getCSRFToken;
+ 
 export const fetchCurrentUser = createAsyncThunk(
      'fetchCurrentUser', () => (fetch('http://localhost:3000/api/logged_in', 
      { credentials: 'include',
@@ -35,7 +35,27 @@ export const adminLogin = createAsyncThunk(
   
  .then(res => res.json()) 
   
-))
+));
+
+
+export const comicLogin = createAsyncThunk(
+ 'comicLogin',(params) => (fetch('http://localhost:3000/api/users',
+   {
+     method: "POST",
+     credentials: 'include',
+     headers: {
+       'Content-Type': 'application/json',
+       "Accept": "application/json",
+       'X-CSRF-TOKEN': getCSRFToken(),
+     },
+     body: JSON.stringify({ comic: params })
+   }
+
+ )
+
+  .then(res => res.json())
+
+));
 
 
 
@@ -78,6 +98,10 @@ export const sessionSlice = createSlice({
             },
             [adminLogin.fulfilled]: (state,action) => {
               state.currentUser = action.payload.currentUser.data
+            },
+            [comicLogin.fulfilled]: (state,action) => {
+              state.loggedIn = action.payload.logged_in;
+              state.currentUser = action.payload.user.data;
             }
 
     

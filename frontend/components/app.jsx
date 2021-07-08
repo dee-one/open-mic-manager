@@ -44,11 +44,11 @@ const App = () => {
      
       
     <AdminProtectedRoute path='/admin/list' component={SignUpsComponentContainer} />
-  <AuthRoute  path='/'   component={SigninComponentContainer} />
-<Route exact path='/sign-in' component={ShowTimeComponent} />
+  <AuthRoute  path='/sign-in'   component={SigninComponentContainer} />
+<Route path='/showtime' component={ShowTimeComponent} />
   <AdminProtectedRoute  path='/admin/showtime' component={AdminShowtimeComponent} />
       <AuthRoute path='/showtime' component={ShowTimeComponent} />
-      <AdminAuthRoute exact path='/admin/signin' component={AdminSigninComponent} />
+      <AdminAuthRoute path='/admin/signin' component={AdminSigninComponent} />
   </div>
   )
  

@@ -12123,11 +12123,10 @@ var App = function App() {
     path: "/admin/list",
     component: _signups_signups_component_container__WEBPACK_IMPORTED_MODULE_1__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
-    path: "/",
+    path: "/sign-in",
     component: _signin_signin_component_container__WEBPACK_IMPORTED_MODULE_2__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_10__.Route, {
-    exact: true,
-    path: "/sign-in",
+    path: "/showtime",
     component: _list_showtime_component__WEBPACK_IMPORTED_MODULE_7__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminProtectedRoute, {
     path: "/admin/showtime",
@@ -12136,7 +12135,6 @@ var App = function App() {
     path: "/showtime",
     component: _list_showtime_component__WEBPACK_IMPORTED_MODULE_7__.default
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__.AdminAuthRoute, {
-    exact: true,
     path: "/admin/signin",
     component: _signin_admin_sign_in_component__WEBPACK_IMPORTED_MODULE_8__.default
   }));
@@ -12775,6 +12773,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -12813,35 +12815,21 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
 
-    _defineProperty(_assertThisInitialized(_this), "handleSubmit", function (e) {
-      e.preventDefault(); // create loginUser async thunk in session slice
-      // abstract this function to Session SLice => [loginUser.fulfilled]
+    _defineProperty(_assertThisInitialized(_this), "isMounted", false);
 
-      var request = {
-        method: 'post',
-        credentials: 'include',
-        headers: {
-          'X-CSRF-Token': (0,_util_get_token__WEBPACK_IMPORTED_MODULE_5__.default)(),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          comic: _this.state
-        })
-      };
-      fetch('http://localhost:3000/api/users', request).then(function (res) {
-        return res.json();
-      }).then(function (data) {
-        return _this.props.receiveLogin({
-          currentUser: data
-        });
-      }).then(function () {
-        _this.setState({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phoneNumber: '',
-          firstTimer: false
-        });
+    _defineProperty(_assertThisInitialized(_this), "handleSubmit", function (e) {
+      e.preventDefault();
+
+      _this.props.comicLogin(_this.state).then(function () {
+        if (_this._isMounted) {
+          _this.setState({
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            firstTimer: false
+          });
+        }
       }).then(function () {
         return _this.props.history.replace('/showtime');
       });
@@ -12960,6 +12948,13 @@ var SigninComponent = /*#__PURE__*/function (_React$Component) {
     return _this;
   }
 
+  _createClass(SigninComponent, [{
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.isMounted = false;
+    }
+  }]);
+
   return SigninComponent;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
@@ -13000,6 +12995,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     toggleCompleted: function toggleCompleted() {
       return dispatch((0,_slices_form_slice__WEBPACK_IMPORTED_MODULE_2__.toggleCompleted)());
+    },
+    comicLogin: function comicLogin(user) {
+      return dispatch((0,_slices_session_slice__WEBPACK_IMPORTED_MODULE_3__.comicLogin)(user));
     }
   };
 };
@@ -13755,6 +13753,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchCurrentUser": () => (/* binding */ fetchCurrentUser),
 /* harmony export */   "adminLogin": () => (/* binding */ adminLogin),
+/* harmony export */   "comicLogin": () => (/* binding */ comicLogin),
 /* harmony export */   "logoutAdmin": () => (/* binding */ logoutAdmin),
 /* harmony export */   "sessionSlice": () => (/* binding */ sessionSlice),
 /* harmony export */   "receiveLogin": () => (/* binding */ receiveLogin),
@@ -13768,7 +13767,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-window.token = _util_get_token__WEBPACK_IMPORTED_MODULE_0__.default;
 var fetchCurrentUser = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('fetchCurrentUser', function () {
   return fetch('http://localhost:3000/api/logged_in', {
     credentials: 'include',
@@ -13794,6 +13792,22 @@ var adminLogin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThu
         username: params.username,
         password: params.password
       }
+    })
+  }).then(function (res) {
+    return res.json();
+  });
+});
+var comicLogin = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createAsyncThunk)('comicLogin', function (params) {
+  return fetch('http://localhost:3000/api/users', {
+    method: "POST",
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      "Accept": "application/json",
+      'X-CSRF-TOKEN': (0,_util_get_token__WEBPACK_IMPORTED_MODULE_0__.default)()
+    },
+    body: JSON.stringify({
+      comic: params
     })
   }).then(function (res) {
     return res.json();
@@ -13830,6 +13844,9 @@ var sessionSlice = (0,_reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__.createSlice)
     state.loggedIn = action.payload.loggedIn;
   }), _defineProperty(_extraReducers, adminLogin.fulfilled, function (state, action) {
     state.currentUser = action.payload.currentUser.data;
+  }), _defineProperty(_extraReducers, comicLogin.fulfilled, function (state, action) {
+    state.loggedIn = action.payload.logged_in;
+    state.currentUser = action.payload.user.data;
   }), _extraReducers)
 });
 var receiveLogin = sessionSlice.actions.receiveLogin;
@@ -14030,7 +14047,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _slices_session_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../slices/session_slice */ "./frontend/slices/session_slice.js");
+
 
 
 
@@ -14047,18 +14066,19 @@ var Auth = function Auth(_ref) {
       admin = _ref.admin,
       path = _ref.path,
       Component = _ref.component;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_3__.Route, {
     exact: true,
     path: path,
     render: function render(props) {
-      if (loggedIn && !admin) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
+      return loggedIn && !admin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_3__.Redirect, {
         to: "/showtime"
-      });
-      if (!loggedIn && !admin) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props);
-      console.log(props);
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
-        to: "/admin/showtime"
-      });
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props)
+      /*
+      if(!loggedIn && !admin){return <Component {...props} />}
+       console.log(props)
+        return <Redirect to='/admin/showtime'/>
+      */
+      ;
     }
   });
 };
@@ -14068,11 +14088,11 @@ var Protected = function Protected(_ref2) {
       admin = _ref2.admin,
       path = _ref2.path,
       Component = _ref2.component;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_3__.Route, {
     exact: true,
     path: path,
     render: function render(props) {
-      return loggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
+      return loggedIn && !admin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_3__.Redirect, {
         to: "/"
       });
     }
@@ -14084,12 +14104,12 @@ var AdminAuth = function AdminAuth(_ref3) {
       admin = _ref3.admin,
       path = _ref3.path,
       Component = _ref3.component;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_3__.Route, {
     exact: true,
     path: path,
     render: function render(props) {
-      return !admin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
-        to: "/admin/showtime"
+      return !admin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_3__.Redirect, {
+        to: "/admin/list"
       });
     }
   });
@@ -14100,21 +14120,21 @@ var AdminProtected = function AdminProtected(_ref4) {
       admin = _ref4.admin,
       path = _ref4.path,
       Component = _ref4.component;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Route, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_3__.Route, {
     exact: true,
     path: path,
     render: function render(props) {
-      return loggedIn && admin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__.Redirect, {
+      return loggedIn && admin ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(Component, props) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router__WEBPACK_IMPORTED_MODULE_3__.Redirect, {
         to: "/admin/signin"
       });
     }
   });
 };
 
-var AuthRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(Auth));
-var ProtectedRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(Protected));
-var AdminProtectedRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(AdminProtected));
-var AdminAuthRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(AdminAuth));
+var AuthRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_3__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(Auth));
+var ProtectedRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_3__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(Protected));
+var AdminProtectedRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_3__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(AdminProtected));
+var AdminAuthRoute = (0,react_router__WEBPACK_IMPORTED_MODULE_3__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps)(AdminAuth));
 
 /***/ }),
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router';
+import { adminLogin } from '../slices/session_slice';
 
 
 
@@ -15,16 +16,20 @@ const mapStateToProps = (state,ownProps) => ({
 });
 
 
+
 const Auth = ({loggedIn,admin,path, component: Component}) => (
   <Route 
    exact path={path}
-   render={props => {
-   if(loggedIn && !admin) return <Redirect to='/showtime'/> 
-   if(!loggedIn && !admin)return <Component {...props} />
+   render= {props => (
+  
+     loggedIn && !admin ? <Redirect to='/showtime' /> : <Component {...props} />
+
+   /*
+   if(!loggedIn && !admin){return <Component {...props} />}
     console.log(props)
      return <Redirect to='/admin/showtime'/>
-   }}
-  
+  */
+)}
   />
 
 );
@@ -33,7 +38,7 @@ const Protected = ({loggedIn,admin, path, component: Component}) => (
  <Route
  exact path={path}
  render= {props => (
- loggedIn ? <Component {...props} /> : <Redirect to='/'/>
+ loggedIn && !admin ? <Component {...props} /> : <Redirect to='/'/>
 
 
  )}
@@ -46,7 +51,7 @@ const AdminAuth = ({ loggedIn,admin, path, component: Component }) => (
   <Route
     exact path={path}
     render={props => (
-       !admin ? <Component {...props} /> : <Redirect to='/admin/showtime' />
+       !admin ? <Component {...props} /> : <Redirect to='/admin/list' />
 
 
     )}

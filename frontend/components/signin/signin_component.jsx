@@ -15,6 +15,7 @@ library.add(faEnvelope, faPhone, faUser, faCheckSquare);
 
 
 class SigninComponent extends React.Component  {
+  isMounted = false;
   constructor(props){
    super(props)
 
@@ -25,6 +26,11 @@ class SigninComponent extends React.Component  {
   }
 
 
+  componentWillUnmount() {
+    this.isMounted = false;
+  }
+
+
 
 
 
@@ -32,26 +38,14 @@ class SigninComponent extends React.Component  {
  handleSubmit = (e) => {
   e.preventDefault();
   
-  // create loginUser async thunk in session slice
- // abstract this function to Session SLice => [loginUser.fulfilled]
-
-   const request = {
-     method: 'post',
-     credentials: 'include',
-     headers: {
-         'X-CSRF-Token': getCSRFToken(),
-         'Content-Type': 'application/json' 
-     },
-     body: JSON.stringify({comic: this.state}),
+   this.props.comicLogin(this.state)
+   .then(() => {
      
-   };
-
-   fetch('http://localhost:3000/api/users',request)
-   .then(res => res.json())
-     .then(data => this.props.receiveLogin({ currentUser: data }))
-     .then(() => {this.setState({ firstName: '', lastName: '', email: '', phoneNumber: '',firstTimer: false }
-           )})
-      .then(() => this.props.history.replace('/showtime') )
+    if(this._isMounted) {
+      this.setState({ firstName: '', lastName: '', email: '', phoneNumber: '',firstTimer: false })
+     }
+      })
+      .then(() => this.props.history.replace('/showtime'))
 
 
 

@@ -6,6 +6,7 @@
 
 body {
   width: 100vw;
+  
   display: flex;
   justify-content: center;
   font-size: 16px;
@@ -437,6 +438,7 @@ button.comic-points {
 .Sign-in  section {
   display: flex;
   flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   
 }
 
@@ -455,11 +457,13 @@ button.comic-points {
  align-items: center;
  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
  margin-top: 20px;
+ max-width: 1200px;
 }
 
 
 
 .signin-form {
+  max-width: 1000px;
   width: 80vw;   
   display: flex;
   flex-direction: column;
