@@ -480,11 +480,12 @@ button.comic-points {
 .signin-form label {
   display: flex;
   /* justify-content: space-around; */
-  border-bottom: 2px solid rgb(118, 118, 118);
+  border-bottom: 1px solid rgb(118, 118, 118);
 }
 
 .signin-form .svg-inline--fa {
- /* width: 16px; */
+ width: 10px;
+ border: none;
  /* color: cornflowerblue; */
 }
 
@@ -507,8 +508,11 @@ button.comic-points {
 }
 
 .signin-form label:focus-within  {
-  border-bottom: 2px solid cornflowerblue
+  border-bottom: 1px solid cornflowerblue
 
+}
+.signin-form label:focus-within ::placeholder {
+  color: black;
 }
 
 .signin-form label.check-box {
